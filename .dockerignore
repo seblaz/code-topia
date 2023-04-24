@@ -1,0 +1,8 @@
+.gradle
+.idea
+build
+docker-compose.yaml
+Dockerfile
+fly.toml
+LICENSE.txt
+README.md

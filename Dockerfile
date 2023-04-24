@@ -14,17 +14,16 @@ RUN curl -s "https://get.sdkman.io" | bash
 
 # install grails
 ARG GRAILS_VERSION=5.3.2
-SHELL ["bash", "-c", "source $HOME/.sdkman/bin/sdkman-init.sh"]
+SHELL ["/bin/bash", "-c"]
 
-RUN sdk install grails $GRAILS_VERSION
-
+RUN source $HOME/.sdkman/bin/sdkman-init.sh && sdk install grails $GRAILS_VERSION
 
 FROM dev as builder
 
 # package for production
 WORKDIR /app
 COPY . .
-RUN grails prod war
+RUN source $HOME/.sdkman/bin/sdkman-init.sh && grails prod war
 
 FROM eclipse-temurin:17.0.6_10-jre-focal as prod
 
