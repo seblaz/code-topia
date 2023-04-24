@@ -23,6 +23,6 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@master
       - if: contains('refs/heads/main', github.ref)
         name: Deploy
-        run: flyctl deploy --config deploy/fly.toml --detach
+        run: flyctl deploy --detach
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
