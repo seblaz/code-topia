@@ -8,6 +8,7 @@ buildscript {
         classpath "gradle.plugin.com.github.erdi.webdriver-binaries:webdriver-binaries-gradle-plugin:2.6"
         classpath "org.grails.plugins:hibernate5:7.3.0"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:3.4.7"
+        classpath "org.ysb33r.gradle:grolifant50:2.0.0-alpha.6"
     }
 }
 
@@ -125,4 +126,12 @@ tasks.withType(Test) {
 assets {
     minifyJs = true
     minifyCss = true
+}
+
+
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+    }
 }

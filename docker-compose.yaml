@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  app:
+    stdin_open: true
+    build:
+      context: .
+      target: dev
+    image: app_dev:latest
+    command: ./gradlew bootRun
+    ports:
+      - "8080:8080"
+    working_dir: /app
+    volumes:
+      - "app-gradle:/root/.gradle"
+      - "./:/app"
+
+volumes:
+  app-gradle:
