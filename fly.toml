@@ -1,9 +1,15 @@
-# fly.toml file generated for habitos-fantasticos on 2023-04-24T11:30:43-03:00
+# fly.toml app configuration file generated for code-topia on 2023-05-04T19:35:16-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "habitos-fantasticos"
+app = "code-topia"
 kill_signal = "SIGINT"
 kill_timeout = 5
+primary_region = "scl"
 processes = []
+
+[build]
 
 [env]
   PORT = '8080'
