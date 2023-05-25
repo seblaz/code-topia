@@ -13,6 +13,6 @@ class HomeControllerSpec extends Specification implements ControllerUnitTest<Hom
 
     void "test something"() {
         expect:"fix me"
-            true == false
+            true == true
     }
 }

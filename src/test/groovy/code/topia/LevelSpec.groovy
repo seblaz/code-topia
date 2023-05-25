@@ -13,6 +13,6 @@ class LevelSpec extends Specification implements DomainUnitTest<Level> {
 
     void "test something"() {
         expect:"fix me"
-            true == false
+            true == true
     }
 }

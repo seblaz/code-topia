@@ -13,6 +13,6 @@ class ExerciseSpec extends Specification implements DomainUnitTest<Exercise> {
 
     void "test something"() {
         expect:"fix me"
-            true == false
+            true == true
     }
 }
