@@ -2,7 +2,7 @@
 grails:
     profile: web
     codegen:
-        defaultPackage: habitos.fantasticos
+        defaultPackage: code.topia
     gorm:
         reactor:
             # Whether to translate GORM events into Reactor events
@@ -96,6 +96,10 @@ grails:
                 scriptlet: html
                 taglib: none
                 staticparts: none
+    resources:
+        adhoc:
+            patterns:
+                - '/assets/**'
 
 ---
 hibernate:
