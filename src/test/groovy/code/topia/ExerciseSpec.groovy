@@ -11,8 +11,15 @@ class ExerciseSpec extends Specification implements DomainUnitTest<Exercise> {
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == true
+    void "create exercise Hello World"() {
+        given:
+        def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
+        def points = 1
+
+        when:
+        def ex = new Exercise(statement,points)
+
+        then:
+        ex.validate()
     }
 }
