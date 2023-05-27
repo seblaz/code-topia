@@ -4,16 +4,16 @@ abstract class Level {
     static final int MIN_LVL_POINTS = 5
     static final int MIN_EXERCISES  = 5
     static final int MAX_EXERCISES  = 15
-    String  name
-    int     points
-    List<Exercise> exercises
+    String          name
+    int             points
+    List<Exercise>  exercises
 
     static hasMany = [exercises: Exercise]
 
     static constraints = {
-        name    nullable: false, unique: true
-        points  nullable: false, min: MIN_LVL_POINTS
-        exercises size: MIN_EXERCISES..MAX_EXERCISES
+        name        nullable: false, unique: true
+        points      nullable: false, min: MIN_LVL_POINTS
+        exercises   size: MIN_EXERCISES..MAX_EXERCISES
     }
 
     static int calculateExTotalPoints(List<Exercise> exercises) {
