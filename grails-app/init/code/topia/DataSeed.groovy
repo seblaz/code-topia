@@ -41,8 +41,41 @@ class DataSeed {
         def ex5 = new Exercise(statement,points)
         ex5.save()
 
+        // Ej 6
+        statement = "Escribe un programa en C que lea una cadena de caracteres ingresada por el usuario y determine si es un palíndromo (se lee igual de izquierda a derecha que de derecha a izquierda)."
+        points = 2
+        def ex6 = new Exercise(statement,points)
+        ex6.save()
+
+        // Ej 7
+        statement = "Escribe un programa en C que genere los primeros n números de la serie de Fibonacci, donde n es ingresado por el usuario."
+        points = 2
+        def ex7 = new Exercise(statement,points)
+        ex7.save()
+        
+        // Ej 8
+        statement = "Escribe un programa en C que lea un archivo de texto y cuente el número de palabras en él. Considera que las palabras están separadas por espacios en blanco."
+        points = 2
+        def ex8 = new Exercise(statement,points)
+        ex8.save()
+
+        // Ej 9
+        statement = "Escribe un programa en C que implemente una función recursiva para calcular el factorial de un número."
+        points = 2
+        def ex9 = new Exercise(statement,points)
+        ex9.save()
+
+        // Ej 10
+        statement = "Escribe un programa en C que implemente una función para ordenar un arreglo de números enteros en orden ascendente utilizando el algoritmo de ordenamiento de selección."
+        points = 2
+        def ex10 = new Exercise(statement,points)
+        ex10.save()
+
         def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
         beginnerLevel.save()
+
+        def advancedLevel = new AdvancedLevel([ex6,ex7,ex8,ex9,ex10],8)
+        advancedLevel.save()
 
     }
 }

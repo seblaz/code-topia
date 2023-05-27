@@ -11,7 +11,7 @@ abstract class Level {
     static hasMany = [exercises: Exercise]
 
     static constraints = {
-        name    nullable: false
+        name    nullable: false, unique: true
         points  nullable: false, min: MIN_LVL_POINTS
         exercises size: MIN_EXERCISES..MAX_EXERCISES
     }
