@@ -3,7 +3,7 @@ package code.topia
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class EntryLevelSpec extends Specification implements DomainUnitTest<EntryLevel> {
+class AdvancedLevelSpec extends Specification implements DomainUnitTest<AdvancedLevel> {
 
     def setup() {
     }
@@ -11,7 +11,7 @@ class EntryLevelSpec extends Specification implements DomainUnitTest<EntryLevel>
     def cleanup() {
     }
 
-    void "test create EntryLevel"() {
+    void "test create AdvancedLevel"() {
         given:
         // Ej 1
         def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
@@ -39,26 +39,26 @@ class EntryLevelSpec extends Specification implements DomainUnitTest<EntryLevel>
         def ex5 = new Exercise(statement,points)
 
         when:
-        def entryLevel = new EntryLevel([ex1,ex2,ex3,ex4,ex5],5)
+        def advancedLevel = new AdvancedLevel([ex1,ex2,ex3,ex4,ex5],8)
 
         then:
-        entryLevel.validate()
+        advancedLevel.validate()
     }
 
-    void "test min excercise required EntryLevel"() {
+    void "test min excercise required AdvancedLevel"() {
         given:
         def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
-        def points = 5
+        def points = 8
         def ex1 = new Exercise(statement,points)
 
         when:
-        def entryLevel = new EntryLevel([ex1],5)
+        def advancedLevel = new AdvancedLevel([ex1],8)
 
         then:
-        !entryLevel.validate()
+        !advancedLevel.validate()
     }
 
-    void "test accumulated points of exercises sufficient of EntryLevel"() {
+    void "test accumulated points of exercises sufficient of AdvancedLevel"() {
         given:
         // Ej 1
         def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
@@ -82,21 +82,22 @@ class EntryLevelSpec extends Specification implements DomainUnitTest<EntryLevel>
 
         // Ej 5
         statement = "Escribe un programa en C que encuentre el máximo entre tres números ingresados por el usuario."
-        points = 1
+        points = 5
         def ex5 = new Exercise(statement,points)
 
         when:
         def thrownException = null
-        def entryLevel = null
+        def advancedLevel = null
         // Se espera que falle por no cumplir la suma minima de puntos 
         // para completar el nivel.
         try {
-            entryLevel = new EntryLevel([ex1,ex2,ex3,ex4,ex5],10)
+            advancedLevel = new AdvancedLevel([ex1,ex2,ex3,ex4,ex5],10)
         } catch (AssertionError e) {
             thrownException = e
         }    
 
         then:
         assert thrownException != null
+
     }
 }

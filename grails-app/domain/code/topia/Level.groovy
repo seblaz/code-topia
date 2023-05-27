@@ -27,18 +27,18 @@ abstract class Level {
     }
 }
 
-class EntryLevel extends Level{
+class BeginnerLevel extends Level{
     static final int MIN_REQ_POINTS = 5
-    static final String NAME = "Entry Level"
+    static final String NAME = "Beginner Level"
 
     static constraints = {
     }
 
-    EntryLevel() {
+    BeginnerLevel() {
         this.name = NAME
     }
 
-    EntryLevel(List<Exercise> exercises, int points) {
+    BeginnerLevel(List<Exercise> exercises, int points) {
         assert exercises != null
         assert points != null
         assert points >= MIN_REQ_POINTS
@@ -54,15 +54,15 @@ class EntryLevel extends Level{
     }
 }
 
-class AdvanceLevel extends Level{
+class AdvancedLevel extends Level{
     static final int MIN_REQ_POINTS = 8
-    static final String NAME = "Advance Level"
+    static final String NAME = "Advanced Level"
 
-    AdvanceLevel() {
+    AdvancedLevel() {
         this.name = NAME
     }
 
-    AdvanceLevel(List<Exercise> exercises, int points) {
+    AdvancedLevel(List<Exercise> exercises, int points) {
         assert exercises != null
         assert points != null
         assert points >= MIN_REQ_POINTS

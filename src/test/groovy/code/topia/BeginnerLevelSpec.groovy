@@ -3,7 +3,7 @@ package code.topia
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class AdvanceLevelSpec extends Specification implements DomainUnitTest<AdvanceLevel> {
+class BeginnerLevelSpec extends Specification implements DomainUnitTest<BeginnerLevel> {
 
     def setup() {
     }
@@ -11,7 +11,7 @@ class AdvanceLevelSpec extends Specification implements DomainUnitTest<AdvanceLe
     def cleanup() {
     }
 
-    void "test create AdvanceLevel"() {
+    void "test create BeginnerLevel"() {
         given:
         // Ej 1
         def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
@@ -39,26 +39,26 @@ class AdvanceLevelSpec extends Specification implements DomainUnitTest<AdvanceLe
         def ex5 = new Exercise(statement,points)
 
         when:
-        def advanceLevel = new AdvanceLevel([ex1,ex2,ex3,ex4,ex5],8)
+        def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
 
         then:
-        advanceLevel.validate()
+        beginnerLevel.validate()
     }
 
-    void "test min excercise required AdvanceLevel"() {
+    void "test min excercise required BeginnerLevel"() {
         given:
         def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
-        def points = 8
+        def points = 5
         def ex1 = new Exercise(statement,points)
 
         when:
-        def advanceLevel = new AdvanceLevel([ex1],8)
+        def beginnerLevel = new BeginnerLevel([ex1],5)
 
         then:
-        !advanceLevel.validate()
+        !beginnerLevel.validate()
     }
 
-    void "test accumulated points of exercises sufficient of AdvanceLevel"() {
+    void "test accumulated points of exercises sufficient of BeginnerLevel"() {
         given:
         // Ej 1
         def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
@@ -82,22 +82,21 @@ class AdvanceLevelSpec extends Specification implements DomainUnitTest<AdvanceLe
 
         // Ej 5
         statement = "Escribe un programa en C que encuentre el máximo entre tres números ingresados por el usuario."
-        points = 5
+        points = 1
         def ex5 = new Exercise(statement,points)
 
         when:
         def thrownException = null
-        def advanceLevel = null
+        def beginnerLevel = null
         // Se espera que falle por no cumplir la suma minima de puntos 
         // para completar el nivel.
         try {
-            advanceLevel = new AdvanceLevel([ex1,ex2,ex3,ex4,ex5],10)
+            beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],10)
         } catch (AssertionError e) {
             thrownException = e
         }    
 
         then:
         assert thrownException != null
-
     }
 }

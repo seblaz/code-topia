@@ -31,15 +31,15 @@ class LoginController {
     }
 
     def loginUser() {
-       //render "WIP: login ok - ${params.email}"
-       //render(view: '/home')
-       //TODO: Buscar el usuario si introdujo el email
-       if (params?.email) {
-        session.user_logged_id = 1
-        redirect(controller: 'home', action: 'index')
-       } else {
-            render "<h1>WIP: create user</h1>"
-       }
+        if (params?.email) {
+            User user = User.findByEmail(params.email)
+            if (user) {
+                session.user_logged_id = user.id
+                redirect(controller: 'home', action: 'index')
+                return
+            }
+        }
+        render "<h1>WIP: create user</h1>"
     }
 
     def registerUser() {
