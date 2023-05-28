@@ -183,54 +183,21 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Ejercicios</h1>
+                        <h1 class="h3 mb-0 text-gray-800">${attempt.exercise.title}</h1>
                     </div>
 
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Exercise List <exerciseList> -->
-                        <g:each in="${exerciseList}" var="exerciseAttempt">
+                    <div class="login-form">
+                      <g:form controller="exercise" action="performAttempt" method="post">
+                        <div class="form-group">
+                            <label>${attempt.exercise.statement}</label>
+                            <br>
                             
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-info shadow h-100 py-2">
-                                    <g:link controller="exercise" action="index" params="[exerciseAttemptId: exerciseAttempt.id]">
-                                        <div class="card-body">
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col mr-2">
-                                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">${exerciseAttempt.exercise.level.name}</div>
-                                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Puntos: ${exerciseAttempt.exercise.points}</div>
-                                                    <div class="row no-gutters align-items-center">
-                                                        <div class="col-auto">
-                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${exerciseAttempt.exercise.title}</div>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: ${exerciseAttempt.points}%" aria-valuemin="0"
-                                                            aria-valuemax="100">
-                                                        </div>
-                                                    </div>                                                    
-                                                </div>
-                                                <% if (exerciseAttempt.aproved) { %>
-                                                    <div class="col-auto">
-                                                        <i class="fas fa-check fa-2x"></i>
-                                                    </div>
-                                                <% } else { %>
-                                                    <div class="col-auto">
-                                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                                    </div>
-                                                <% } %>
-                                                
-                                            </div>
-                                        </div>
-                                    </g:link>
-                                </div>
-                            </div>
-                        </g:each>
-
+                            <g:textArea style="resize: both;" name="answer" rows="4" cols="50" placeholder="Respuesta..."/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar respuesta</button>
+                      </g:form>
                     </div>
+
 
                 </div>
                 <!-- /.container-fluid -->
