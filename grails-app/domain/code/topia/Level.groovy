@@ -26,6 +26,12 @@ abstract class Level {
         return totalExPoints
     }
 
+    private void setExeciseLevel() {
+        this.exercises.each { exercise ->
+            exercise.level = this
+        }
+    }
+
     List<Exercise> getExercises() {
         return this.exercises
     }

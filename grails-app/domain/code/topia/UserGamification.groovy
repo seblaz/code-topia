@@ -19,11 +19,10 @@ class UserGamification {
             List<Exercise> exerciseList = this.level.getExercises()
             this.observers.each { observer ->
                 try {
-                    println("notificamos observer")
                     observer.notifyObserver(this.user, exerciseList)
                 } catch (Exception e) {
                     // error al notificar..
-                    println("error al notificar!!")
+                    println("error al notificar al observer!!")
                     println(e)
                 }
             }
