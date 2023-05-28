@@ -5,7 +5,7 @@ class ExerciseAttempt {
     static final int INIT_EXAT_POINTS = 0
     int         points
     String      answer
-    boolean     result
+    boolean     aproved
     Exercise    exercise
     User        user
     
@@ -14,7 +14,7 @@ class ExerciseAttempt {
         points      nullable: false, min: MIN_EXAT_POINTS
         exercise    nullable: false
         answer      nullable: true
-        result      nullable: false
+        aproved     nullable: false
         user        nullable: false
     }
 
@@ -25,6 +25,6 @@ class ExerciseAttempt {
         this.user       = user
         this.exercise   = exercise
         this.points     = INIT_EXAT_POINTS
-        this.result     = false
+        this.aproved    = false
     }
 }

@@ -213,7 +213,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <% if (exerciseAttempt.result) { %>
+                                            <% if (exerciseAttempt.aproved) { %>
                                                 <div class="col-auto">
                                                     <i class="fas fa-check fa-2x"></i>
                                                 </div>

@@ -4,17 +4,13 @@ class Exercise {
     static final int MIN_EX_POINTS = 1
     String  title
     String  statement
-    String  anwser
     int     points
-    Boolean approved
     Level   level
 
     static constraints = {
         title       nullable: false
         statement   nullable: false
-        anwser      nullable: true
         points      nullable: false, min: MIN_EX_POINTS
-        approved    nullable: true
         level       nullable: true
     }
 
