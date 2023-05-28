@@ -29,13 +29,13 @@ abstract class Level {
 
 class BeginnerLevel extends Level{
     static final int MIN_REQ_POINTS = 5
-    static final String NAME = "Beginner Level"
+    static final String BEGINNER_NAME = "Beginner Level"
 
     static constraints = {
     }
 
     BeginnerLevel() {
-        this.name = NAME
+        this.name = BEGINNER_NAME
     }
 
     BeginnerLevel(List<Exercise> exercises, int points) {
@@ -49,17 +49,17 @@ class BeginnerLevel extends Level{
 
         this.exercises  = exercises
         this.points     = points
-        this.name       = NAME
+        this.name       = BEGINNER_NAME
         
     }
 }
 
 class AdvancedLevel extends Level{
     static final int MIN_REQ_POINTS = 8
-    static final String NAME = "Advanced Level"
+    static final String ADVANCED_NAME = "Advanced Level"
 
     AdvancedLevel() {
-        this.name = NAME
+        this.name = ADVANCED_NAME
     }
 
     AdvancedLevel(List<Exercise> exercises, int points) {
@@ -73,7 +73,7 @@ class AdvancedLevel extends Level{
 
         this.exercises  = exercises
         this.points     = points
-        this.name       = NAME
+        this.name       = ADVANCED_NAME
         
     }
 }

@@ -33,4 +33,9 @@ class User {
     }
 
 
+    Level getLevel() {
+        return this.gamification.getLevel()
+    }
+
+
 }

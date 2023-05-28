@@ -19,4 +19,8 @@ class UserGamification {
         this.userTotalPoints = MIN_US_POINTS
         this.level = level
     }
+
+    Level getLevel() {
+        return this.level
+    }
 }
