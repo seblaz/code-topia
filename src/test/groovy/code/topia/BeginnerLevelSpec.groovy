@@ -5,6 +5,19 @@ import spock.lang.Specification
 
 class BeginnerLevelSpec extends Specification implements DomainUnitTest<BeginnerLevel> {
 
+    static final String STATEMENT_1 = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
+    static final String STATEMENT_2 = "Escribe un programa en C que le pida al usuario ingresar dos números enteros e imprima la suma de esos dos números."
+    static final String STATEMENT_3 = "Escribe un programa en C que verifique si un número ingresado por el usuario es par o impar."
+    static final String STATEMENT_4 = "Escribe un programa en C que calcule el factorial de un número ingresado por el usuario."
+    static final String STATEMENT_5 = "Escribe un programa en C que encuentre el máximo entre tres números ingresados por el usuario."
+
+    def ex1 = new Exercise(STATEMENT_1,1)
+    def ex2 = new Exercise(STATEMENT_2,1)
+    def ex3 = new Exercise(STATEMENT_3,1)
+    def ex4 = new Exercise(STATEMENT_4,1)
+    def ex5 = new Exercise(STATEMENT_5,1)
+    
+    
     def setup() {
     }
 
@@ -12,78 +25,39 @@ class BeginnerLevelSpec extends Specification implements DomainUnitTest<Beginner
     }
 
     void "test create BeginnerLevel"() {
-        given:
-        // Ej 1
-        def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
-        def points = 1
-        def ex1 = new Exercise(statement,points)
+        given: "exists 5 exercises"
+        assert ex1 != null
+        assert ex2 != null
+        assert ex3 != null
+        assert ex4 != null
+        assert ex5 != null
 
-        // Ej 2
-        statement = "Escribe un programa en C que le pida al usuario ingresar dos números enteros e imprima la suma de esos dos números."
-        points = 2
-        def ex2 = new Exercise(statement,points)
-
-        // Ej 3
-        statement = "Escribe un programa en C que verifique si un número ingresado por el usuario es par o impar."
-        points = 1
-        def ex3 = new Exercise(statement,points)
-
-        // Ej 4
-        statement = "Escribe un programa en C que calcule el factorial de un número ingresado por el usuario."
-        points = 3
-        def ex4 = new Exercise(statement,points)
-
-        // Ej 5
-        statement = "Escribe un programa en C que encuentre el máximo entre tres números ingresados por el usuario."
-        points = 2
-        def ex5 = new Exercise(statement,points)
-
-        when:
+        when: "create beginner level with 5 exercise"
         def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
 
-        then:
+        then: "the beginner level is valid"
         beginnerLevel.validate()
     }
 
     void "test min excercise required BeginnerLevel"() {
         given:
-        def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
-        def points = 5
-        def ex1 = new Exercise(statement,points)
+        def ex_temp = new Exercise(STATEMENT_1,5)
 
         when:
-        def beginnerLevel = new BeginnerLevel([ex1],5)
+        def beginnerLevel = new BeginnerLevel([ex_temp],5)
 
         then:
         !beginnerLevel.validate()
     }
 
     void "test accumulated points of exercises sufficient of BeginnerLevel"() {
-        given:
-        // Ej 1
-        def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
-        def points = 1
-        def ex1 = new Exercise(statement,points)
-
-        // Ej 2
-        statement = "Escribe un programa en C que le pida al usuario ingresar dos números enteros e imprima la suma de esos dos números."
-        points = 1
-        def ex2 = new Exercise(statement,points)
-
-        // Ej 3
-        statement = "Escribe un programa en C que verifique si un número ingresado por el usuario es par o impar."
-        points = 1
-        def ex3 = new Exercise(statement,points)
-
-        // Ej 4
-        statement = "Escribe un programa en C que calcule el factorial de un número ingresado por el usuario."
-        points = 1
-        def ex4 = new Exercise(statement,points)
-
-        // Ej 5
-        statement = "Escribe un programa en C que encuentre el máximo entre tres números ingresados por el usuario."
-        points = 1
-        def ex5 = new Exercise(statement,points)
+        given: "exists 5 exercises"
+        assert ex1 != null
+        assert ex2 != null
+        assert ex3 != null
+        assert ex4 != null
+        assert ex5 != null
+        
 
         when:
         def thrownException = null
@@ -99,4 +73,18 @@ class BeginnerLevelSpec extends Specification implements DomainUnitTest<Beginner
         then:
         assert thrownException != null
     }
+
+//    void "test get 5 exercise at BeginnerLevel"() {
+//        given: "exists 5 exercises"
+//        assert ex1 != null
+//        assert ex2 != null
+//        assert ex3 != null
+//        assert ex4 != null
+//        assert ex5 != null
+//        
+//        when:
+//
+//        then:
+//        
+//    }
 }
