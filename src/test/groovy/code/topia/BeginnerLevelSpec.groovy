@@ -74,17 +74,20 @@ class BeginnerLevelSpec extends Specification implements DomainUnitTest<Beginner
         assert thrownException != null
     }
 
-//    void "test get 5 exercise at BeginnerLevel"() {
-//        given: "exists 5 exercises"
-//        assert ex1 != null
-//        assert ex2 != null
-//        assert ex3 != null
-//        assert ex4 != null
-//        assert ex5 != null
-//        
-//        when:
-//
-//        then:
-//        
-//    }
+    void "test get 5 exercise at BeginnerLevel"() {
+        given: "exists 5 exercises"
+        assert ex1 != null
+        assert ex2 != null
+        assert ex3 != null
+        assert ex4 != null
+        assert ex5 != null
+        
+        when: "create beginner level"
+        def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
+
+        then: "it has 5 exercises"
+        List<Exercise> list = beginnerLevel.getExercises()
+        assert list.size() == 5
+        
+    }
 }

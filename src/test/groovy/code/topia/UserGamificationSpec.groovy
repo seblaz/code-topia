@@ -47,10 +47,9 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         def ex5 = new Exercise(statement,points)
 
         def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
-        Observer observer = new ExerciseAttemptObserver()
 
         when:
-        def usGm = new UserGamification(beginnerLevel,observer)
+        def usGm = new UserGamification(beginnerLevel)
         user.gamification = usGm
         usGm.user = user
 

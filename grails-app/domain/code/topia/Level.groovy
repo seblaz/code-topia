@@ -25,6 +25,10 @@ abstract class Level {
 
         return totalExPoints
     }
+
+    List<Exercise> getExercises() {
+        return this.exercises
+    }
 }
 
 class BeginnerLevel extends Level{

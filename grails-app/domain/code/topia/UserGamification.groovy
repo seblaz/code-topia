@@ -16,8 +16,7 @@ class UserGamification {
 
     void notifyAllObservers() {
         if (!this.observers.isEmpty()) {
-            //FIXME: Obtener la lista del nivel..
-            List<Exercise> exerciseList = []
+            List<Exercise> exerciseList = this.level.getExercises()
             this.observers.each { observer ->
                 try {
                     println("notificamos observer")
@@ -31,20 +30,20 @@ class UserGamification {
         }
     }
 
-    UserGamification(Level level, Observer observer = null) {
+    UserGamification(Level level) {
         assert level != null
 
         this.userTotalPoints = MIN_US_POINTS
         this.level = level
         this.observers = []
-        // add observer 
-        if (observer != null) {
-            println("agrego observer")
-            this.observers << observer
-        } else {
-            println("observer nulo")
+
+    }
+
+    void setUser(User user) {
+        this.user = user
+        if (user != null) {
+            this.notifyAllObservers()
         }
-        this.notifyAllObservers()
     }
 
     Level getLevel() {

@@ -74,4 +74,21 @@ class AdvancedLevelSpec extends Specification implements DomainUnitTest<Advanced
         assert thrownException != null
 
     }
+
+    void "test get 5 exercise at AdvancedLevel"() {
+        given: "exists 5 exercises"
+        assert ex1 != null
+        assert ex2 != null
+        assert ex3 != null
+        assert ex4 != null
+        assert ex5 != null
+        
+        when: "create beginner level"
+        def advancedLevel = new AdvancedLevel([ex1,ex2,ex3,ex4,ex5],8)
+
+        then: "it has 5 exercises"
+        List<Exercise> list = advancedLevel.getExercises()
+        assert list.size() == 5
+        
+    }
 }
