@@ -119,7 +119,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     }
 
     void "test User"() {
-        given:
+        given: "no user"
         def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
         def points = 1
         def ex1 = new Exercise(statement,points)
@@ -138,11 +138,14 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
         def usGm = new UserGamification(beginnerLevel)
         
-        when:
+        when: "create a new user"
         def user = new User("Alejandro", "Peña",
                             "email@example.com",usGm)
         
+        
         then:
+        //FIXME:
+        assert user.gamification.level.name == "Beginner Level"
         user.validate()
 
         when:
@@ -151,6 +154,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         
         then:
         !user_err1.validate()
+
     }
     
 

@@ -62,8 +62,8 @@ class LoginController {
                 redirect(controller: 'home', action: 'index')
             }  catch (Exception e) {
                 println("tuvimos error al crear usuario")
+                println(e)
                 flash.createError = "error creando usuario"
-                flash.errors.rejectValue("firstName", e.message)
                 render(view: "register")
                 return
             }

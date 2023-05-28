@@ -11,7 +11,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
     def cleanup() {
     }
 
-    void "test UserGamification level constrain"() {
+    void "test UserGamification constrains"() {
         when:
         def usGm = new UserGamification()
 
@@ -21,6 +21,11 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
 
     void "test UserGamification"() {
         given:
+        def user = new User()
+        user.firstName = "Alejandro"
+        user.lastName = "Peña"
+        user.email = "email@example.com"
+
         def statement = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
         def points = 1
         def ex1 = new Exercise(statement,points)
@@ -45,6 +50,8 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
 
         when:
         def usGm = new UserGamification(beginnerLevel)
+        user.gamification = usGm
+        usGm.user = user
 
         then:
         usGm.validate()

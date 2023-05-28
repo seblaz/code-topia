@@ -1,21 +1,22 @@
 package code.topia
 
 class UserGamification {
+    static final int MIN_US_POINTS = 0
+    int     userTotalPoints
+    User    user
+    Level   level
 
-    int userTotalPoints
-    Level level
-
-    static hasOne = [level: Level]
+    static belongsTo = [user: User]   
 
     static constraints = {
-        userTotalPoints nullable: false, min: 0
+        userTotalPoints nullable: false, min: MIN_US_POINTS
         level           nullable: false
     }
 
     UserGamification(Level level) {
         assert level != null
 
-        this.userTotalPoints = 0
+        this.userTotalPoints = MIN_US_POINTS
         this.level = level
     }
 }

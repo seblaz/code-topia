@@ -24,10 +24,11 @@ class User {
         assert email != null
         assert gamification != null
 
-        this.firstName      = firstName
-        this.lastName       = lastName
-        this.email          = email
-        this.gamification   = gamification
+        this.firstName          = firstName
+        this.lastName           = lastName
+        this.email              = email
+        this.gamification       = gamification
+        this.gamification.user  = this
         
     }
 
