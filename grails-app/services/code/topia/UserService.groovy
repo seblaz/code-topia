@@ -7,9 +7,11 @@ class UserService {
 
     def createUser(String firstName, String lastnName, String email) {
         def beginnerLevel = Level.findByName("Beginner Level")
-        UserGamification usGm = new UserGamification(beginnerLevel)
+        Observer observer = new ExerciseAttemptObserver()
+        UserGamification usGm = new UserGamification(beginnerLevel, observer)
         User user = new User(firstName, lastnName, email, usGm)
         user.save(failOnError: true)
+        observer.save(failOnError: true)
     }
 
     def getUser(String email) {

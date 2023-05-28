@@ -10,9 +10,4 @@ class UserServiceSpec extends Specification implements ServiceUnitTest<UserServi
 
     def cleanup() {
     }
-
-    void "test something"() {
-        expect:"fix me"
-            true == true
-    }
 }

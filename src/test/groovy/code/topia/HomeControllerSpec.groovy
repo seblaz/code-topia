@@ -10,9 +10,4 @@ class HomeControllerSpec extends Specification implements ControllerUnitTest<Hom
 
     def cleanup() {
     }
-
-    void "test something"() {
-        expect:"fix me"
-            true == true
-    }
 }

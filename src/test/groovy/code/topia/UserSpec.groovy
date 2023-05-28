@@ -17,6 +17,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     def ex3 = new Exercise(STATEMENT_3,1)
     def ex4 = new Exercise(STATEMENT_4,3)
     def ex5 = new Exercise(STATEMENT_5,2)
+    def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
 
     def setup() {
     }
@@ -27,7 +28,6 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     void "test blank email constrain"() {
         given:
         def user = new User()
-        def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
 
         when:
         user.firstName      = "Alejandro"
@@ -42,7 +42,6 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     void "test fake email constrain"() {
         given:
         def user = new User()
-        def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
 
         when:
         user.firstName = "Alejandro"
@@ -57,7 +56,6 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     void "test valid email constrain"() {
         given:
         def user = new User()
-        def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
 
         when:
         user.firstName = "Alejandro"
@@ -88,7 +86,6 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
 
     void "test User"() {
         given: "no user"
-        def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
         def usGm = new UserGamification(beginnerLevel)
         
         when: "create a new user"
