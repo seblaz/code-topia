@@ -13,6 +13,6 @@ class HomeController {
             }
         }
         // No esta logueado o no existe
-        redirect(controller: 'login', action: 'index')
+        redirect(controller: 'user', action: 'index')
      }
 }

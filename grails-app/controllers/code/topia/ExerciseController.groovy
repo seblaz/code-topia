@@ -1,6 +1,18 @@
 package code.topia
 
+class PerformAttemptParam {
+    int     exerciseAttemptId
+    String  answer
+
+    static constraints = {
+        exerciseAttemptId   nullable: false, blank: false
+        answer              nullable: false, blank: false
+    }
+}
+
 class ExerciseController {
+
+    def userService
 
     def index() { 
         if (session?.user_logged_id && session.user_logged_id > 0) {
@@ -13,6 +25,16 @@ class ExerciseController {
             }
         }
         // No esta logueado o no existe
-        redirect(controller: 'login', action: 'index')
+        redirect(controller: 'user', action: 'index')
+    }
+
+    def performAttempt(PerformAttemptParam p) {
+        try {
+            userService.performAttempt((int)session.user_logged_id,
+                                        p.exerciseAttemptId, p.answer)
+        } catch (Exception e) {
+            println(e)
+        }
+        redirect(controller: 'home', action: 'index')
     }
 }

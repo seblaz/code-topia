@@ -2,7 +2,9 @@ package code.topia
 
 class UserGamification {
     static final int MIN_US_POINTS = 0
+    static final int MIN_LVL_POINTS = 1
     int     userTotalPoints
+    int     actualLevelPoints
     User    user
     Level   level
     List<Observer> observers
@@ -10,8 +12,9 @@ class UserGamification {
     static belongsTo = [user: User]   
 
     static constraints = {
-        userTotalPoints nullable: false, min: MIN_US_POINTS
-        level           nullable: false
+        userTotalPoints     nullable: false, min: MIN_US_POINTS
+        actualLevelPoints   nullable: false, min: MIN_LVL_POINTS
+        level               nullable: false
     }
 
     void notifyAllObservers() {
@@ -31,10 +34,12 @@ class UserGamification {
 
     UserGamification(Level level) {
         assert level != null
+        assert level.points >= MIN_LVL_POINTS
 
-        this.userTotalPoints = MIN_US_POINTS
-        this.level = level
-        this.observers = []
+        this.userTotalPoints    = MIN_US_POINTS
+        this.level              = level
+        this.actualLevelPoints  = level.points
+        this.observers          = []
 
     }
 

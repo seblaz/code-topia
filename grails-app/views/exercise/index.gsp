@@ -186,8 +186,8 @@
                         <h1 class="h3 mb-0 text-gray-800">${attempt.exercise.title}</h1>
                     </div>
 
-                    <div class="login-form">
-                      <g:form controller="exercise" action="performAttempt" method="post">
+                    <div class="exercise-form">
+                      <g:form controller="exercise" action="performAttempt" method="post" params="[exerciseAttemptId: attempt.id]">
                         <div class="form-group">
                             <label>${attempt.exercise.statement}</label>
                             <br>
@@ -240,7 +240,7 @@
                 <div class="modal-body">Seleccioná "Salir" a continuación si quiere finalizar la sesión.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="${createLink(controller: 'login', action: 'index')}">Salir</a>
+                    <a class="btn btn-primary" href="${createLink(controller: 'user', action: 'index')}">Salir</a>
                 </div>
             </div>
         </div>

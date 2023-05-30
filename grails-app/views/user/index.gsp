@@ -24,26 +24,20 @@
   <div class="main">
     <div class="col-md-6 col-sm-12">
       <div class="login-form">
-        <g:form controller="login" action="createUser" method="post">
+        <g:form controller="user" action="loginUser" method="post">
           <div class="form-group">
-              <label>Nombre</label>
-              <input type="text" name="firstName" class="form-control" placeholder="Nombre">
-
-              <label>Apellido</label>
-              <input type="text" name="lastName" class="form-control" placeholder="Apellido">
-
               <label>Email</label>
               <input type="text" name="email" class="form-control" placeholder="some@example.com">
           </div>
-          <g:hasErrors bean="${flash}">
-              <div class="error">${flash.createError}</div>
-          </g:hasErrors>
-          <g:renderErrors  as="list" />
-          <button type="submit" class="btn btn-primary">Crear</button>
-
+          <button type="submit" class="btn btn-primary">Entrar</button>
         </g:form>
-
       </div>
+    </div>
+    
+    <div class="col-md-6 col-sm-12">
+      <g:link controller="user" action="registerUser">
+        <button class="btn btn-secondary">Registrarse</button>
+      </g:link>
     </div>
     
   </div>
