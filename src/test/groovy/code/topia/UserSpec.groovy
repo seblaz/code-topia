@@ -18,12 +18,12 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     static final String TITLE_4  = "Calculo Factorial"
     static final String TITLE_5  = "Funcion Maximo"
 
-    def ex1 = new Exercise(TITLE_1, STATEMENT_1, 1)
-    def ex2 = new Exercise(TITLE_2, STATEMENT_2, 2)
-    def ex3 = new Exercise(TITLE_3, STATEMENT_3, 1)
-    def ex4 = new Exercise(TITLE_4, STATEMENT_4, 3)
-    def ex5 = new Exercise(TITLE_5, STATEMENT_5, 2)
-    def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
+    Exercise ex1 = new Exercise(TITLE_1, STATEMENT_1, 1)
+    Exercise ex2 = new Exercise(TITLE_2, STATEMENT_2, 2)
+    Exercise ex3 = new Exercise(TITLE_3, STATEMENT_3, 1)
+    Exercise ex4 = new Exercise(TITLE_4, STATEMENT_4, 3)
+    Exercise ex5 = new Exercise(TITLE_5, STATEMENT_5, 2)
+    BeginnerLevel beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
 
     def setup() {
     }

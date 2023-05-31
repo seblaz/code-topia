@@ -19,7 +19,10 @@ class UserGamificationService {
         if (levelService.isComplete(level, userPoints)) {
             // Avanzar nivel
             usGm.userPoints = levelService.useLevelPoints(level, userPoints)
-            usGm.level = levelService.getNextLevel(level, usGm)
+            Level newLevel = levelService.getNextLevel(level, usGm)
+            if (newLevel){
+                usGm.level = newLevel
+            }
         }
     }
 

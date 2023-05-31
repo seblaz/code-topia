@@ -53,5 +53,12 @@ class UserGamification {
         }
         return temp
     }
+
+    void setLevel(Level level) {
+        this.level = level
+        if (level != null) {
+            this.createAttempts()
+        }
+    }
     
 }

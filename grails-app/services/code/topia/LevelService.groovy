@@ -15,7 +15,7 @@ class LevelService {
     }
 
     Level getNextLevel(Level level, UserGamification usGm) {
-        if (level.getNextLevel()) {
+        if (level.getNextLevel()!=null) {
             Level new_level = Level.findByName(level.getNextLevel())
             assert new_level != null
             return new_level
