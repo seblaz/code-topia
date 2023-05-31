@@ -7,7 +7,7 @@ class HomeController {
             // Logueado
             User user = User.get(session.user_logged_id)
             if (user) {
-                List<ExerciseAttempt> exerciseList = ExerciseAttempt.findAllByUser(user)
+                List<Attempt> exerciseList = Attempt.findAllByUser(user)
                 render(view: "index", model: [user: user, exerciseList: exerciseList])
                 return
             }

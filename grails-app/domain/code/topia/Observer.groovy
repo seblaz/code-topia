@@ -8,7 +8,7 @@ abstract class Observer {
 class ExerciseAttemptObserver extends Observer {
     void notifyObserver(User user, List<Exercise> exerciseList) {
         exerciseList.each { exercise ->
-            ExerciseAttempt exAttmpt = new ExerciseAttempt(user,exercise)
+            Attempt exAttmpt = new Attempt(user,exercise)
             exAttmpt.save(failOnError: true)
         }
     }

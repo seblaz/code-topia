@@ -1,11 +1,11 @@
 package code.topia
 
-class ExerciseAttempt {
+class Attempt {
     static final int MIN_EXAT_POINTS = 0
     static final int INIT_EXAT_POINTS = 0
-    int         points
+    int         points = INIT_EXAT_POINTS
     String      answer
-    boolean     aproved
+    boolean     aproved = false
     Exercise    exercise
     User        user
     
@@ -18,13 +18,11 @@ class ExerciseAttempt {
         user        nullable: false
     }
 
-    ExerciseAttempt(User user, Exercise exercise) {
+    Attempt(User user, Exercise exercise) {
         assert user != null
         assert exercise != null
 
         this.user       = user
         this.exercise   = exercise
-        this.points     = INIT_EXAT_POINTS
-        this.aproved    = false
     }
 }

@@ -18,7 +18,7 @@ class ExerciseController {
         if (session?.user_logged_id && session.user_logged_id > 0) {
             // Logueado
             User user = User.get(session.user_logged_id)
-            ExerciseAttempt attempt = ExerciseAttempt.get(params.exerciseAttemptId)
+            Attempt attempt = Attempt.get(params.exerciseAttemptId)
             if (user) {
                 render(view: "index", model: [user: user, attempt: attempt])
                 return

@@ -31,6 +31,8 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     def cleanup() {
     }
 
+
+
     void "test blank email constrain"() {
         given:
         def user = new User()
@@ -39,7 +41,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         user.firstName      = "Alejandro"
         user.lastName       = "Peña"
         user.email          = ""
-        user.gamification   = new UserGamification(beginnerLevel)
+        user.gamification   = new UserGamification(user,beginnerLevel)
 
         then:
         !user.validate()
@@ -53,7 +55,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         user.firstName = "Alejandro"
         user.lastName = "Peña"
         user.email = "False mail de prueba"
-        user.gamification   = new UserGamification(beginnerLevel)
+        user.gamification   = new UserGamification(user,beginnerLevel)
         
         then:
         !user.validate()
@@ -67,7 +69,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         user.firstName = "Alejandro"
         user.lastName = "Peña"
         user.email = "email@example.com"
-        user.gamification   = new UserGamification(beginnerLevel)
+        user.gamification   = new UserGamification(user,beginnerLevel)
         
 
         then:
@@ -81,7 +83,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
 
         try {
             user = new User("Alejandro", "Peña",
-                            "email@example.com",null)
+                            "email@example.com")
         } catch (AssertionError e) {
             thrownException = e
         }    
@@ -92,11 +94,11 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
 
     void "test User"() {
         given: "no user"
-        def usGm = new UserGamification(beginnerLevel)
+        def usGm = new UserGamification(user,beginnerLevel)
         
         when: "create a new user"
         def user = new User("Alejandro", "Peña",
-                            "email@example.com",usGm)
+                            "email@example.com")
         
         
         then: "the user is in beginner level"
@@ -106,7 +108,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
 
         when:
         def user_err1 = new User("Alejandro", "Peña",
-                                 "email falso",usGm)
+                                 "email falso")
         
         then: 
         !user_err1.validate()

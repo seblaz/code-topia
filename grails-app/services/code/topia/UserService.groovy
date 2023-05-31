@@ -7,19 +7,17 @@ class UserService {
     def userGamificationService
 
     def createUser(String firstName, String lastnName, String email) {
-        def beginnerLevel = Level.findByName("Beginner Level")
-        Observer observer = new ExerciseAttemptObserver()
-        UserGamification usGm = new UserGamification(beginnerLevel)
-        usGm.addObserver(observer)
-        User user = new User(firstName, lastnName, email, usGm)
+        User user = new User(firstName, lastnName, email)
+        Level beginnerLevel = Level.findByName("Beginner Level")
+        UserGamification usGm = new UserGamification(user,beginnerLevel)
+        
         user.save(failOnError: true)
-        observer.save(failOnError: true)
         return user
     }
 
     def performAttempt(int userId, int exerciseAttemptId, String answer) {
         User user = User.get(userId)
-        ExerciseAttempt attempt = ExerciseAttempt.get(exerciseAttemptId)
+        Attempt attempt = Attempt.get(exerciseAttemptId)
         assert attempt != null
         assert user != null
         attempt.answer = answer

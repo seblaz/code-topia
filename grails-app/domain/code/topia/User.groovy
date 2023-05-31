@@ -16,26 +16,19 @@ class User {
         gamification    nullable: false
     }
 
-
-
-    User(String firstName, String lastName, String email, UserGamification gamification) {
+    User(String firstName, String lastName, String email) {
         assert firstName != null
         assert lastName != null
         assert email != null
-        assert gamification != null
 
-        this.firstName          = firstName
-        this.lastName           = lastName
-        this.email              = email
-        this.gamification       = gamification
-        this.gamification.user  = this
+        this.firstName = firstName
+        this.lastName = lastName
+        this.email = email
         
     }
-
 
     Level getLevel() {
         return this.gamification.getLevel()
     }
-
 
 }
