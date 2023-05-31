@@ -18,12 +18,12 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     static final String TITLE_4  = "Calculo Factorial"
     static final String TITLE_5  = "Funcion Maximo"
 
-    def ex1 = new Exercise(TITLE_1, STATEMENT_1, 1)
-    def ex2 = new Exercise(TITLE_2, STATEMENT_2, 2)
-    def ex3 = new Exercise(TITLE_3, STATEMENT_3, 1)
-    def ex4 = new Exercise(TITLE_4, STATEMENT_4, 3)
-    def ex5 = new Exercise(TITLE_5, STATEMENT_5, 2)
-    def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
+    Exercise ex1 = new Exercise(TITLE_1, STATEMENT_1, 1)
+    Exercise ex2 = new Exercise(TITLE_2, STATEMENT_2, 2)
+    Exercise ex3 = new Exercise(TITLE_3, STATEMENT_3, 1)
+    Exercise ex4 = new Exercise(TITLE_4, STATEMENT_4, 3)
+    Exercise ex5 = new Exercise(TITLE_5, STATEMENT_5, 2)
+    BeginnerLevel beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
 
     def setup() {
     }
@@ -31,87 +31,71 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     def cleanup() {
     }
 
-    void "test blank email constrain"() {
-        given:
-        def user = new User()
 
-        when:
+    void "create user"() {
+        when: "create a new user"
+        User user = new User("Alejandro", "Pena", "example@example.com")
+        UserGamification usGm = new UserGamification(user, beginnerLevel)
+
+        then: "the new user is valid"
+        assert user.validate()
+
+        and: "it has at leas 5 exercises"
+        List<Attempt> attempts = usGm.getAllAttempts()
+        assert attempts.size() >= 5
+    }
+
+    void "get level user"() {
+        when: "create a new user"
+        User user = new User("Alejandro", "Pena", "example@example.com")
+        UserGamification usGm = new UserGamification(user, beginnerLevel)
+
+        then: "the new user is valid"
+        assert user.validate()
+
+        and: "his level is beginner"
+        Level level = user.getLevel()
+        assert level == beginnerLevel
+    }
+
+
+    void "test blank email constrain"() {
+        given: "create a new user"
+        User user = new User()
+        UserGamification usGm = new UserGamification(user,beginnerLevel)
+
+        when: "set attributes for new user, except email"
         user.firstName      = "Alejandro"
         user.lastName       = "Peña"
-        user.email          = ""
-        user.gamification   = new UserGamification(beginnerLevel)
+        user.email          = ""        
 
-        then:
+        then: "user is not valid"
         !user.validate()
     }
 
     void "test fake email constrain"() {
-        given:
-        def user = new User()
+        given: "create a new user"
+        User user = new User()
+        UserGamification usGm = new UserGamification(user,beginnerLevel)
 
-        when:
+        when: "set attributes for new user and bad email"
         user.firstName = "Alejandro"
         user.lastName = "Peña"
         user.email = "False mail de prueba"
-        user.gamification   = new UserGamification(beginnerLevel)
         
-        then:
+        then: "user is not valid"
         !user.validate()
     }
 
-    void "test valid email constrain"() {
-        given:
-        def user = new User()
-
-        when:
-        user.firstName = "Alejandro"
-        user.lastName = "Peña"
-        user.email = "email@example.com"
-        user.gamification   = new UserGamification(beginnerLevel)
-        
-
-        then:
-        user.validate()
-    }
-
     void "test valid user gamification constrain"() {
-        when:
-        def thrownException = null
-        def user = null
+        when: "create user and no UserGamification"
+        User user = new User("Alejandro", "Peña","email@example.com")
 
-        try {
-            user = new User("Alejandro", "Peña",
-                            "email@example.com",null)
-        } catch (AssertionError e) {
-            thrownException = e
-        }    
-
-        then:
-        assert thrownException != null
+        then: "user is not valid"
+        !user.validate()
     }
 
-    void "test User"() {
-        given: "no user"
-        def usGm = new UserGamification(beginnerLevel)
-        
-        when: "create a new user"
-        def user = new User("Alejandro", "Peña",
-                            "email@example.com",usGm)
-        
-        
-        then: "the user is in beginner level"
-        Level level = user.getLevel()
-        assert level.name == BEGINNER_LEVEL_NAME
-        user.validate()
 
-        when:
-        def user_err1 = new User("Alejandro", "Peña",
-                                 "email falso",usGm)
-        
-        then: 
-        !user_err1.validate()
-
-    }
     
 
 }

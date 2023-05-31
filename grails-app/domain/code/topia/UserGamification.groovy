@@ -2,67 +2,63 @@ package code.topia
 
 class UserGamification {
     static final int MIN_US_POINTS = 0
-    static final int MIN_LVL_POINTS = 1
-    int     userTotalPoints
-    int     actualLevelPoints
+    int     userPoints = MIN_US_POINTS
     User    user
     Level   level
-    List<Observer> observers
+    List<Attempt> attempts = []
 
     static belongsTo = [user: User]   
 
     static constraints = {
-        userTotalPoints     nullable: false, min: MIN_US_POINTS
-        actualLevelPoints   nullable: false, min: MIN_LVL_POINTS
-        level               nullable: false
+        userPoints     nullable: false, min: MIN_US_POINTS
+        level          nullable: false
     }
 
-    void notifyAllObservers() {
-        if (!this.observers.isEmpty()) {
-            List<Exercise> exerciseList = this.level.getExercises()
-            this.observers.each { observer ->
-                try {
-                    observer.notifyObserver(this.user, exerciseList)
-                } catch (Exception e) {
-                    // error al notificar..
-                    println("error al notificar al observer!!")
-                    println(e)
-                }
-            }
-        }
-    }
-
-    UserGamification(Level level) {
-        assert level != null
-        assert level.points >= MIN_LVL_POINTS
-
-        this.userTotalPoints    = MIN_US_POINTS
-        this.level              = level
-        this.actualLevelPoints  = level.points
-        this.observers          = []
-
-    }
-
-    void setUser(User user) {
+    UserGamification(User user, Level level) {
+        //logger.debug("Creando UserGamification con user:${user}|level:${level}")
         this.user = user
-        if (user != null) {
-            this.notifyAllObservers()
-        }
+        this.level = level
+        user.gamification = this
+
+        createAttempts()
     }
 
-    Level getLevel() {
+    Level getUserLevel() {
         return this.level
     }
 
-    void addObserver(Observer observer) {
-        if (observer != null) {
-            this.observers << observer
+    int getUserPoints() {
+        return this.userPoints
+    }
+
+    List<Attempt> getAllAttempts() {
+        return this.attempts
+    }
+
+    private void createAttempts() {
+        List<Exercise> exercises = this.level.getExercises()
+
+        exercises.each { exercise ->
+            Attempt attempt = new Attempt(this.user, exercise)
+            attempts.add(attempt)
         }
     }
 
-    void removeObserver(Observer observer) {
-        if (observer != null) {
-            this.observers.remove(observer)
+    Attempt getAttempt(int attempt_id) {
+        Attempt temp = null
+        this.attempts.each { attempt ->
+            if (attempt.id == attempt_id) {
+                temp = attempt
+            }
+        }
+        return temp
+    }
+
+    void setLevel(Level level) {
+        this.level = level
+        if (level != null) {
+            this.createAttempts()
         }
     }
+    
 }

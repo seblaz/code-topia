@@ -6,14 +6,16 @@ abstract class Level {
     static final int MAX_EXERCISES  = 15
     String          name
     int             points
+    String          nextLevelName
     List<Exercise>  exercises
 
     static hasMany = [exercises: Exercise]
 
     static constraints = {
-        name        nullable: false, unique: true
-        points      nullable: false, min: MIN_LVL_POINTS
-        exercises   size: MIN_EXERCISES..MAX_EXERCISES
+        name            nullable: false, unique: true
+        points          nullable: false, min: MIN_LVL_POINTS
+        exercises       size: MIN_EXERCISES..MAX_EXERCISES
+        nextLevelName   nullable: true
     }
 
     static int calculateExTotalPoints(List<Exercise> exercises) {
@@ -30,17 +32,23 @@ abstract class Level {
     List<Exercise> getExercises() {
         return this.exercises
     }
+
+    String getNextLevel() {
+        return this.nextLevelName
+    }
 }
 
 class BeginnerLevel extends Level{
     static final int MIN_REQ_POINTS = 5
     static final String BEGINNER_NAME = "Beginner Level"
+    static final String NEXT_LEVEL_NAME = "Advanced Level"
 
     static constraints = {
     }
 
     BeginnerLevel() {
         this.name = BEGINNER_NAME
+        this.nextLevelName = NEXT_LEVEL_NAME
     }
 
     BeginnerLevel(List<Exercise> exercises, int points) {
@@ -55,6 +63,7 @@ class BeginnerLevel extends Level{
         this.exercises  = exercises
         this.points     = points
         this.name       = BEGINNER_NAME
+        this.nextLevelName = NEXT_LEVEL_NAME
         
     }
 }

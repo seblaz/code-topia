@@ -16,11 +16,11 @@ class BeginnerLevelSpec extends Specification implements DomainUnitTest<Beginner
     static final String TITLE_4     = "Calculo Factorial"
     static final String TITLE_5     = "Funcion Maximo"
 
-    def ex1 = new Exercise(TITLE_1, STATEMENT_1, 1)
-    def ex2 = new Exercise(TITLE_2, STATEMENT_2, 1)
-    def ex3 = new Exercise(TITLE_3, STATEMENT_3, 1)
-    def ex4 = new Exercise(TITLE_4, STATEMENT_4, 1)
-    def ex5 = new Exercise(TITLE_5, STATEMENT_5, 1)
+    Exercise ex1 = new Exercise(TITLE_1, STATEMENT_1, 1)
+    Exercise ex2 = new Exercise(TITLE_2, STATEMENT_2, 1)
+    Exercise ex3 = new Exercise(TITLE_3, STATEMENT_3, 1)
+    Exercise ex4 = new Exercise(TITLE_4, STATEMENT_4, 1)
+    Exercise ex5 = new Exercise(TITLE_5, STATEMENT_5, 1)
     
     
     def setup() {
@@ -38,7 +38,7 @@ class BeginnerLevelSpec extends Specification implements DomainUnitTest<Beginner
         assert ex5 != null
 
         when: "create beginner level with 5 exercise"
-        def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
+        BeginnerLevel beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
 
         then: "the beginner level is valid"
         beginnerLevel.validate()
@@ -46,10 +46,10 @@ class BeginnerLevelSpec extends Specification implements DomainUnitTest<Beginner
 
     void "test min excercise required BeginnerLevel"() {
         given:
-        def ex_temp = new Exercise(TITLE_1, STATEMENT_1,5)
+        Exercise ex_temp = new Exercise(TITLE_1, STATEMENT_1,5)
 
         when:
-        def beginnerLevel = new BeginnerLevel([ex_temp],5)
+        BeginnerLevel beginnerLevel = new BeginnerLevel([ex_temp],5)
 
         then:
         !beginnerLevel.validate()
@@ -88,11 +88,24 @@ class BeginnerLevelSpec extends Specification implements DomainUnitTest<Beginner
         assert ex5 != null
         
         when: "create beginner level"
-        def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
+        BeginnerLevel beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
 
         then: "it has 5 exercises"
         List<Exercise> list = beginnerLevel.getExercises()
         assert list.size() == 5
         
+    }
+
+
+    void "next level is advanced"() {
+        given: "beginner level exist"
+        BeginnerLevel beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
+        assert beginnerLevel != null
+
+        when: "get next level"
+        def nextLevel = beginnerLevel.getNextLevel()
+
+        then: "is Advanced Level"
+        assert nextLevel == "Advanced Level"
     }
 }

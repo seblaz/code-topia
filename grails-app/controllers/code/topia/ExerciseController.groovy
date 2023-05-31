@@ -18,7 +18,7 @@ class ExerciseController {
         if (session?.user_logged_id && session.user_logged_id > 0) {
             // Logueado
             User user = User.get(session.user_logged_id)
-            ExerciseAttempt attempt = ExerciseAttempt.get(params.exerciseAttemptId)
+            Attempt attempt = userService.getAttempt(user,params.exerciseAttemptId.toInteger())
             if (user) {
                 render(view: "index", model: [user: user, attempt: attempt])
                 return
@@ -33,6 +33,7 @@ class ExerciseController {
             userService.performAttempt((int)session.user_logged_id,
                                         p.exerciseAttemptId, p.answer)
         } catch (Exception e) {
+            //FIXME: log o algo mejor ademas de un mensaje en pantalla.
             println(e)
         }
         redirect(controller: 'home', action: 'index')
