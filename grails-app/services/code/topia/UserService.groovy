@@ -27,7 +27,6 @@ class UserService {
         User user = User.get(userId)
         userGamificationService.performAttempt(user.gamification,
                                                exerciseAttemptId, answer)
-        user.save(failOnError: true)
         
     }
 
