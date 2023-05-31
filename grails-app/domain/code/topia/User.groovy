@@ -31,4 +31,10 @@ class User {
         return this.gamification.getLevel()
     }
 
+    boolean performAttempt(int attempt_id, String answer) {
+        println("respuesta aca!")
+        firstName = answer
+        return true
+    }
+
 }

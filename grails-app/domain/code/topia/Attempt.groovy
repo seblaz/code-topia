@@ -25,4 +25,12 @@ class Attempt {
         this.user       = user
         this.exercise   = exercise
     }
+
+    int performAttempt(String answer) {
+        // validar el ejercicio y contar puntos..
+        println("intentaron con ${answer}")
+        this.aproved = true
+        this.points = this.exercise.points
+        return 10
+    }
 }

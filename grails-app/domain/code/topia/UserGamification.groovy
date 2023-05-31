@@ -1,18 +1,14 @@
 package code.topia
-//import org.springframework.transaction.annotation.Transactional
 
 class UserGamification {
-
-
     static final int MIN_US_POINTS = 0
     int     userLevelPoints = MIN_US_POINTS
     User    user
     Level   level
     int   userTotalPoints
     int actualLevelPoints
-    List<Attempt> exerciseAttempts = []
+    List<Attempt> attempts = []
 
- 
     static belongsTo = [user: User]   
 
     static constraints = {
@@ -26,21 +22,34 @@ class UserGamification {
         this.level = level
         user.gamification = this
 
-        createExerciseAttempts()
+        createAttempts()
     }
 
     Level getLevel() {
         return this.level
     }
 
-    //@Transactional
-    private void createExerciseAttempts() {
+    List<Attempt> getAllAttempts() {
+        return this.attempts
+    }
+
+    private void createAttempts() {
         List<Exercise> exercises = this.level.getExercises()
 
         exercises.each { exercise ->
             Attempt attempt = new Attempt(this.user, exercise)
-            exerciseAttempts.add(attempt)
+            attempts.add(attempt)
         }
+    }
+
+    Attempt getAttempt(int attempt_id) {
+        Attempt temp = null
+        this.attempts.each { attempt ->
+            if (attempt.id == attempt_id) {
+                temp = attempt
+            }
+        }
+        return temp
     }
     
 }
