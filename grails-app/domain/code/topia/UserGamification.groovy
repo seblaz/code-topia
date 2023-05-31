@@ -2,18 +2,16 @@ package code.topia
 
 class UserGamification {
     static final int MIN_US_POINTS = 0
-    int     userLevelPoints = MIN_US_POINTS
+    int     userPoints = MIN_US_POINTS
     User    user
     Level   level
-    int   userTotalPoints
-    int actualLevelPoints
     List<Attempt> attempts = []
 
     static belongsTo = [user: User]   
 
     static constraints = {
-        userTotalPoints     nullable: false, min: MIN_US_POINTS
-        level               nullable: false
+        userPoints     nullable: false, min: MIN_US_POINTS
+        level          nullable: false
     }
 
     UserGamification(User user, Level level) {
@@ -25,8 +23,12 @@ class UserGamification {
         createAttempts()
     }
 
-    Level getLevel() {
+    Level getUserLevel() {
         return this.level
+    }
+
+    int getUserPoints() {
+        return this.userPoints
     }
 
     List<Attempt> getAllAttempts() {

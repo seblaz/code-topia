@@ -11,5 +11,6 @@ class AttemptService {
         attempt.answer = answer
         attempt.aproved = true
         attempt.points = attempt.exercise.points
+        return attempt.points
     }
 }

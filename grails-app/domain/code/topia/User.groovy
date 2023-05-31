@@ -28,7 +28,7 @@ class User {
     }
 
     Level getLevel() {
-        return this.gamification.getLevel()
+        return this.gamification.getUserLevel()
     }
 
     boolean performAttempt(int attempt_id, String answer) {
