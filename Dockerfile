@@ -29,7 +29,7 @@ FROM eclipse-temurin:17.0.6_10-jre-focal as prod
 
 WORKDIR /app
 # copy production build
-COPY --from=builder /app/build/libs/habitos-fantasticos-0.1.war app.war
+COPY --from=builder /app/build/libs/code.topia-0.1.war app.war
 
 # start
 ENV PORT=8080
