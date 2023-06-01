@@ -6,17 +6,17 @@ class Exercise {
     String  statement
     int     points
     Level   level
-    List<Help> helps = []
+
+    static hasMay = [helps: Help]
 
     static constraints = {
         title       nullable: false
         statement   nullable: false
         points      nullable: false, min: MIN_EX_POINTS
         level       nullable: true
-        helps       nullable: true
     }
 
-    Exercise(String title, String statement, int points, List<Help> helps = []) {
+    Exercise(String title, String statement, int points) {
         assert title != null
         assert statement != null
         assert points != null
@@ -25,6 +25,5 @@ class Exercise {
         this.title      = title
         this.statement  = statement
         this.points     = points
-        this.helps      = helps
     }
 }
