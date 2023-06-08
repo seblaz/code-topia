@@ -1,4 +1,5 @@
 package code.topia
+import org.slf4j.LoggerFactory
 
 class CreateUserParam {
     String  firstName
@@ -12,10 +13,10 @@ class CreateUserParam {
     }
 }
 
-
 class UserController {
 
     def userService
+    def logger = LoggerFactory.getLogger(getClass())
 
     static allowedMethods = [
         'index': ['Get'],
@@ -42,6 +43,7 @@ class UserController {
     }
 
     def registerUser() {
+        logger.info("estamos registrando un usuario")        
         render(view: 'register')
     }
 
