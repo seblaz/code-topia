@@ -25,4 +25,14 @@ class Attempt {
         this.user       = user
         this.exercise   = exercise
     }
+
+    Attempt(User user, Exercise exercise, String answer) {
+        assert user != null
+        assert exercise != null
+        assert answer != null
+
+        this.user       = user
+        this.exercise   = exercise
+        this.answer     = answer
+    }
 }

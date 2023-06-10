@@ -31,4 +31,15 @@ class User {
         return this.gamification.getUserLevel()
     }
 
+    UserGamification initGamification(Level level) {
+        this.gamification = new UserGamification(this, level)
+        return this.gamification
+    }
+
+    Attempt performAttempt(Exercise exercise, String answer) {
+        Attempt attempt = new Attempt(this, exercise, answer)
+        this.gamification.addAttempt(attempt)
+        return attempt
+    }
+
 }

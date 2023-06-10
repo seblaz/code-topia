@@ -35,6 +35,10 @@ class UserGamification {
         return this.attempts
     }
 
+    void addAttempt(Attempt attempt) {
+        this.attempts.add(attempt)
+    }
+
     private void createAttempts() {
         List<Exercise> exercises = this.level.getExercises()
 

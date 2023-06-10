@@ -103,10 +103,12 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
 
         when: "user perform an exercise attempt"
         Exercise ex = beginnerLevel.getExercises().get(0)
-        Attempt attempt = user.performAttempt(ex, "Hola Mundo")
+        Attempt attempt = user.performAttempt(ex, "Una respuesta")
 
         then: "the attempt is valid"
         assert attempt.validate()
+        and: "the attempt is loaded in user gamification"
+        assert usGm.getAllAttempts().contains(attempt)
         
     }
 
