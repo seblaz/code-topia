@@ -1,4 +1,5 @@
 package code.topia
+import org.slf4j.LoggerFactory
 
 class PerformAttemptParam {
     int     exerciseAttemptId
@@ -13,6 +14,7 @@ class PerformAttemptParam {
 class ExerciseController {
 
     def userService
+    def logger = LoggerFactory.getLogger(getClass())
 
     def index() { 
         if (session?.user_logged_id && session.user_logged_id > 0) {
@@ -30,11 +32,12 @@ class ExerciseController {
 
     def performAttempt(PerformAttemptParam p) {
         try {
+            logger.info("[ExerciseController] Realizamos un intento de ejercicio")
             userService.performAttempt((int)session.user_logged_id,
                                         p.exerciseAttemptId, p.answer)
         } catch (Exception e) {
             //FIXME: log o algo mejor ademas de un mensaje en pantalla.
-            println(e)
+            logger.error("[ExerciseController] Error al realizar intento de ejercicio; error: ${e}")
         }
         redirect(controller: 'home', action: 'index')
     }

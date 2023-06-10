@@ -43,12 +43,10 @@ class UserController {
     }
 
     def registerUser() {
-        logger.info("estamos registrando un usuario")        
         render(view: 'register')
     }
 
     def createUser(CreateUserParam p) {
-    
         if (!p.validate()) {
             flash.createError = "Hubo algún error en los datos proporcionados"
             println(p)
@@ -60,10 +58,10 @@ class UserController {
             try {
                 User user = userService.createUser(p.firstName, p.lastName, p.email)
                 session.user_logged_id = user.id
+                logger.info("[UserController] Usuario creado: ${user}")
                 redirect(controller: 'home', action: 'index')
             }  catch (Exception e) {
-                println("tuvimos error al crear usuario")
-                println(e)
+                logger.error("[UserController] Error al crear usuario; error: ${e}")
                 flash.createError = "error creando usuario"
                 render(view: "register")
                 return
