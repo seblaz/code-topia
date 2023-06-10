@@ -96,6 +96,20 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     }
 
 
+    void "test user perform an exercise Attempt"() {
+        given: "create a new user"
+        User user = new User("Alejandro", "Peña","email@example.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
+
+        when: "user perform an exercise attempt"
+        Exercise ex = beginnerLevel.getExercises().get(0)
+        Attempt attempt = user.performAttempt(ex, "Hola Mundo")
+
+        then: "the attempt is valid"
+        assert attempt.validate()
+        
+    }
+
     
 
 }
