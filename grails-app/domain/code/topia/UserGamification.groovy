@@ -36,6 +36,9 @@ class UserGamification {
     }
 
     void addAttempt(Attempt attempt) {
+        if (attempt.exercise.level != this.level) {
+            throw new AttemptWithInvalidExerciseLevelException()
+        }
         this.attempts.add(attempt)
     }
 

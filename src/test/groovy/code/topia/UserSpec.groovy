@@ -24,6 +24,12 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     Exercise ex4 = new Exercise(TITLE_4, STATEMENT_4, 3)
     Exercise ex5 = new Exercise(TITLE_5, STATEMENT_5, 2)
     BeginnerLevel beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
+    Exercise ex6  = new Exercise(TITLE_1, STATEMENT_1, 1)
+    Exercise ex7  = new Exercise(TITLE_2, STATEMENT_2, 2)
+    Exercise ex8  = new Exercise(TITLE_3, STATEMENT_3, 1)
+    Exercise ex9  = new Exercise(TITLE_4, STATEMENT_4, 3)
+    Exercise ex10 = new Exercise(TITLE_5, STATEMENT_5, 6)
+    AdvancedLevel advancedLevel = new AdvancedLevel([ex6,ex7,ex8,ex9,ex10],8)
 
     def setup() {
     }
@@ -31,11 +37,11 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     def cleanup() {
     }
 
-
+    // Refactorizá los siguientes tests
     void "create user"() {
         when: "create a new user"
         User user = new User("Alejandro", "Pena", "example@example.com")
-        UserGamification usGm = new UserGamification(user, beginnerLevel)
+        UserGamification usGm = user.initGamification(beginnerLevel)
 
         then: "the new user is valid"
         assert user.validate()
@@ -48,7 +54,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     void "get level user"() {
         when: "create a new user"
         User user = new User("Alejandro", "Pena", "example@example.com")
-        UserGamification usGm = new UserGamification(user, beginnerLevel)
+        UserGamification usGm = user.initGamification(beginnerLevel)
 
         then: "the new user is valid"
         assert user.validate()
@@ -59,10 +65,10 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     }
 
 
-    void "test blank email constrain"() {
+    void "blank email constrain"() {
         given: "create a new user"
         User user = new User()
-        UserGamification usGm = new UserGamification(user,beginnerLevel)
+        UserGamification usGm = user.initGamification(beginnerLevel)
 
         when: "set attributes for new user, except email"
         user.firstName      = "Alejandro"
@@ -73,10 +79,10 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         !user.validate()
     }
 
-    void "test fake email constrain"() {
+    void "fake email constrain"() {
         given: "create a new user"
         User user = new User()
-        UserGamification usGm = new UserGamification(user,beginnerLevel)
+        UserGamification usGm = user.initGamification(beginnerLevel)
 
         when: "set attributes for new user and bad email"
         user.firstName = "Alejandro"
@@ -87,7 +93,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         !user.validate()
     }
 
-    void "test valid user gamification constrain"() {
+    void "valid user gamification constrain"() {
         when: "create user and no UserGamification"
         User user = new User("Alejandro", "Peña","email@example.com")
 
@@ -96,7 +102,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     }
 
 
-    void "test user perform an exercise Attempt"() {
+    void "user perform an exercise Attempt"() {
         given: "create a new user"
         User user = new User("Alejandro", "Peña","email@example.com")
         UserGamification usGm = user.initGamification(beginnerLevel)
@@ -108,10 +114,21 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         then: "the attempt is valid"
         assert attempt.validate()
         and: "the attempt is loaded in user gamification"
-        assert usGm.getAllAttempts().contains(attempt)
-        
+        assert usGm.getAllAttempts().contains(attempt)   
     }
 
+    void "user perform an exercise Attempt with bad level"() {
+        given: "create a new user"
+        User user = new User("Alejandro", "Peña","email@exmample.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
+
+        when: "user perform an exercise attempt with bad level"
+        Exercise ex = advancedLevel.getExercises().get(0)
+        Attempt attempt = user.performAttempt(ex, "Una respuesta")
+
+        then: "the attempt is not valid"
+        thrown(AttemptWithInvalidExerciseLevelException)
+    }
     
 
 }
