@@ -15,7 +15,13 @@ class UserGamification {
     }
 
     UserGamification(User user, Level level) {
-        //logger.debug("Creando UserGamification con user:${user}|level:${level}")
+        assert user != null
+        assert level != null
+
+        if (!(level instanceof BeginnerLevel)) {
+            throw new UserGamificationInvalidLevelException()
+        }
+
         this.user = user
         this.level = level
         user.gamification = this

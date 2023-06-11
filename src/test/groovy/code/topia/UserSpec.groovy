@@ -126,7 +126,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         Exercise ex = advancedLevel.getExercises().get(0)
         Attempt attempt = user.performAttempt(ex, "Una respuesta")
 
-        then: "the attempt is not valid"
+        then: "throws AttemptWithInvalidExerciseLevelException"
         thrown(AttemptWithInvalidExerciseLevelException)
     }
     
