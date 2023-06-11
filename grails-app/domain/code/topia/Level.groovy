@@ -59,6 +59,10 @@ class BeginnerLevel extends Level{
         // Chequeamos que con los ejercicios pueda completarse
         // los puntos del nivel.
         assert this.calculateExTotalPoints(exercises) >= points
+        
+        exercises.each { exercise ->
+            exercise.level = this
+        }
 
         this.exercises  = exercises
         this.points     = points
@@ -84,6 +88,10 @@ class AdvancedLevel extends Level{
         // Chequeamos que con los ejercicios pueda completarse
         // los puntos del nivel.
         assert this.calculateExTotalPoints(exercises) >= points
+        
+        exercises.each { exercise ->
+            exercise.level = this
+        }
 
         this.exercises  = exercises
         this.points     = points

@@ -114,7 +114,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         then: "the attempt is valid"
         assert attempt.validate()
         and: "the attempt is loaded in user gamification"
-        assert usGm.getAllAttempts().contains(attempt)   
+        assert usGm.getAllAttempts().contains(attempt)
     }
 
     void "user perform an exercise Attempt with bad level"() {
