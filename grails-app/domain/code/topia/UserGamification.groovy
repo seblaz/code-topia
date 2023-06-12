@@ -4,14 +4,15 @@ class UserGamification {
     static final int MIN_US_POINTS = 0
     int     userPoints = MIN_US_POINTS
     User    user
-    Level   level
+    Level   actualLevel
+    List<Level> completeLevels = []
     List<Attempt> attempts = []
 
     static belongsTo = [user: User]   
 
     static constraints = {
-        userPoints     nullable: false, min: MIN_US_POINTS
-        level          nullable: false
+        userPoints     min: MIN_US_POINTS
+        actualLevel    nullable: false
     }
 
     UserGamification(User user, Level level) {
@@ -23,14 +24,14 @@ class UserGamification {
         }
 
         this.user = user
-        this.level = level
+        this.actualLevel = level
         user.gamification = this
 
-        createAttempts()
+        //createAttempts()
     }
 
     Level getUserLevel() {
-        return this.level
+        return this.actualLevel
     }
 
     int getUserPoints() {
@@ -42,20 +43,21 @@ class UserGamification {
     }
 
     void addAttempt(Attempt attempt) {
-        if (attempt.exercise.level != this.level) {
+        if (attempt.exercise.level != this.actualLevel) {
             throw new AttemptWithInvalidExerciseLevelException()
         }
-        this.attempts.add(attempt)
-    }
-
-    private void createAttempts() {
-        List<Exercise> exercises = this.level.getExercises()
-
-        exercises.each { exercise ->
-            Attempt attempt = new Attempt(this.user, exercise)
-            attempts.add(attempt)
+        if (!this.attempts.contains(attempt)) {
+            this.attempts.add(attempt)
         }
     }
+
+    //private void createAttempts() {
+    //    List<Exercise> exercises = this.level.getExercises()
+    //    exercises.each { exercise ->
+    //        Attempt attempt = new Attempt(this.user, exercise)
+    //        attempts.add(attempt)
+    //    }
+    //}
 
     Attempt getAttempt(int attempt_id) {
         Attempt temp = null
@@ -68,10 +70,10 @@ class UserGamification {
     }
 
     void setLevel(Level level) {
-        this.level = level
-        if (level != null) {
-            this.createAttempts()
-        }
+        this.actualLevel = level
+        //if (level != null) {
+        //    this.createAttempts()
+        //}
     }
     
 }

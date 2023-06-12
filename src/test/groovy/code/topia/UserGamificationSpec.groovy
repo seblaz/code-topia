@@ -86,5 +86,19 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         thrown AttemptWithInvalidExerciseLevelException
     }
 
+    void "not repeat an attempt when add one"() {
+        given: "a user"
+        User user = new User("Alejandro", "Pena", "example@example.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
+        when: "add an attempt twice"
+        Attempt attempt = user.performAttempt(ex1, "print('Hello World')")
+        usGm.addAttempt(attempt)
+        usGm.addAttempt(attempt)
+        then: "usergamification has only one attempt"
+        assert usGm.getAllAttempts().size() == 1
+        
+    }
+
+
 
 }
