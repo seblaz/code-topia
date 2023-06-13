@@ -34,31 +34,10 @@ class DataSeed {
     void loadSeed() {
         println("Inicializando semilla..")
 
-        def ex1  = new Exercise(TITLE_1, STATEMENT_1, 1)
-        def ex2  = new Exercise(TITLE_2, STATEMENT_2, 2)
-        def ex3  = new Exercise(TITLE_3, STATEMENT_3, 3)
-        def ex4  = new Exercise(TITLE_4, STATEMENT_4, 4)
-        def ex5  = new Exercise(TITLE_5, STATEMENT_5, 4)
-        def ex6  = new Exercise(TITLE_6, STATEMENT_6, 1)
-        def ex7  = new Exercise(TITLE_7, STATEMENT_7, 2)
-        def ex8  = new Exercise(TITLE_8, STATEMENT_8, 4)
-        def ex9  = new Exercise(TITLE_9, STATEMENT_9, 4)
-        def ex10 = new Exercise(TITLE_10, STATEMENT_10, 4)
-        ex1.save(failOnError: true)
-        ex2.save(failOnError: true)
-        ex3.save(failOnError: true)
-        ex4.save(failOnError: true)
-        ex5.save(failOnError: true)
-        ex6.save(failOnError: true)
-        ex7.save(failOnError: true)
-        ex8.save(failOnError: true)
-        ex9.save(failOnError: true)
-        ex10.save(failOnError: true)
-
-        def beginnerLevel = new BeginnerLevel([ex1,ex2,ex3,ex4,ex5],5)
+        BeginnerLevel beginnerLevel = new BeginnerLevel()
         beginnerLevel.save(failOnError: true)
 
-        def advancedLevel = new AdvancedLevel([ex6,ex7,ex8,ex9,ex10],8)
+        AdvancedLevel advancedLevel = new AdvancedLevel()
         advancedLevel.save(failOnError: true)
 
     }

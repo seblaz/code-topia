@@ -21,6 +21,7 @@ class UserGamificationService {
             usGm.userPoints = levelService.useLevelPoints(level, userPoints)
             Level newLevel = levelService.getNextLevel(level, usGm)
             if (newLevel){
+                //FIXME: aca guardar el nuevo nivel y guardar el completado.
                 usGm.level = newLevel
             }
         }

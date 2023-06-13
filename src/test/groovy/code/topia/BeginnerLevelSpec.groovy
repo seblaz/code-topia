@@ -103,9 +103,9 @@ class BeginnerLevelSpec extends Specification implements DomainUnitTest<Beginner
         assert beginnerLevel != null
 
         when: "get next level"
-        def nextLevel = beginnerLevel.getNextLevel()
+        def nextLevel = beginnerLevel.getNextLevelClass()
 
         then: "is Advanced Level"
-        assert nextLevel == "Advanced Level"
+        assert nextLevel instanceof AdvancedLevel
     }
 }

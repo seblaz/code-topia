@@ -15,13 +15,14 @@ class LevelService {
     }
 
     Level getNextLevel(Level level, UserGamification usGm) {
-        if (level.getNextLevel()!=null) {
-            Level new_level = Level.findByName(level.getNextLevel())
-            assert new_level != null
-            return new_level
-        } else {
-            //FIXME: alguna excepcion para atrapar luego del otro lado
-            return null
-        }
+        //FIXME: use getNextLevelClass() instead of this
+        //if (level.getNextLevel()!=null) {
+        //    Level new_level = Level.findByName(level.getNextLevel())
+        //    assert new_level != null
+        //    return new_level
+        //} else {
+        //    //FIXME: alguna excepcion para atrapar luego del otro lado
+        //    return null
+        //}
     }
 }

@@ -12,7 +12,7 @@ class Exercise {
     static constraints = {
         title       nullable: false
         statement   nullable: false
-        points      nullable: false, min: MIN_EX_POINTS
+        points      min: MIN_EX_POINTS
         level       nullable: true
     }
 
