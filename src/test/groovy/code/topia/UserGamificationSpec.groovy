@@ -50,6 +50,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         User user = new User("Alejandro", "Pena", "example@example.com")
         UserGamification usGm = user.initGamification(beginnerLevel)
         when: "add an attempt"
+        Exercise ex1 = beginnerLevel.getExercises().get(0)
         Attempt attempt = user.performAttempt(ex1, "print('Hello World')")
         then: "usergamification has the attempt"
         assert usGm.getAllAttempts().contains(attempt)
@@ -60,7 +61,8 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         User user = new User("Alejandro", "Pena", "example@example.com")
         UserGamification usGm = user.initGamification(beginnerLevel)
         when: "add an attempt with invalid exercise level"
-        usGm.addAttempt(user.performAttempt(ex6, "print('Hello World')"))
+        Exercise ex1 = advancedLevel.getExercises().get(0)
+        usGm.addAttempt(user.performAttempt(ex1, "print('Hello World')"))
         then: "throws AttemptWithInvalidExerciseLevelException"
         thrown AttemptWithInvalidExerciseLevelException
     }
@@ -70,6 +72,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         User user = new User("Alejandro", "Pena", "example@example.com")
         UserGamification usGm = user.initGamification(beginnerLevel)
         when: "add an attempt twice"
+        Exercise ex1 = beginnerLevel.getExercises().get(0)
         Attempt attempt = user.performAttempt(ex1, "print('Hello World')")
         usGm.addAttempt(attempt)
         usGm.addAttempt(attempt)
