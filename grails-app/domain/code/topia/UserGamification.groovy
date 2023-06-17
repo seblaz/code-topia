@@ -25,7 +25,6 @@ class UserGamification {
 
         this.user = user
         this.actualLevel = level
-        user.gamification = this
 
         //createAttempts()
     }
