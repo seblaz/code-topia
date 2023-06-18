@@ -16,17 +16,32 @@ class AttemptSpec extends Specification implements DomainUnitTest<Attempt> {
     def cleanup() {
     }
 
-    //FIXME: WIP
     void "Validation attempt successful"() {
         given: "create a new attempt"
         Exercise ex = beginnerLevel.getExercises().get(0)
         Attempt attempt = user.performAttempt(ex, "Some answer")
 
         when: "perform validation"
-        def result = attempt.validateAnwser()
+        def validatorMock = Mock(ExerciseValidator)
+        validatorMock.validateAnswer("Some answer", ex) >> true
+        def result = attempt.validateAnswser("Some answer", validatorMock)
 
         then: "the new attempt is valid"
-        assert result        
+        assert result==true
+    }
+
+    void "Validation attempt successful"() {
+        given: "create a new attempt"
+        Exercise ex = beginnerLevel.getExercises().get(0)
+        Attempt attempt = user.performAttempt(ex, "Some answer")
+
+        when: "perform validation"
+        def validatorMock = Mock(ExerciseValidator)
+        validatorMock.validateAnswer("Some answer", ex) >> false
+        def result = attempt.validateAnswser("Some answer", validatorMock)
+
+        then: "the new attempt is valid"
+        assert result==false
     }
 
 }
