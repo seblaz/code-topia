@@ -42,6 +42,9 @@ class Attempt {
         
         this.answer = answer
         this.aproved = validator.validateAnswer(answer, this.exercise)
+        if (this.aproved) {
+            this.points = this.exercise.points
+        }
         return this.aproved
     }
 }
