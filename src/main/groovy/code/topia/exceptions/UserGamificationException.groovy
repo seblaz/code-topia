@@ -13,3 +13,7 @@ class AttemptWithInvalidExerciseLevelException extends CodeTopiaException {
 @InheritConstructors
 class UserGamificationInvalidLevelException extends CodeTopiaException {
 }
+
+@InheritConstructors
+class UserGamificationInvalidPointsException extends CodeTopiaException {
+}

@@ -25,8 +25,6 @@ class UserGamification {
 
         this.user = user
         this.actualLevel = level
-
-        //createAttempts()
     }
 
     Level getUserLevel() {
@@ -35,6 +33,17 @@ class UserGamification {
 
     int getUserPoints() {
         return this.userPoints
+    }
+
+    void addPoints(int points) {
+        if (points < 0) throw new UserGamificationInvalidPointsException()
+        if (this.userPoints + points >= this.actualLevel.points) {
+            this.userPoints = this.userPoints + points - this.actualLevel.points
+            this.completeLevels.add(this.actualLevel)
+            this.actualLevel = this.actualLevel.getNextLevelClass()
+        } else {
+            this.userPoints += points
+        }
     }
 
     List<Attempt> getAllAttempts() {
@@ -50,14 +59,6 @@ class UserGamification {
         }
     }
 
-    //private void createAttempts() {
-    //    List<Exercise> exercises = this.level.getExercises()
-    //    exercises.each { exercise ->
-    //        Attempt attempt = new Attempt(this.user, exercise)
-    //        attempts.add(attempt)
-    //    }
-    //}
-
     Attempt getAttempt(int attempt_id) {
         Attempt temp = null
         this.attempts.each { attempt ->
@@ -70,9 +71,6 @@ class UserGamification {
 
     void setLevel(Level level) {
         this.actualLevel = level
-        //if (level != null) {
-        //    this.createAttempts()
-        //}
     }
     
 }

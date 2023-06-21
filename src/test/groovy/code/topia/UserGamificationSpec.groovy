@@ -81,6 +81,27 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         
     }
 
+    void "add points to user"() {
+        given: "a user"
+        User user = new User("Alejandro", "Pena", "example@example.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
+        when: "add points to user"
+        usGm.addPoints(2)
+        then: "user has 10 points"
+        assert usGm.getUserPoints() == 2
+    }
 
+
+    void "complete level"() {
+        given: "a user"
+        User user = new User("Alejandro", "Pena", "example@example.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
+        when: "the user complete the level"
+        usGm.addPoints(beginnerLevel.points)
+        then: "has a complete level"
+        assert usGm.completeLevels.contains(beginnerLevel)
+        and: "has a new level"
+        assert usGm.getUserLevel() instanceof AdvancedLevel
+    }
 
 }
