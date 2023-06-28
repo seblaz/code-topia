@@ -6,7 +6,6 @@ abstract class Level {
     static final int MAX_EXERCISES  = 15
     String          name
     int             points
-    String          nextLevelName
     List<Exercise>  exercises
 
     static hasMany = [exercises: Exercise]
@@ -15,7 +14,6 @@ abstract class Level {
         name            nullable: false, unique: true
         points          min: MIN_LVL_POINTS
         exercises       size: MIN_EXERCISES..MAX_EXERCISES
-        nextLevelName   nullable: true
     }
 
     static int calculateExTotalPoints(List<Exercise> exercises) {
@@ -41,7 +39,6 @@ abstract class Level {
 class BeginnerLevel extends Level{
     private static final int MIN_REQ_POINTS = 5
     private static final String BEGINNER_NAME = "Beginner Level"
-    private static final String NEXT_LEVEL_NAME = "Advanced Level"
     private static final String STATEMENT_1  = "Escribe un programa en C que imprima '¡Hola, mundo!' en la pantalla"
     private static final String STATEMENT_2  = "Escribe un programa en C que le pida al usuario ingresar dos números enteros e imprima la suma de esos dos números."
     private static final String STATEMENT_3  = "Escribe un programa en C que verifique si un número ingresado por el usuario es par o impar."
@@ -58,7 +55,6 @@ class BeginnerLevel extends Level{
 
     BeginnerLevel() {
         this.name = BEGINNER_NAME
-        this.nextLevelName = NEXT_LEVEL_NAME
         Exercise ex1  = new Exercise(TITLE_1, STATEMENT_1, 1)
         Exercise ex2  = new Exercise(TITLE_2, STATEMENT_2, 2)
         Exercise ex3  = new Exercise(TITLE_3, STATEMENT_3, 3)
@@ -87,7 +83,6 @@ class BeginnerLevel extends Level{
         this.exercises  = exercises
         this.points     = points
         this.name       = BEGINNER_NAME
-        this.nextLevelName = NEXT_LEVEL_NAME
         
     }
 
