@@ -31,7 +31,7 @@ class UserSpec extends Specification {
         User userAlejandro = User.findByEmail("ale@gmail.com")
         assert userAlejandro.id == user.id
         def level = userAlejandro.getLevel()
-        assert level instanceof BeginnerLevel
+        assert level.getLevelType() == LevelType.BEGINNER
 
         and: "it has at least 5 exercise available"
         List<Exercise> exercises = userService.getAvailableExercises((int)userAlejandro.id)
@@ -50,6 +50,7 @@ class UserSpec extends Specification {
         assert exercises.size() >= 1
 
         when: "the user perform an attempt for an exercise"
+        assert exercises[0] != null
         Attempt attempt = userService.performAttempt((int)user.id,
                                                      (int)exercises[0].id,
                                                      "Una respuesta")

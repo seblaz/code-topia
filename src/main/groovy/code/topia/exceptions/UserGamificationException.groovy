@@ -17,3 +17,7 @@ class UserGamificationInvalidLevelException extends CodeTopiaException {
 @InheritConstructors
 class UserGamificationInvalidPointsException extends CodeTopiaException {
 }
+
+@InheritConstructors
+class LevelInvalidUserPointsException extends CodeTopiaException {
+}

@@ -11,17 +11,22 @@ class UserService {
 
     def createUser(String firstName, String lastnName, String email) {
         User user = new User(firstName, lastnName, email)
-        Level beginnerLevel = Level.findByName("Beginner Level")
+        Level beginnerLevel = new Level()
         UserGamification usGm = user.initGamification(beginnerLevel)
         logger.info("[UserService] Usuario creado: ${user}")
         user.save(failOnError: true)
+        beginnerLevel.save(failOnError: true)
+        usGm.save(failOnError: true)
         return user
     }
 
     def getAvailableExercises(int userId) {
         assert userId != null
         User user = User.get(userId)
-        return user.gamification.actualLevel.exercises
+        assert user.gamification != null
+        assert user.gamification.level != null
+        assert user.gamification.level.getExercises() != null
+        return user.gamification.level.getExercises()
     }
 
     def getAllExercises(User user) {

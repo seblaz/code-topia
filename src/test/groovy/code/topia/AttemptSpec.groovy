@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 class AttemptSpec extends Specification implements DomainUnitTest<Attempt> {
 
-    BeginnerLevel beginnerLevel = new BeginnerLevel()
+    Level beginnerLevel = new Level()
     User user = new User("Alejandro", "Pena", "example@example.com")
     UserGamification usGm = user.initGamification(beginnerLevel)
 

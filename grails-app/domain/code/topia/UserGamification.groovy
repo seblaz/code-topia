@@ -4,31 +4,30 @@ class UserGamification {
     static final int MIN_US_POINTS = 0
     int     userPoints = MIN_US_POINTS
     User    user
-    Level   actualLevel
-    List<Level> completeLevels = []
+    Level   level
     List<Attempt> attempts = []
 
     static belongsTo = [user: User]   
 
     static constraints = {
         userPoints     min: MIN_US_POINTS
-        actualLevel    nullable: false
+        level    nullable: false
     }
 
     UserGamification(User user, Level level) {
         assert user != null
         assert level != null
 
-        if (!(level instanceof BeginnerLevel)) {
+        if (level.getLevelType() != LevelType.BEGINNER) {
             throw new UserGamificationInvalidLevelException()
         }
 
         this.user = user
-        this.actualLevel = level
+        this.level = level
     }
 
     Level getUserLevel() {
-        return this.actualLevel
+        return this.level
     }
 
     int getUserPoints() {
@@ -37,13 +36,15 @@ class UserGamification {
 
     void addPoints(int points) {
         if (points < 0) throw new UserGamificationInvalidPointsException()
-        if (this.userPoints + points >= this.actualLevel.points) {
-            this.userPoints = this.userPoints + points - this.actualLevel.points
-            this.completeLevels.add(this.actualLevel)
-            this.actualLevel = this.actualLevel.getNextLevelClass()
-        } else {
-            this.userPoints += points
-        }
+        //if (this.userPoints + points >= this.level.points) {
+        //    this.userPoints = this.userPoints + points - this.level.points
+        //    this.completeLevels.add(this.level)
+        //    this.level = this.level.getNextLevelClass()
+        //} else {
+        //    this.userPoints += points
+        //}
+        this.level.acumulateUserPoints(points)
+        this.userPoints += points
     }
 
     List<Attempt> getAllAttempts() {
@@ -51,7 +52,7 @@ class UserGamification {
     }
 
     void addAttempt(Attempt attempt) {
-        if (attempt.exercise.level != this.actualLevel) {
+        if (attempt.exercise.level != this.level) {
             throw new AttemptWithInvalidExerciseLevelException()
         }
         if (!this.attempts.contains(attempt)) {
@@ -70,7 +71,7 @@ class UserGamification {
     }
 
     void setLevel(Level level) {
-        this.actualLevel = level
+        this.level = level
     }
     
 }
