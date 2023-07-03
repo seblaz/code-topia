@@ -7,7 +7,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
 
 
     Level beginnerLevel = new Level()
-    //AdvancedLevel advancedLevel = new AdvancedLevel()
+    Level advancedLevel = new Level()
 
     def setup() {
     }
@@ -25,14 +25,15 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
     }
 
 
-    //void "could not create a UserGamification at AdvancedLevel"() {
-    //    when: "create a new user"
-    //    User user = new User("Alejandro", "Pena", "example@example.com")
-    //    UserGamification usGm = user.initGamification(advancedLevel)
+    void "could not create a UserGamification at AdvancedLevel"() {
+        when: "create a new user"
+        User user = new User("Alejandro", "Pena", "example@example.com")
+        advancedLevel.type = LevelType.ADVANCED
+        UserGamification usGm = user.initGamification(advancedLevel)
 
-    //    then: "the UserGamification is not valid"
-    //    thrown UserGamificationInvalidLevelException
-    //}
+        then: "the UserGamification is not valid"
+        thrown UserGamificationInvalidLevelException
+    }
 
     void "get level user"() {
         when: "create a new user"
@@ -56,16 +57,17 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         assert usGm.getAllAttempts().contains(attempt)
     }
 
-    //void "add an attempt with invalid exercise level"() {
-    //    given: "a user"
-    //    User user = new User("Alejandro", "Pena", "example@example.com")
-    //    UserGamification usGm = user.initGamification(beginnerLevel)
-    //    when: "add an attempt with invalid exercise level"
-    //    Exercise ex1 = advancedLevel.getExercises().get(0)
-    //    usGm.addAttempt(user.performAttempt(ex1, "print('Hello World')"))
-    //    then: "throws AttemptWithInvalidExerciseLevelException"
-    //    thrown AttemptWithInvalidExerciseLevelException
-    //}
+    void "add an attempt with invalid exercise level"() {
+        given: "a user"
+        User user = new User("Alejandro", "Pena", "example@example.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
+        when: "add an attempt with invalid exercise level"
+        advancedLevel.type = LevelType.ADVANCED
+        Exercise ex1 = advancedLevel.getExercises().get(0)
+        usGm.addAttempt(user.performAttempt(ex1, "print('Hello World')"))
+        then: "throws AttemptWithInvalidExerciseLevelException"
+        thrown AttemptWithInvalidExerciseLevelException
+    }
 
     void "not repeat an attempt when add one"() {
         given: "a user"

@@ -128,9 +128,9 @@ class Level {
         }
     }
 
-    //void setUser(User user) {
-    //    this.user = user
-    //}
+    void setUser(User user) {
+        this.user = user
+    }
 
     String getName() {
         return this.name

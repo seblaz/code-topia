@@ -6,7 +6,7 @@ import spock.lang.Specification
 class UserSpec extends Specification implements DomainUnitTest<User> {
 
     Level beginnerLevel = new Level()
-    //AdvancedLevel advancedLevel = new AdvancedLevel()
+    Level advancedLevel = new Level()
 
     def setup() {
     }
@@ -22,11 +22,6 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
 
         then: "the new user is valid"
         assert user.validate()
-        
-        //FIXME:WIP
-        //and: "it has at leas 5 exercises"
-        //List<Attempt> attempts = usGm.getAllAttempts()
-        //assert attempts.size() >= 5
     }
 
     void "get level user"() {
@@ -95,18 +90,19 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         assert usGm.getAllAttempts().contains(attempt)
     }
 
-    //void "user perform an exercise Attempt with bad level"() {
-    //    given: "create a new user"
-    //    User user = new User("Alejandro", "Peña","email@exmample.com")
-    //    UserGamification usGm = user.initGamification(beginnerLevel)
+    void "user perform an exercise Attempt with bad level"() {
+        given: "create a new user"
+        User user = new User("Alejandro", "Peña","email@exmample.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
 
-    //    when: "user perform an exercise attempt with bad level"
-    //    Exercise ex = advancedLevel.getExercises().get(0)
-    //    Attempt attempt = user.performAttempt(ex, "Una respuesta")
+        when: "user perform an exercise attempt with bad level"
+        advancedLevel.type = LevelType.ADVANCED
+        Exercise ex = advancedLevel.getExercises().get(0)
+        Attempt attempt = user.performAttempt(ex, "Una respuesta")
 
-    //    then: "throws AttemptWithInvalidExerciseLevelException"
-    //    thrown(AttemptWithInvalidExerciseLevelException)
-    //}
+        then: "throws AttemptWithInvalidExerciseLevelException"
+        thrown(AttemptWithInvalidExerciseLevelException)
+    }
     
 
 }
