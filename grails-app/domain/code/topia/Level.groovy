@@ -162,6 +162,7 @@ class Level {
             this.userPoints = this.userPoints - this.points
             this.type = this.type.getNextLevel()
             this.points = this.type.getLevelTypePoints()
+            this.exercises = this.type.getExercises()
         }
     }
 
