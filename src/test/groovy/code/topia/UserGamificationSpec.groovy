@@ -104,4 +104,28 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         assert usGm.getUserLevel().getLevelType() == LevelType.ADVANCED
     }
 
+    void "get available exercises"() {
+        given: "a user"
+        User user = new User("Alejandro", "Pena", "example@example.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
+        when: "the user get available exercises"
+        List<Exercise> availableExercises = usGm.getAvailableExercises()
+        then: "has 5 available exercises"
+        assert availableExercises.size() == 5
+    }
+
+    void "get available exercises with an attempt"() {
+        given: "a user"
+        User user = new User("Alejandro", "Pena", "example@example.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
+        when: "perform an attempt"
+        Exercise ex1 = beginnerLevel.getExercises().get(0)
+        Attempt attempt = user.performAttempt(ex1, "print('Hello World')")
+        usGm.addAttempt(attempt)
+        //FIXME: deberia ser solo si esta completo la respuesta del ejercicio
+        // sin error, en su totalidad de puntaje.
+        then: "has 4 available exercises"
+        List<Exercise> availableExercises = usGm.getAvailableExercises()
+        assert availableExercises.size() == 4
+    }
 }

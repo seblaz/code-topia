@@ -32,6 +32,23 @@ class UserGamification {
         return this.level.getUserPoints()
     }
 
+    List<Exercise> getAvailableExercises() {
+        List<Exercise> _exercises = this.level.getExercises()
+        List<Exercise> _availableExercises = []
+        _exercises.each { exercise ->
+            boolean _found = false
+            this.attempts.each { attempt ->
+                if (attempt.exercise.statement == exercise.statement) {
+                    _found = true
+                }
+            }
+            if (!_found) {
+                _availableExercises.add(exercise)
+            }
+        }
+        return _availableExercises
+    }
+
     void addPoints(int points) {
         if (points < 0) throw new UserGamificationInvalidPointsException()
         this.level.acumulateUserPoints(points)
