@@ -38,7 +38,9 @@ class UserGamification {
         _exercises.each { exercise ->
             boolean _found = false
             this.attempts.each { attempt ->
-                if (attempt.exercise.statement == exercise.statement) {
+                // si es el mismo y esta completo su puntaje no mostramos.
+                if (attempt.exercise.statement == exercise.statement &&
+                    attempt.points == exercise.points) {
                     _found = true
                 }
             }

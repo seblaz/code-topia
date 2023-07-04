@@ -121,11 +121,27 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         when: "perform an attempt"
         Exercise ex1 = beginnerLevel.getExercises().get(0)
         Attempt attempt = user.performAttempt(ex1, "print('Hello World')")
+        attempt.points = ex1.points
         usGm.addAttempt(attempt)
         //FIXME: deberia ser solo si esta completo la respuesta del ejercicio
         // sin error, en su totalidad de puntaje.
         then: "has 4 available exercises"
         List<Exercise> availableExercises = usGm.getAvailableExercises()
         assert availableExercises.size() == 4
+    }
+
+    void "get available exercises with a incomplete attempt"() {
+        given: "a user"
+        User user = new User("Alejandro", "Pena", "example@example.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
+        when: "perform a incomplete attempt"
+        Exercise ex1 = beginnerLevel.getExercises().get(1)
+        Attempt attempt = user.performAttempt(ex1, "print('Hello World')")
+        //FIXME: usar una ayuda en el intento
+        attempt.points = 1
+        usGm.addAttempt(attempt)
+        then: "has 5 available exercises"
+        List<Exercise> availableExercises = usGm.getAvailableExercises()
+        assert availableExercises.size() == 5
     }
 }
