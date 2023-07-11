@@ -36,12 +36,14 @@ class Attempt {
         this.answer     = answer
     }
 
-    boolean validateAnswser(String answer, ExerciseValidator validator) {
-        assert answer != null
+    boolean validateAnswser(ExerciseValidator validator) {
         assert validator != null
+
+        if (this.answer == null || this.answer.isEmpty()){
+            return false
+        }
         
-        this.answer = answer
-        this.aproved = validator.validateAnswer(answer, this.exercise)
+        this.aproved = validator.validateAnswer(this.answer, this.exercise)
         if (this.aproved) {
             this.points = this.exercise.points
         }

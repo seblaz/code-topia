@@ -7,6 +7,7 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
 
     Level beginnerLevel = new Level()
     Level advancedLevel = new Level()
+    def validatorMock = Mock(ExerciseValidator)
 
     def setup() {
     }
@@ -82,7 +83,8 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
 
         when: "user perform an exercise attempt"
         Exercise ex = beginnerLevel.getExercises().get(0)
-        Attempt attempt = user.performAttempt(ex, "Una respuesta")
+        validatorMock.validateAnswer("print('Hello World')", ex) >> true
+        Attempt attempt = user.performAttempt(ex, "Una respuesta", validatorMock)
 
         then: "the attempt is valid"
         assert attempt.validate()
@@ -98,8 +100,8 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         when: "user perform an exercise attempt with bad level"
         advancedLevel.type = LevelType.ADVANCED
         Exercise ex = advancedLevel.getExercises().get(0)
-        Attempt attempt = user.performAttempt(ex, "Una respuesta")
-
+        validatorMock.validateAnswer("print('Hello World')", ex) >> true
+        Attempt attempt = user.performAttempt(ex, "Una respuesta", validatorMock)
         then: "throws AttemptWithInvalidExerciseLevelException"
         thrown(AttemptWithInvalidExerciseLevelException)
     }

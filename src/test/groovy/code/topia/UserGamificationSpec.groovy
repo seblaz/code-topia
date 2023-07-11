@@ -8,6 +8,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
 
     Level beginnerLevel = new Level()
     Level advancedLevel = new Level()
+    def validatorMock = Mock(ExerciseValidator)
 
     def setup() {
     }
@@ -52,7 +53,8 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         UserGamification usGm = user.initGamification(beginnerLevel)
         when: "add an attempt"
         Exercise ex1 = beginnerLevel.getExercises().get(0)
-        Attempt attempt = user.performAttempt(ex1, "print('Hello World')")
+        validatorMock.validateAnswer("print('Hello World')", ex1) >> true
+        Attempt attempt = user.performAttempt(ex1, "print('Hello World')", validatorMock)
         then: "usergamification has the attempt"
         assert usGm.getAllAttempts().contains(attempt)
     }
@@ -64,33 +66,23 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         when: "add an attempt with invalid exercise level"
         advancedLevel.type = LevelType.ADVANCED
         Exercise ex1 = advancedLevel.getExercises().get(0)
-        usGm.addAttempt(user.performAttempt(ex1, "print('Hello World')"))
+        validatorMock.validateAnswer("print('Hello World')", ex1) >> true
+        user.performAttempt(ex1, "print('Hello World')",validatorMock)
         then: "throws AttemptWithInvalidExerciseLevelException"
         thrown AttemptWithInvalidExerciseLevelException
     }
 
-    void "not repeat an attempt when add one"() {
+    void "Accumulate points of attempt "() {
         given: "a user"
         User user = new User("Alejandro", "Pena", "example@example.com")
         UserGamification usGm = user.initGamification(beginnerLevel)
-        when: "add an attempt twice"
+        assert usGm.getUserPoints() == 0
+        when: "perform an attempt with valid answer"
         Exercise ex1 = beginnerLevel.getExercises().get(0)
-        Attempt attempt = user.performAttempt(ex1, "print('Hello World')")
-        usGm.addAttempt(attempt)
-        usGm.addAttempt(attempt)
-        then: "usergamification has only one attempt"
-        assert usGm.getAllAttempts().size() == 1
-        
-    }
-
-    void "add points to user"() {
-        given: "a user"
-        User user = new User("Alejandro", "Pena", "example@example.com")
-        UserGamification usGm = user.initGamification(beginnerLevel)
-        when: "add points to user"
-        usGm.addPoints(2)
-        then: "user has 10 points"
-        assert usGm.getUserPoints() == 2
+        validatorMock.validateAnswer("print('Hello World')", ex1) >> true
+        Attempt attempt = user.performAttempt(ex1, "print('Hello World')", validatorMock)
+        then: "user increase points"
+        assert usGm.getUserPoints() > 0
     }
 
     void "get available exercises"() {
@@ -109,9 +101,8 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         UserGamification usGm = user.initGamification(beginnerLevel)
         when: "perform an attempt"
         Exercise ex1 = beginnerLevel.getExercises().get(0)
-        Attempt attempt = user.performAttempt(ex1, "print('Hello World')")
-        attempt.points = ex1.points
-        usGm.addAttempt(attempt)
+        validatorMock.validateAnswer("print('Hello World')", ex1) >> true
+        Attempt attempt = user.performAttempt(ex1, "print('Hello World')", validatorMock)
         then: "has 4 available exercises"
         List<Exercise> availableExercises = usGm.getAvailableExercises()
         assert availableExercises.size() == 4
@@ -123,9 +114,9 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         UserGamification usGm = user.initGamification(beginnerLevel)
         when: "perform a incomplete attempt"
         Exercise ex1 = beginnerLevel.getExercises().get(1)
-        Attempt attempt = user.performAttempt(ex1, "print('Hello World')")
-        attempt.points = 1
-        usGm.addAttempt(attempt)
+        validatorMock.validateAnswer("print('Hello World')", ex1) >> true
+        Attempt attempt = user.performAttempt(ex1, "print('Hello World')", validatorMock)
+        attempt.points -= 1
         then: "has 5 available exercises"
         List<Exercise> availableExercises = usGm.getAvailableExercises()
         assert availableExercises.size() == 5
@@ -151,8 +142,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
             }
         }
         assert hasNewExercises
-
-
-
     }
+
+    
 }

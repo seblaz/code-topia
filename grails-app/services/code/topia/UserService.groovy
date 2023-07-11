@@ -40,10 +40,8 @@ class UserService {
     def performAttempt(int userId, int exerciseAttemptId, String answer) {
         logger.info("[UserService] Usuario intento resolucion ejercicio datos: ${userId}|${exerciseAttemptId}|${answer}")
         User user = User.get(userId)
-        Attempt attempt = user.performAttempt(Exercise.get(exerciseAttemptId), answer)
+        Attempt attempt = user.performAttempt(Exercise.get(exerciseAttemptId), answer,exerciseValidator)
         logger.info("[UserService] Usuario intento resolucion ejercicio - intento: ${attempt}")
-        attempt.validateAnswser(answer, exerciseValidator)
-        user.gamification.addPoints(attempt.points)
         attempt.save(failOnError: true)
         return attempt  
     }

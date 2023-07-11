@@ -8,6 +8,7 @@ class AttemptSpec extends Specification implements DomainUnitTest<Attempt> {
     Level beginnerLevel = new Level()
     User user = new User("Alejandro", "Pena", "example@example.com")
     UserGamification usGm = user.initGamification(beginnerLevel)
+    def validatorMock = Mock(ExerciseValidator)
 
 
     def setup() {
@@ -17,31 +18,27 @@ class AttemptSpec extends Specification implements DomainUnitTest<Attempt> {
     }
 
     void "Validation attempt successful"() {
-        given: "create a new attempt"
+        given: "exists an exercise"
         Exercise ex = beginnerLevel.getExercises().get(0)
-        Attempt attempt = user.performAttempt(ex, "Some answer")
 
-        when: "perform validation"
-        def validatorMock = Mock(ExerciseValidator)
+        when: "perform attempt with valid answer"
         validatorMock.validateAnswer("Some answer", ex) >> true
-        def result = attempt.validateAnswser("Some answer", validatorMock)
+        Attempt attempt = user.performAttempt(ex, "Some answer",validatorMock)
 
         then: "the new attempt is valid"
-        assert result==true
+        assert attempt.aproved==true
     }
 
-    void "Validation attempt successful"() {
-        given: "create a new attempt"
+    void "Validation attempt not successful"() {
+        given: "exists an exercise"
         Exercise ex = beginnerLevel.getExercises().get(0)
-        Attempt attempt = user.performAttempt(ex, "Some answer")
 
-        when: "perform validation"
-        def validatorMock = Mock(ExerciseValidator)
+        when: "perform attempt with invalid answer"
         validatorMock.validateAnswer("Some answer", ex) >> false
-        def result = attempt.validateAnswser("Some answer", validatorMock)
+        Attempt attempt = user.performAttempt(ex, "Some answer", validatorMock)
 
-        then: "the new attempt is valid"
-        assert result==false
+        then: "the new attempt is not valid"
+        assert attempt.aproved==false
     }
 
 }

@@ -37,9 +37,9 @@ class User {
         return this.gamification
     }
 
-    Attempt performAttempt(Exercise exercise, String answer) {
+    Attempt performAttempt(Exercise exercise, String answer, ExerciseValidator validator) {
         Attempt attempt = new Attempt(this, exercise, answer)
-        this.gamification.addAttempt(attempt)
+        this.gamification.performAttempt(attempt, validator)
         return attempt
     }
 

@@ -60,9 +60,13 @@ class UserGamification {
         return this.attempts
     }
 
-    void addAttempt(Attempt attempt) {
+    void performAttempt(Attempt attempt, ExerciseValidator exerciseValidator) {
         if (attempt.exercise.level != this.level) {
             throw new AttemptWithInvalidExerciseLevelException()
+        }
+        boolean result = attempt.validateAnswser(exerciseValidator)
+        if (result) {
+            this.addPoints(attempt.points)
         }
         if (!this.attempts.contains(attempt)) {
             this.attempts.add(attempt)
