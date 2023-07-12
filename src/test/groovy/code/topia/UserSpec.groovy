@@ -107,4 +107,23 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
     }
     
 
+    void "user retries an exercise" () {
+        given: "create a new user"
+        User user = new User("Alejandro", "Peña","email@exmample.com")
+        UserGamification usGm = user.initGamification(beginnerLevel)
+        and: "has an attempt"
+        Exercise ex = usGm.getAvailableExercises().get(0)
+        validatorMock.validateAnswer("Una respuesta", ex) >> true
+        Attempt attempt = user.performAttempt(ex, "Una respuesta", validatorMock)
+        attempt.points -= 1
+        attempt.approved = false
+            
+        when: "user retries an incomplete exercise"
+        validatorMock.validateAnswer("Otra respuesta", ex) >> true
+        user.retryAttempt(attempt, "Otra respuesta", validatorMock)
+
+        then: "the attempt is valid"
+        assert attempt.approved==true
+    }
+
 }

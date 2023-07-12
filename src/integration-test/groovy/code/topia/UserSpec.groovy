@@ -54,8 +54,8 @@ class UserSpec extends Specification {
         Attempt attempt = userService.performAttempt((int)user.id,
                                                      (int)exercises[0].id,
                                                      "Una respuesta")
-        then: "the attempt is aproved"
-        assert attempt.aproved
+        then: "the attempt is approved"
+        assert attempt.approved
 
         and: "the user total points increase"
         assert user.gamification.userPoints > userPoints

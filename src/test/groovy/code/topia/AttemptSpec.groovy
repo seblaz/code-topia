@@ -26,7 +26,7 @@ class AttemptSpec extends Specification implements DomainUnitTest<Attempt> {
         Attempt attempt = user.performAttempt(ex, "Some answer",validatorMock)
 
         then: "the new attempt is valid"
-        assert attempt.aproved==true
+        assert attempt.approved==true
     }
 
     void "Validation attempt not successful"() {
@@ -38,7 +38,7 @@ class AttemptSpec extends Specification implements DomainUnitTest<Attempt> {
         Attempt attempt = user.performAttempt(ex, "Some answer", validatorMock)
 
         then: "the new attempt is not valid"
-        assert attempt.aproved==false
+        assert attempt.approved==false
     }
 
 }

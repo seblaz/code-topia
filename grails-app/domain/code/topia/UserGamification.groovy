@@ -73,6 +73,12 @@ class UserGamification {
         }
     }
 
+    void retryAttempt(Attempt attempt, ExerciseValidator exerciseValidator) {
+        if (attempt.validateAnswser(exerciseValidator)) {
+            this.addPoints(attempt.points)
+        }
+    }
+
     Attempt getAttempt(int attempt_id) {
         Attempt temp = null
         this.attempts.each { attempt ->

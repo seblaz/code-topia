@@ -43,4 +43,9 @@ class User {
         return attempt
     }
 
+    void retryAttempt(Attempt attempt, String answer, ExerciseValidator validator) {
+        attempt.answer = answer
+        this.gamification.retryAttempt(attempt, validator)
+    }
+
 }
