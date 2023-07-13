@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory
 
 @Transactional
 class UserService {
-    def userGamificationService
     def exerciseValidator
     def logger = LoggerFactory.getLogger(getClass())
 
@@ -20,30 +19,25 @@ class UserService {
         return user
     }
 
-    def getAvailableExercises(int userId) {
+    List<Exercise> getAvailableExercises(int userId) {
         assert userId != null
         User user = User.get(userId)
         assert user.gamification != null
         assert user.gamification.level != null
-        assert user.gamification.level.getExercises() != null
-        return user.gamification.level.getExercises()
+        return user.gamification.getAvailableExercises()
     }
 
-    def getAllExercises(User user) {
-        return user.gamification.getAllAttempts()
-    }
-
-    def getAttempt(User user, int attempt_id) {
-        return userGamificationService.getAttempt(user.gamification, attempt_id)
-    }
-
-    def performAttempt(int userId, int exerciseAttemptId, String answer) {
+    Attempt performAttempt(int userId, int exerciseAttemptId, String answer) {
         logger.info("[UserService] Usuario intento resolucion ejercicio datos: ${userId}|${exerciseAttemptId}|${answer}")
         User user = User.get(userId)
-        Attempt attempt = user.performAttempt(Exercise.get(exerciseAttemptId), answer,exerciseValidator)
+        Attempt attempt = user.performAttempt(Exercise.get(exerciseAttemptId), answer, exerciseValidator)
         logger.info("[UserService] Usuario intento resolucion ejercicio - intento: ${attempt}")
         attempt.save(failOnError: true)
         return attempt  
+    }
+
+    List<Attempt> getAllExercises(User user) {
+        return user.gamification.getAllAttempts()
     }
 
 }

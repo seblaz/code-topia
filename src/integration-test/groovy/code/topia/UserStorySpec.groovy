@@ -7,7 +7,7 @@ import spock.lang.Specification
 @Integration
 @Rollback
 // Ejecuta DataSeed previo..
-class UserSpec extends Specification {
+class UserStory extends Specification {
 
     @Autowired
     UserService userService
@@ -27,7 +27,6 @@ class UserSpec extends Specification {
         User user = userService.createUser("Alejandro","Pena","ale@gmail.com")
 
         then: "the user level is beginner"
-        //FIXME:
         User userAlejandro = User.findByEmail("ale@gmail.com")
         assert userAlejandro.id == user.id
         def level = userAlejandro.getLevel()
@@ -61,28 +60,36 @@ class UserSpec extends Specification {
         assert user.gamification.userPoints > userPoints
     }
 
-//FIXME:WIP
-//    void "User Beginner level promotion to Advanced"() {
-//        given: "there is a user at beginner level"
-//        User user = userService.createUser("Alejandro","Pena","ale@gmail.com")
-//        assert user != null
-//        def userPoints = user.gamification.userPoints
-//        List<Attempt> attempts = Attempt.findAllByUser(user)
-//        def prevAttemptsSz = attempts.size()
-//        
-//        when: "complete beginner level"
-//        // ex0->1 punto
-//        // ex3->4 puntos
-//        userService.performAttempt((int)user.id, (int)attempts[0].id, "--una resp ok--")
-//        userService.performAttempt((int)user.id, (int)attempts[3].id, "--una resp ok--")
-//
-//        then: "the actual level is advanced"
-//        Level actual_level = user.getLevel()
-//        assert actual_level.name == "Advanced Level"
-//
-//        and: "has new exercises to complete"
-//        assert prevAttemptsSz < user.gamification.attempts.size()
-//    }
+
+    void "User Beginner level promotion to Advanced"() {
+        given: "there is a user at beginner level"
+        User user = userService.createUser("Alejandro","Pena","ale@gmail.com")
+        assert user != null
+        def userPoints = user.gamification.userPoints
+        List<Exercise> b_exercises = user.gamification.getAvailableExercises()
+        
+        when: "complete beginner level"
+        // ex0->1 punto
+        // ex3->4 puntos
+        userService.performAttempt((int)user.id, (int)b_exercises[0].id, "--una resp ok--")
+        userService.performAttempt((int)user.id, (int)b_exercises[3].id, "--una resp ok--")
+
+        then: "the actual level is advanced"
+        Level actual_level = user.getLevel()
+        assert actual_level.type == LevelType.ADVANCED
+
+        and: "has new exercises to complete"
+        List<Exercise> a_exercises = user.gamification.getAvailableExercises()
+        boolean hasNewExercises = true
+        a_exercises.each { a_ex ->
+            b_exercises.each { b_ex ->
+                if (a_ex.statement == b_ex.statement) {
+                    hasNewExercises = false
+                }
+            }
+        }
+        assert hasNewExercises
+    }
 
 
  
