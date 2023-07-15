@@ -183,13 +183,15 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">${attempt.exercise.title}</h1>
+                        <h1 class="h3 mb-0 text-gray-800">${exercise.title}</h1>
                     </div>
 
                     <div class="exercise-form">
-                      <g:form controller="exercise" action="performAttempt" method="post" params="[exerciseAttemptId: attempt.id]">
+                      <g:form controller="exercise" action="performAttempt" method="post" params="[exerciseId: exercise.id]">
                         <div class="form-group">
-                            <label>${attempt.exercise.statement}</label>
+                            <label>${exercise.statement}</label>
+                            <br>
+                            <label>ID${exercise.id}</label>
                             <br>
                             
                             <g:textArea style="resize: both;" name="answer" rows="4" cols="50" placeholder="Respuesta..."/>

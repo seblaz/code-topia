@@ -8,7 +8,31 @@ class UserService {
     def exerciseValidator
     def logger = LoggerFactory.getLogger(getClass())
 
-    def createUser(String firstName, String lastnName, String email) {
+
+    User getUserByEmail(String email) {
+        User user = User.findByEmail(email)
+        if (user) {
+            logger.info("[UserService] Usuario recuperado: ${user}")
+        } else {
+            logger.info("[UserService] Usuario no existe: ${email}")
+            throw new UserNotExistException()
+        }
+        return user
+    }
+
+    User getUserById(Long user_id) {
+        User user = User.get(user_id)
+        if (user) {
+            logger.info("[UserService] Usuario recuperado: ${user}")
+        } else {
+            logger.info("[UserService] Usuario no existe: ${user_id}")
+            throw new UserNotExistException()
+        }
+        return user
+    }
+
+
+    User createUser(String firstName, String lastnName, String email) {
         User user = new User(firstName, lastnName, email)
         Level beginnerLevel = new Level()
         UserGamification usGm = user.initGamification(beginnerLevel)
@@ -19,6 +43,20 @@ class UserService {
         return user
     }
 
+
+    List<Exercise> getUserExercises(User user) {
+        logger.info("[UserService] Obtenemos ejercicios del usuario: ${user}")
+        assert user != null
+        //FIXME: aca deberíamos pedirle al servicio de userGamification.
+        assert user.gamification != null
+        List<Exercise> a = user.gamification.getAvailableExercises()
+        logger.info("[UserService] lista del : ${user} es:${a}")
+        return a
+    }
+
+
+
+
     List<Exercise> getAvailableExercises(int userId) {
         assert userId != null
         User user = User.get(userId)
@@ -27,17 +65,14 @@ class UserService {
         return user.gamification.getAvailableExercises()
     }
 
-    Attempt performAttempt(int userId, int exerciseAttemptId, String answer) {
-        logger.info("[UserService] Usuario intento resolucion ejercicio datos: ${userId}|${exerciseAttemptId}|${answer}")
+    Attempt performAttempt(int userId, int exerciseId, String answer) {
+        logger.info("[UserService] Usuario intento resolucion ejercicio datos: ${userId}|${exerciseId}|${answer}")
         User user = User.get(userId)
-        Attempt attempt = user.performAttempt(Exercise.get(exerciseAttemptId), answer, exerciseValidator)
+        Attempt attempt = user.performAttempt(Exercise.get(exerciseId), answer, exerciseValidator)
         logger.info("[UserService] Usuario intento resolucion ejercicio - intento: ${attempt}")
         attempt.save(failOnError: true)
-        return attempt  
-    }
-
-    List<Attempt> getAllExercises(User user) {
-        return user.gamification.getAllAttempts()
+        user.gamification.level.save(failOnError: true)
+        return attempt
     }
 
 }

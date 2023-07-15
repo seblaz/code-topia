@@ -5,7 +5,10 @@ class UserGamification {
     Level   level
     List<Attempt> attempts = []
 
-    static belongsTo = [user: User]   
+    static belongsTo = [user: User]
+
+    static hasOne = [level: Level]
+    static hasMany = [attempts: Attempt]
 
     static constraints = {
         user        nullable: false
@@ -22,6 +25,7 @@ class UserGamification {
 
         this.user = user
         this.level = level
+        this.level.userGamification = this
     }
 
     Level getUserLevel() {

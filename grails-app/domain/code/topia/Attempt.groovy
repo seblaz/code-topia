@@ -11,10 +11,9 @@ class Attempt {
     
 
     static constraints = {
-        points      nullable: false, min: MIN_EXAT_POINTS
+        points      min: MIN_EXAT_POINTS
         exercise    nullable: false
         answer      nullable: true
-        approved    nullable: false
         user        nullable: false
     }
 

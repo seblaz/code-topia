@@ -1,5 +1,6 @@
 <!-- grails-app/views/login/index.gsp -->
 
+
 <html>
 <head>
 <link rel="stylesheet" href="${resource(dir: 'stylesheets', file: 'login.css')}" type="text/css">
@@ -9,6 +10,12 @@
 
 <script src="${assetPath(src: 'bootstrap.min.js')}"></script>
 <script src="${assetPath(src: 'jquery-3.5.1.min.js')}"></script>
+<script>
+    <% if (flash.mostrarAlerta && flash.error ) { %>
+        alert('<%= flash.error %>');
+    <% } %>
+</script>
+
 
 </head>
 <body>
@@ -39,6 +46,8 @@
         <button class="btn btn-secondary">Registrarse</button>
       </g:link>
     </div>
+
+
     
   </div>
   

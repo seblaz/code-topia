@@ -25,31 +25,46 @@ class UserController {
         'createUser': ['Post']
     ]
 
-    def index() { 
+    def index() {
+        logger.info("[UserController] index invocado")
         session.user_logged_id = 0
+        flash.mostrarAlerta = false
         render(view: 'index')
     }
 
     def loginUser() {
+        logger.info("[UserController] loginUser invocado")
         if (params?.email) {
-            User user = User.findByEmail(params.email)
-            if (user) {
+            try {
+                User user = userService.getUserByEmail(params.email)
                 session.user_logged_id = user.id
                 redirect(controller: 'home', action: 'index')
                 return
+            } catch (UserNotExistException e) {
+                logger.error("[UserController] Usuario no existe; error: ${e}")
+                flash.error = "Usuario invalido o inexistente"
+                flash.mostrarAlerta = true
+                render(view: "index")
+                return
             }
         }
-        render "<h1>WIP: create user</h1>"
+        logger.error("[UserController] no informaron el mail")
+        flash.error = "Se necesita un mail para loguearse"
+        flash.mostrarAlerta = true
+        render(view: "index")
+        return
     }
 
     def registerUser() {
+        logger.info("[UserController] registerUser invocado")
+        flash.mostrarAlerta = false
         render(view: 'register')
     }
 
     def createUser(CreateUserParam p) {
+        logger.info("[UserController] createUser invocado")
         if (!p.validate()) {
             flash.createError = "Hubo algún error en los datos proporcionados"
-            println(p)
             render(view: "register", model: [createUserParam: p])
             return
         }
