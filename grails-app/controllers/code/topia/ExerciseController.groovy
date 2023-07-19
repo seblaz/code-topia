@@ -16,6 +16,7 @@ class ExerciseController {
 
     def userService
     def exerciseService
+    def userGamificationService
     def logger = LoggerFactory.getLogger(getClass())
 
     def index() { 
@@ -48,14 +49,18 @@ class ExerciseController {
 
     def performAttempt(PerformAttemptParam p) {
         logger.info("[ExerciseController] attempt param recibido: ${p.exerciseId} - ${p.answer}")
-        try {
-            logger.info("[ExerciseController] Realizamos un intento de ejercicio")
-            userService.performAttempt((int)session.user_logged_id,
-                                        p.exerciseId, p.answer)
-        } catch (Exception e) {
-            //FIXME: log o algo mejor ademas de un mensaje en pantalla.
-            logger.error("[ExerciseController] Error al realizar intento de ejercicio; error: ${e}")
-        }
+        //FIXME:BORRAME
+        userGamificationService.dummy_csm()
+        userGamificationService.performAttempt((int)session.user_logged_id,
+                                                1, p.answer)
+        //try {
+        //    logger.info("[ExerciseController] Realizamos un intento de ejercicio")
+        //    userService.performAttempt((int)session.user_logged_id,
+        //                                p.exerciseId, p.answer)
+        //} catch (Exception e) {
+        //    //FIXME: log o algo mejor ademas de un mensaje en pantalla.
+        //    logger.error("[ExerciseController] Error al realizar intento de ejercicio; error: ${e}")
+        //}
         redirect(controller: 'home', action: 'index')
     }
 }

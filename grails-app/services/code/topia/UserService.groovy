@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory
 @Transactional
 class UserService {
     def exerciseValidator
+    def userGamificationService
     def logger = LoggerFactory.getLogger(getClass())
 
 
@@ -47,9 +48,9 @@ class UserService {
     List<Exercise> getUserExercises(User user) {
         logger.info("[UserService] Obtenemos ejercicios del usuario: ${user}")
         assert user != null
-        //FIXME: aca deberíamos pedirle al servicio de userGamification.
         assert user.gamification != null
-        List<Exercise> a = user.gamification.getAvailableExercises()
+        List<Exercise> a = userGamificationService.getAvailableExercises(user.gamification.id)
+        //List<Exercise> a = user.gamification.getAvailableExercises()
         logger.info("[UserService] lista del : ${user} es:${a}")
         return a
     }
@@ -62,7 +63,7 @@ class UserService {
         User user = User.get(userId)
         assert user.gamification != null
         assert user.gamification.level != null
-        return user.gamification.getAvailableExercises()
+        return userGamificationService.getAvailableExercises(user.gamification.id)
     }
 
     Attempt performAttempt(int userId, int exerciseId, String answer) {

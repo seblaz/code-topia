@@ -48,4 +48,26 @@ class Attempt {
         }
         return this.approved
     }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    boolean validateAnswer2(ExerciseValidator validator) {
+        assert validator != null
+
+        if (this.answer == null || this.answer.isEmpty()){
+            return false
+        }
+        
+        return validator.validateAnswer(this.answer, this.exercise)
+    }
+
+    int calculatePoints() {
+        int temp_points = 0
+        if (this.approved) {
+            //TODO: aca restar los puntos por la ayuda solicitada.
+            temp_points = this.exercise.points
+        }
+        return temp_points
+    }
 }

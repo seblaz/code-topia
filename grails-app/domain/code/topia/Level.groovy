@@ -169,4 +169,24 @@ class Level {
         }
     }
 
+
+    ////////////////////////////////////////////////
+    boolean isLevelComplete() {
+        return ( this.userPoints >= this.points && 
+                 this.type.getNextLevel() != null)
+    }
+
+    LevelType getNextLevel() {
+        //TODO: solo si esta completo el nivel
+        return this.type.getNextLevel()
+    }
+
+    int getLevelTypePoints() {
+        return this.type.getLevelTypePoints()
+    }
+
+    List<Exercise> getTypeExercises() {
+        return this.type.getExercises()
+    }
+
 }
