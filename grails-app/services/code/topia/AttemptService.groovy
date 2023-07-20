@@ -9,11 +9,11 @@ class AttemptService {
     def logger = LoggerFactory.getLogger(getClass())
     def exerciseValidator
 
-    Attempt performAttempt(int attemptId, String answer) {
+    Attempt performAttempt(long attemptId, String answer) {
         Attempt attempt = Attempt.get(attemptId)
         logger.info("[AttemptService] performAttempt: ${attemptId} - ${answer}")
         attempt.answer = answer
-        attempt.approved = attempt.validateAnswer2(exerciseValidator)
+        attempt.approved = attempt.validateAnswer(exerciseValidator)
         attempt.points = attempt.calculatePoints()
         logger.info("[AttemptService] attempt puntos: ${attempt.points}")
         return attempt

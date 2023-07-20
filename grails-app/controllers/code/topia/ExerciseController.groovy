@@ -2,13 +2,13 @@ package code.topia
 import org.slf4j.LoggerFactory
 
 class PerformAttemptParam {
-    static final int MIN_ID = 1
-    int     exerciseId
+    static final long MIN_ID = 1
+    long    attemptId
     String  answer
 
     static constraints = {
-        exerciseId      min: MIN_ID
-        answer          nullable: false, blank: false
+        attemptId   min: MIN_ID
+        answer      nullable: false, blank: false
     }
 }
 
@@ -26,19 +26,18 @@ class ExerciseController {
                 logger.info("[ExerciseController] buscamos el usuario")
                 User user = userService.getUserById(session.user_logged_id)
                 logger.info("[ExerciseController] usuario recuperado: ${user}")
-                Exercise exercise = exerciseService.getExercise(params.exerciseId.toInteger())
-                logger.info("[ExerciseController] al buscar el ejercicio: ${params} - ${exercise.id}")
-                render(view: "index", model: [user: user, exercise: exercise])
+                Attempt attempt = userGamificationService.createEmptyAttempt(user.id, params.exerciseId.toInteger())
+                logger.info("[ExerciseController] attempt vacio: ${params} - ${attempt.id}")
+                render(view: "index", model: [user: user, attempt: attempt])
                 return
             } catch (UserNotExistException e) {
                 // no deberiamos entrar aca
                 logger.error("[ExerciseController] Usuario no existe; error: ${e}")
                 redirect(controller: 'user', action: 'index')
                 return
-            } catch (ExerciseNotExistException e) {
-                // no deberiamos entrar aca
-                logger.error("[ExerciseController] Ejercicio no existe; error: ${e}")
-                redirect(controller: 'home', action: 'index')
+            } catch (Exception e) {
+                logger.error("[ExerciseController] error: ${e}")
+                redirect(controller: 'user', action: 'index')
                 return
             }
             
@@ -48,19 +47,14 @@ class ExerciseController {
     }
 
     def performAttempt(PerformAttemptParam p) {
-        logger.info("[ExerciseController] attempt param recibido: ${p.exerciseId} - ${p.answer}")
-        //FIXME:BORRAME
-        userGamificationService.dummy_csm()
-        userGamificationService.performAttempt((int)session.user_logged_id,
-                                                1, p.answer)
-        //try {
-        //    logger.info("[ExerciseController] Realizamos un intento de ejercicio")
-        //    userService.performAttempt((int)session.user_logged_id,
-        //                                p.exerciseId, p.answer)
-        //} catch (Exception e) {
-        //    //FIXME: log o algo mejor ademas de un mensaje en pantalla.
-        //    logger.error("[ExerciseController] Error al realizar intento de ejercicio; error: ${e}")
-        //}
+        logger.info("[ExerciseController] attempt param recibido: ${p.attemptId} - ${p.answer}")
+        try {
+            logger.info("[ExerciseController] Realizamos un intento de ejercicio")
+            userGamificationService.performAttempt((int)session.user_logged_id, p.attemptId, p.answer)
+        } catch (Exception e) {
+            //FIXME: log o algo mejor ademas de un mensaje en pantalla.
+            logger.error("[ExerciseController] Error al realizar intento de ejercicio; error: ${e}")
+        }
         redirect(controller: 'home', action: 'index')
     }
 }

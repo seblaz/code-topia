@@ -6,6 +6,12 @@ import groovy.transform.InheritConstructors
 class CodeTopiaException extends RuntimeException {
 }
 
+
+@InheritConstructors
+class AttemptAlreadyApprovedException extends CodeTopiaException {
+}
+
+
 @InheritConstructors
 class AttemptWithInvalidExerciseLevelException extends CodeTopiaException {
 }
@@ -29,3 +35,4 @@ class UserNotExistException extends CodeTopiaException {
 @InheritConstructors
 class ExerciseNotExistException extends CodeTopiaException {
 }
+

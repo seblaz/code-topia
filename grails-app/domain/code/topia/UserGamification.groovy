@@ -96,5 +96,19 @@ class UserGamification {
     void setLevel(Level level) {
         this.level = level
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    Attempt createEmptyAttempt(Exercise exercise) {
+        assert exercise != null
+        for (Attempt attempt : this.attempts) {
+            if (attempt.exercise == exercise) {
+                return attempt
+            }
+        }
+        Attempt attempt = new Attempt(this.user, exercise)
+        this.attempts.add(attempt)
+        return attempt
+    }
     
 }

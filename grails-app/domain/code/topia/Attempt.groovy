@@ -35,28 +35,15 @@ class Attempt {
         this.answer     = answer
     }
 
-    boolean validateAnswser(ExerciseValidator validator) {
+    boolean validateAnswer(ExerciseValidator validator) {
         assert validator != null
 
         if (this.answer == null || this.answer.isEmpty()){
             return false
         }
-        
-        this.approved = validator.validateAnswer(this.answer, this.exercise)
-        if (this.approved) {
-            this.points = this.exercise.points
-        }
-        return this.approved
-    }
 
-
-
-    ////////////////////////////////////////////////////////////////////////////
-    boolean validateAnswer2(ExerciseValidator validator) {
-        assert validator != null
-
-        if (this.answer == null || this.answer.isEmpty()){
-            return false
+        if (this.approved && this.points == this.exercise.points) {
+            throw new AttemptAlreadyApprovedException()
         }
         
         return validator.validateAnswer(this.answer, this.exercise)
