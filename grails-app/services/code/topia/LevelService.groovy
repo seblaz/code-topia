@@ -13,10 +13,10 @@ class LevelService {
         level.userPoints += points
         if (level.isLevelComplete()) {
             level.type = level.getNextLevel()
-            // si se paso lo que le falta lo acumula en el siguiente nivel
-            level.userPoints = level.userPoints - level.points
+            level.userPoints = level.getLeftOverPoints()
             level.points = level.getLevelTypePoints()
             level.exercises = level.getTypeExercises()
-        }   
+            level.name = level.getTypeName()
+        }
     }
 }

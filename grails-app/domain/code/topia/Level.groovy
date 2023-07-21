@@ -147,12 +147,23 @@ class Level {
         return this.points
     }
 
+    int getLeftOverPoints() {
+        if (this.isLevelComplete()) {
+            return this.userPoints - this.points
+        }
+        return 0
+    }
+
     int getUserPoints() {
         return this.userPoints
     }
 
     LevelType getLevelType() {
         return this.type
+    }
+
+    String getTypeName() {
+        return this.type.getName()
     }
 
     void acumulateUserPoints(int points) {
@@ -178,7 +189,10 @@ class Level {
 
     LevelType getNextLevel() {
         //TODO: solo si esta completo el nivel
-        return this.type.getNextLevel()
+        if (this.isLevelComplete()) {
+            return this.type.getNextLevel()
+        }
+        throw new LevelNotCompleteException()
     }
 
     int getLevelTypePoints() {

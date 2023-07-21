@@ -11,8 +11,4 @@ class UserGamificationServiceSpec extends Specification implements ServiceUnitTe
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }

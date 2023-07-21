@@ -28,12 +28,12 @@ class UserGamification {
         this.level.userGamification = this
     }
 
-    Level getUserLevel() {
-        return this.level
+    List<Attempt> getAllAttempts() {
+        return this.attempts
     }
 
-    int getUserPoints() {
-        return this.level.getUserPoints()
+    Level getUserLevel() {
+        return this.level
     }
 
     List<Exercise> getAvailableExercises() {
@@ -54,16 +54,28 @@ class UserGamification {
         }
         return _availableExercises
     }
+    
+    Attempt createEmptyAttempt(Exercise exercise) {
+        assert exercise != null
+        for (Attempt attempt : this.attempts) {
+            if (attempt.exercise == exercise) {
+                return attempt
+            }
+        }
+        Attempt attempt = new Attempt(this.user, exercise)
+        this.attempts.add(attempt)
+        return attempt
+    }
 
+
+
+
+    //FIXME:
     void addPoints(int points) {
         if (points < 0) throw new UserGamificationInvalidPointsException()
         this.level.acumulateUserPoints(points)
     }
-
-    List<Attempt> getAllAttempts() {
-        return this.attempts
-    }
-
+    //FIXME:
     void performAttempt(Attempt attempt, ExerciseValidator exerciseValidator) {
         if (attempt.exercise.level != this.level) {
             throw new AttemptWithInvalidExerciseLevelException()
@@ -77,38 +89,5 @@ class UserGamification {
         }
     }
 
-    void retryAttempt(Attempt attempt, ExerciseValidator exerciseValidator) {
-        if (attempt.validateAnswser(exerciseValidator)) {
-            this.addPoints(attempt.points)
-        }
-    }
-
-    Attempt getAttempt(int attempt_id) {
-        Attempt temp = null
-        this.attempts.each { attempt ->
-            if (attempt.id == attempt_id) {
-                temp = attempt
-            }
-        }
-        return temp
-    }
-
-    void setLevel(Level level) {
-        this.level = level
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////
-    Attempt createEmptyAttempt(Exercise exercise) {
-        assert exercise != null
-        for (Attempt attempt : this.attempts) {
-            if (attempt.exercise == exercise) {
-                return attempt
-            }
-        }
-        Attempt attempt = new Attempt(this.user, exercise)
-        this.attempts.add(attempt)
-        return attempt
-    }
     
 }

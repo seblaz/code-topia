@@ -10,9 +10,4 @@ class LevelServiceSpec extends Specification implements ServiceUnitTest<LevelSer
 
     def cleanup() {
     }
-
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }

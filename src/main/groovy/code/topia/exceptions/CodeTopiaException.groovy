@@ -13,6 +13,11 @@ class AttemptAlreadyApprovedException extends CodeTopiaException {
 
 
 @InheritConstructors
+class LevelNotCompleteException extends CodeTopiaException {
+}
+
+
+@InheritConstructors
 class AttemptWithInvalidExerciseLevelException extends CodeTopiaException {
 }
 

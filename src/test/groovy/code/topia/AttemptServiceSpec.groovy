@@ -10,9 +10,4 @@ class AttemptServiceSpec extends Specification implements ServiceUnitTest<Attemp
 
     def cleanup() {
     }
-
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }
