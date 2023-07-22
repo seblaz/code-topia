@@ -196,6 +196,27 @@
                         <button type="submit" class="btn btn-primary">Enviar respuesta</button>
                       </g:form>
                     </div>
+                    
+                    <br>
+                    <div class="help-form">
+                      <g:form controller="exercise" action="getHelp" method="post" params="[attemptId: attempt.id]">
+                        <button type="submit" class="btn btn-primary">Solicitar ayuda</button>
+                      </g:form>
+                    </div>
+
+                    <div>
+                        <!--Quiero que si tiene helps el attempt se muestren-->
+                        <g:if test="${attempt.helps.size() > 0}">
+                            <div class="helps">
+                                <h3>Ayudas</h3>
+                                <g:each in="${attempt.helps}" var="help" status="index">
+                                    <div class="help">
+                                        <p>Ayuda ${index + 1}: ${help.helpMessage}</p>
+                                    </div>
+                                </g:each>
+                            </div>
+                        </g:if>
+                    </div>
 
 
                 </div>

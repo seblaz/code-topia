@@ -16,6 +16,7 @@ class ExerciseController {
 
     def userService
     def exerciseService
+    def attemptService
     def userGamificationService
     def logger = LoggerFactory.getLogger(getClass())
 
@@ -54,6 +55,28 @@ class ExerciseController {
         } catch (Exception e) {
             //FIXME: log o algo mejor ademas de un mensaje en pantalla.
             logger.error("[ExerciseController] Error al realizar intento de ejercicio; error: ${e}")
+        }
+        redirect(controller: 'home', action: 'index')
+    }
+
+
+    def getHelp() {
+        logger.info("[ExerciseController] attempt param recibido: ${params.attemptId}")
+        try {
+            logger.info("[ExerciseController] Solicitud de ayuda")
+            User user = userService.getUserById(session.user_logged_id)
+            Attempt attempt = attemptService.getAttempt(params.attemptId.toInteger())
+            attemptService.getHelp(params.attemptId.toInteger())
+            render(view: "index", model: [user: user, attempt: attempt])
+            return
+        } catch (UserNotExistException e) {
+            // no deberiamos entrar aca
+            logger.error("[ExerciseController] Usuario no existe; error: ${e}")
+            redirect(controller: 'user', action: 'index')
+            return
+        } catch (Exception e) {
+            //FIXME: log o algo mejor ademas de un mensaje en pantalla.
+            logger.error("[ExerciseController] Error al realizar la solicitud; error: ${e}")
         }
         redirect(controller: 'home', action: 'index')
     }

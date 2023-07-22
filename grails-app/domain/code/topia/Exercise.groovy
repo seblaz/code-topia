@@ -7,7 +7,6 @@ class Exercise {
     int     points
     Level   level
 
-    static hasMay = [helps: Help]
 
     static constraints = {
         title       nullable: false

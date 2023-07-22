@@ -10,16 +10,6 @@ class UserGamificationService {
     def attemptService
     def levelService
 
-    def performAttempt(int userId, long attemptId, String answer) {
-        logger.info("[UserGamificationService] performAttempt: ${userId} - ${attemptId} - ${answer}")
-        User user = User.get(userId)
-        UserGamification usGm = user.gamification
-        //TODO: chequear que el attempt este contenido en usGm
-        Attempt attempt = attemptService.performAttempt(attemptId, answer)
-        levelService.addAttemptPoints((int)usGm.level.id, attempt.points)
-
-    }
-
     List<Exercise> getAvailableExercises(long userId) {
         logger.info("[UserGamificationService] getExercises: ${userId}")
         User user = User.get(userId)
@@ -32,9 +22,23 @@ class UserGamificationService {
         User user = User.get(userId)
         UserGamification usGm = user.gamification
         Exercise exercise = Exercise.get(exerciseId)
-        Attempt attempt = usGm.createEmptyAttempt(exercise)
-        attempt.save(failOnError: true)
-        return attempt
+        Attempt att = usGm.createEmptyAttempt(exercise)
+        if (att.checkResetHelp()) {
+            logger.info("[UserGamificationService] reseteamos los helps")
+            Help.where { attempt == att }.deleteAll()
+            att.helps.clear()
+        }
+        att.save(failOnError: true,flush: true)
+        return att
+    }
+
+    boolean performAttempt(int userId, long attemptId, String answer) {
+        logger.info("[UserGamificationService] performAttempt: ${userId} - ${attemptId} - ${answer}")
+        User user = User.get(userId)
+        UserGamification usGm = user.gamification
+        Attempt attempt = attemptService.performAttempt(attemptId, answer)
+        levelService.addAttemptPoints(usGm.level.id, attempt.points)
+        return attempt.isCorrect()
     }
 
     

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
 class LevelService {
     def logger = LoggerFactory.getLogger(getClass())
 
-    def addAttemptPoints(int levelId, int points) {
+    def addAttemptPoints(long levelId, int points) {
         Level level = Level.get(levelId)
         logger.info("[LevelService] addAttemptPoints: ${levelId} - ${points}")
         level.userPoints += points

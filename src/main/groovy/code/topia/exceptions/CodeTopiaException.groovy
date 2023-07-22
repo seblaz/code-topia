@@ -8,13 +8,17 @@ class CodeTopiaException extends RuntimeException {
 
 
 @InheritConstructors
-class AttemptAlreadyApprovedException extends CodeTopiaException {
+class AttemptAlreadyCompleteException extends CodeTopiaException {
 }
-
 
 @InheritConstructors
 class LevelNotCompleteException extends CodeTopiaException {
 }
+
+@InheritConstructors
+class MaxHelpException extends CodeTopiaException {
+}
+
 
 
 @InheritConstructors

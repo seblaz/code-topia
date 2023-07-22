@@ -57,17 +57,19 @@ class UserGamification {
     
     Attempt createEmptyAttempt(Exercise exercise) {
         assert exercise != null
+
         for (Attempt attempt : this.attempts) {
-            if (attempt.exercise == exercise) {
+            if ( attempt.exercise == exercise ) {
                 return attempt
             }
+        }
+        if (exercise.level != this.level) {
+            throw new AttemptWithInvalidExerciseLevelException()
         }
         Attempt attempt = new Attempt(this.user, exercise)
         this.attempts.add(attempt)
         return attempt
     }
-
-
 
 
     //FIXME:

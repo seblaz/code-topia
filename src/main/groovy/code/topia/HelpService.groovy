@@ -8,7 +8,7 @@ import static groovyx.net.http.Method.POST
 import org.slf4j.LoggerFactory
 import grails.util.Environment
 
-class ExerciseValidator {
+class HelpService {
     def logger = LoggerFactory.getLogger(getClass())
     def grailsApplication
 
@@ -16,8 +16,8 @@ class ExerciseValidator {
         String apiUrl = grailsApplication.config.grails.profiles[Environment.current.getName()]['api-csm-gpt'].url
         String apiKey = grailsApplication.config.grails.profiles[Environment.current.getName()]['api-csm-gpt'].apiKey
         def http = new HTTPBuilder(apiUrl)
-        logger.info("[ExerciseValidator] apiurl: ${apiUrl}")
-        logger.info("[ExerciseValidator] apiKey: ${apiKey}")
+        logger.info("[HelpService] apiurl: ${apiUrl}")
+        logger.info("[HelpService] apiKey: ${apiKey}")
         http.request(POST, ContentType.JSON) { req ->
             headers['Authorization'] = "Bearer ${apiKey}"
             body = [prompt: consulta, max_tokens: 1, n: 1, stop: null, temperature: 0.1]
@@ -33,19 +33,13 @@ class ExerciseValidator {
         }
     }
 
-    boolean validateAnswer(String answer, Exercise exercise) {
+    String getHelpMessage(Exercise exercise) {
         String consulta = "Dado el enunciado:\n" + exercise.statement +\
-                          "\n" + "Con respuesta al enunciado:\n" + answer +\
-                          "\n" + "Se pide que se genere una respuesta con 'Aprobado' o 'Rechazado'." +\
-                          "Se debe contestar 'Aprobado' solo si la respuesta es considerada una solucion correcta al enunciado."
-        logger.info("[ExerciseValidator] Consulta: ${consulta}")
+                          "\n" + "Se pide dar una pista de resolución que no supere las 10 palabras." +\
+                          "\n" + "Se esperan pistas para orientar a la persona a resolver el ejercicio."
+        logger.info("[HelpService] Consulta: ${consulta}")
         String respuesta = obtenerRespuesta(consulta)
-        logger.info("[ExerciseValidator] Respuesta: ${respuesta}")
-        if (respuesta == null || respuesta.contains("Rechazado")) {
-            return false
-        } else if (respuesta.contains("Aprobado")) {
-            return true
-        }
-        return false
+        logger.info("[HelpService] Respuesta: ${respuesta}")
+        return respuesta
     }
 }
