@@ -71,24 +71,20 @@ class UserGamification {
         return attempt
     }
 
-
-    //FIXME:
-    void addPoints(int points) {
-        if (points < 0) throw new UserGamificationInvalidPointsException()
-        this.level.acumulateUserPoints(points)
-    }
-    //FIXME:
-    void performAttempt(Attempt attempt, ExerciseValidator exerciseValidator) {
-        if (attempt.exercise.level != this.level) {
-            throw new AttemptWithInvalidExerciseLevelException()
+    // devuelve la diferencia de los puntos que tiene el usuario en el nivel
+    int calculateUserPointsDiff() {
+        int points = 0
+        this.attempts.each { attempt ->
+            if (attempt.isAttemptLevelExercise(this.level)) {
+                points += attempt.points
+            }
         }
-        boolean result = attempt.validateAnswser(exerciseValidator)
-        if (result) {
-            this.addPoints(attempt.points)
+        // retornamos la diferencia de los puntos vs los que ya tiene en el nivel
+        points -= this.level.userPoints
+        if (points < 0) {
+            points = 0
         }
-        if (!this.attempts.contains(attempt)) {
-            this.attempts.add(attempt)
-        }
+        return points
     }
 
     

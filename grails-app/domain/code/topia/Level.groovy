@@ -22,11 +22,11 @@ enum LevelType {
             String TITLE_3  = "Numero Par"
             String TITLE_4  = "Calculo Factorial"
             String TITLE_5  = "Funcion Maximo"
-            Exercise ex1  = new Exercise(TITLE_1, STATEMENT_1, 1)
-            Exercise ex2  = new Exercise(TITLE_2, STATEMENT_2, 2)
-            Exercise ex3  = new Exercise(TITLE_3, STATEMENT_3, 3)
-            Exercise ex4  = new Exercise(TITLE_4, STATEMENT_4, 4)
-            Exercise ex5  = new Exercise(TITLE_5, STATEMENT_5, 4)
+            Exercise ex1  = new Exercise(TITLE_1, STATEMENT_1, 1, LevelType.BEGINNER)
+            Exercise ex2  = new Exercise(TITLE_2, STATEMENT_2, 2, LevelType.BEGINNER)
+            Exercise ex3  = new Exercise(TITLE_3, STATEMENT_3, 3, LevelType.BEGINNER)
+            Exercise ex4  = new Exercise(TITLE_4, STATEMENT_4, 4, LevelType.BEGINNER)
+            Exercise ex5  = new Exercise(TITLE_5, STATEMENT_5, 4, LevelType.BEGINNER)
             return [ex1,ex2,ex3,ex4,ex5]
         }
 
@@ -54,11 +54,11 @@ enum LevelType {
             String TITLE_3 = "Procesamiento archivo texto"
             String TITLE_4 = "Recursividad"
             String TITLE_5 = "Algoritmo de ordenamiento"
-            Exercise ex1  = new Exercise(TITLE_1, STATEMENT_1, 1)
-            Exercise ex2  = new Exercise(TITLE_2, STATEMENT_2, 2)
-            Exercise ex3  = new Exercise(TITLE_3, STATEMENT_3, 4)
-            Exercise ex4  = new Exercise(TITLE_4, STATEMENT_4, 4)
-            Exercise ex5  = new Exercise(TITLE_5, STATEMENT_5, 4)
+            Exercise ex1  = new Exercise(TITLE_1, STATEMENT_1, 1, LevelType.ADVANCED)
+            Exercise ex2  = new Exercise(TITLE_2, STATEMENT_2, 2, LevelType.ADVANCED)
+            Exercise ex3  = new Exercise(TITLE_3, STATEMENT_3, 4, LevelType.ADVANCED)
+            Exercise ex4  = new Exercise(TITLE_4, STATEMENT_4, 4, LevelType.ADVANCED)
+            Exercise ex5  = new Exercise(TITLE_5, STATEMENT_5, 4, LevelType.ADVANCED)
             return [ex1,ex2,ex3,ex4,ex5]
         }
 
@@ -173,7 +173,8 @@ class Level {
         this.userPoints += points
         if ( this.userPoints >= this.points && 
             this.type.getNextLevel() != null) {
-            this.userPoints = this.userPoints - this.points
+            //this.userPoints = this.userPoints - this.points
+            this.userPoints = 0
             this.type = this.type.getNextLevel()
             this.points = this.type.getLevelTypePoints()
             this.exercises = this.type.getExercises()
@@ -183,12 +184,13 @@ class Level {
 
     ////////////////////////////////////////////////
     boolean isLevelComplete() {
-        return ( this.userPoints >= this.points && 
-                 this.type.getNextLevel() != null)
+        return ( this.userPoints >= this.points )
     }
 
     LevelType getNextLevel() {
-        //TODO: solo si esta completo el nivel
+        if (this.levelType.getNextLevel() == null) {
+            return this.levelType
+        }
         if (this.isLevelComplete()) {
             return this.type.getNextLevel()
         }

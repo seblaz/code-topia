@@ -37,7 +37,7 @@ class UserGamificationService {
         User user = User.get(userId)
         UserGamification usGm = user.gamification
         Attempt attempt = attemptService.performAttempt(attemptId, answer)
-        levelService.addAttemptPoints(usGm.level.id, attempt.points)
+        levelService.addAttemptPoints(usGm.level.id, usGm.calculateUserPointsDiff())
         return attempt.isCorrect()
     }
 

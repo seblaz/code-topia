@@ -67,11 +67,17 @@ class Attempt {
         throw new MaxHelpException()
     }
 
+    // Calcula el puntaje del intento
+    // si es menor el nuevo puntaje que el anterior 
+    // se queda con el anterior si es mayor.
     int calculatePoints() {
         int temp_points = 0
         if (this.approved) {
             temp_points = this.exercise.points - this.helps.size()
             if (temp_points < 0) {
+                temp_points = 0
+            }
+            if (temp_points < this.points) {
                 temp_points = 0
             }
         }
@@ -92,5 +98,12 @@ class Attempt {
             return true
         }
         return false
+    }
+
+
+    boolean isAttemptLevelExercise(Level level) {
+        assert level != null
+
+        return this.exercise.isLevelExercise(level)
     }
 }

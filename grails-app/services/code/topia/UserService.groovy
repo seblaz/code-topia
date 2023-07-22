@@ -66,14 +66,6 @@ class UserService {
         return userGamificationService.getAvailableExercises(user.gamification.id)
     }
 
-    Attempt performAttempt(int userId, int exerciseId, String answer) {
-        logger.info("[UserService] Usuario intento resolucion ejercicio datos: ${userId}|${exerciseId}|${answer}")
-        User user = User.get(userId)
-        Attempt attempt = user.performAttempt(Exercise.get(exerciseId), answer, exerciseValidator)
-        logger.info("[UserService] Usuario intento resolucion ejercicio - intento: ${attempt}")
-        attempt.save(failOnError: true)
-        user.gamification.level.save(failOnError: true)
-        return attempt
-    }
+
 
 }
