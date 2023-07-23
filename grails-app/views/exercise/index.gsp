@@ -22,6 +22,7 @@
     <!-- Custom styles for this template-->
     <!-- FIXME: -->
     <link rel="stylesheet" href="${resource(dir: 'stylesheets', file: 'login-index-min.css')}" type="text/css">
+    <script src="${assetPath(src: 'jquery-3.5.1.min.js')}"></script>
 
 </head>
 
@@ -198,6 +199,7 @@
                             <label>${attempt.exercise.statement}</label>
                             <br>
                             <g:textArea style="resize: both;" name="answer" rows="4" cols="50" placeholder="Respuesta..."/>
+                            <g:renderErrors  as="list" />
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar respuesta</button>
                       </g:form>
@@ -223,6 +225,48 @@
                             </div>
                         </g:if>
                     </div>
+
+
+                    <!-- Modal (oculto por defecto) -->
+                    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Resultado de intento</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <g:if test="${attempt.approved}">
+                                        <p>¡Felicitaciones! Tu respuesta es correcta.</p>
+                                        <g:if test="${attempt.helps.size() > 0}">
+                                            <p>Ten en cuenta que es correcta pero se te restaron puntos por solicitar ayuda.</p>
+                                            <p>Cantidad de ayuda solicitada: ${attempt.helps.size()}.</p>
+                                            <p>Puedes volver a resolver este ejercicio para completar su puntaje restante si lo deseas.</p>
+                                        </g:if>
+                                    </g:if>
+                                    <g:else>
+                                        <p>Lo sentimos, tu respuesta es incorrecta.</p>
+                                        <p>Recuerda que puedes solicitar ayuda en la resolucion del ejercicio.</p>
+                                    </g:else>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <g:link class="btn btn-primary" controller="home" action="index">
+                                        Aceptar
+                                    </g:link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <g:javascript>
+                        $(document).ready(function() {
+                            var abrirModal = "${abrirModal}";
+                            // Si abrirModal es "true", abrir el modal al cargar la página
+                            if (abrirModal === "true") {
+                                $("#myModal").modal('show');
+                            }
+                        });
+                    </g:javascript>
+                    
 
 
                 </div>

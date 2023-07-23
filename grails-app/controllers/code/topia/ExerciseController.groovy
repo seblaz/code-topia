@@ -30,7 +30,7 @@ class ExerciseController {
                 Attempt attempt = userGamificationService.createEmptyAttempt(user.id, params.exerciseId.toInteger())
                 logger.info("[ExerciseController] attempt vacio: ${params} - ${attempt.id}")
                 List<Exercise> exerciseList = userService.getUserExercises(user)
-                render(view: "index", model: [user: user, attempt: attempt, exerciseList: exerciseList])
+                render(view: "index", model: [user: user, attempt: attempt, exerciseList: exerciseList, abrirModal: "false"])
                 return
             } catch (UserNotExistException e) {
                 // no deberiamos entrar aca
@@ -50,9 +50,21 @@ class ExerciseController {
 
     def performAttempt(PerformAttemptParam p) {
         logger.info("[ExerciseController] attempt param recibido: ${p.attemptId} - ${p.answer}")
+        User user = userService.getUserById(session.user_logged_id)
+        List<Exercise> exerciseList = userService.getUserExercises(user)
+        Attempt attempt = attemptService.getAttempt(p.attemptId)
+        if (!p.validate()) {
+            flash.createError = "Hubo algún error en los datos proporcionados"
+            render(view: "index", model: [user: user, attempt: attempt,
+                                          exerciseList: exerciseList,
+                                          abrirModal: "false",performAttemptParam:p])
+            return
+        }
         try {
             logger.info("[ExerciseController] Realizamos un intento de ejercicio")
-            userGamificationService.performAttempt((int)session.user_logged_id, p.attemptId, p.answer)
+            def attemptRes = userGamificationService.performAttempt((int)session.user_logged_id, p.attemptId, p.answer)
+            render(view: "index", model: [user: user, attempt: attempt, exerciseList: exerciseList, abrirModal: "true", attemptRes: attemptRes])
+            return
         } catch (Exception e) {
             //FIXME: log o algo mejor ademas de un mensaje en pantalla.
             logger.error("[ExerciseController] Error al realizar intento de ejercicio; error: ${e}")

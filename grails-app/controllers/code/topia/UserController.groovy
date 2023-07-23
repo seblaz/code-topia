@@ -42,16 +42,16 @@ class UserController {
                 return
             } catch (UserNotExistException e) {
                 logger.error("[UserController] Usuario no existe; error: ${e}")
-                flash.error = "Usuario invalido o inexistente"
+                flash.message = "Usuario invalido o inexistente"
                 flash.mostrarAlerta = true
-                render(view: "index")
+                render(view: "index", model: [abrirModal: "true"])
                 return
             }
         }
         logger.error("[UserController] no informaron el mail")
-        flash.error = "Se necesita un mail para loguearse"
+        flash.message = "Se necesita un mail para loguearse"
         flash.mostrarAlerta = true
-        render(view: "index")
+        render(view: "index", model: [abrirModal: "true"])
         return
     }
 
@@ -64,8 +64,8 @@ class UserController {
     def createUser(CreateUserParam p) {
         logger.info("[UserController] createUser invocado")
         if (!p.validate()) {
-            flash.createError = "Hubo algún error en los datos proporcionados"
-            render(view: "register", model: [createUserParam: p])
+            flash.message = "Hubo algún error en los datos proporcionados"
+            render(view: "register", model: [createUserParam: p, abrirModal: "true"])
             return
         }
 
@@ -75,10 +75,15 @@ class UserController {
                 session.user_logged_id = user.id
                 logger.info("[UserController] Usuario creado: ${user}")
                 redirect(controller: 'home', action: 'index')
-            }  catch (Exception e) {
+            } catch (UserAlreadyExistException e) {
+                logger.error("[UserController] Usuario ya existe; error: ${e}")
+                flash.message = "Email ya registrado"
+                render(view: "register", model: [createUserParam: p, abrirModal: "true"])
+                return
+            } catch (Exception e) {
                 logger.error("[UserController] Error al crear usuario; error: ${e}")
-                flash.createError = "error creando usuario"
-                render(view: "register")
+                flash.message = "error creando usuario"
+                render(view: "register", model: [createUserParam: p, abrirModal: "true"])
                 return
             }
         } else {

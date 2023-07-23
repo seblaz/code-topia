@@ -34,6 +34,12 @@ class UserService {
 
 
     User createUser(String firstName, String lastnName, String email) {
+        logger.info("[UserService] Creando usuario: ${firstName} - ${lastnName} - ${email}")
+        User user_temp = User.findByEmail(email)
+        if (user_temp) {
+            logger.info("[UserService] Usuario ya existe: ${email}")
+            throw new UserAlreadyExistException()
+        }
         User user = new User(firstName, lastnName, email)
         Level beginnerLevel = new Level()
         UserGamification usGm = user.initGamification(beginnerLevel)

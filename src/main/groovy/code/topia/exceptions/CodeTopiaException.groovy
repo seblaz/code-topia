@@ -19,6 +19,10 @@ class LevelNotCompleteException extends CodeTopiaException {
 class MaxHelpException extends CodeTopiaException {
 }
 
+@InheritConstructors
+class UserAlreadyExistException extends CodeTopiaException {
+}
+
 
 
 @InheritConstructors
