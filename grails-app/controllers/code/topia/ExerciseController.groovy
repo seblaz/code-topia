@@ -29,7 +29,8 @@ class ExerciseController {
                 logger.info("[ExerciseController] usuario recuperado: ${user}")
                 Attempt attempt = userGamificationService.createEmptyAttempt(user.id, params.exerciseId.toInteger())
                 logger.info("[ExerciseController] attempt vacio: ${params} - ${attempt.id}")
-                render(view: "index", model: [user: user, attempt: attempt])
+                List<Exercise> exerciseList = userService.getUserExercises(user)
+                render(view: "index", model: [user: user, attempt: attempt, exerciseList: exerciseList])
                 return
             } catch (UserNotExistException e) {
                 // no deberiamos entrar aca
@@ -67,7 +68,8 @@ class ExerciseController {
             User user = userService.getUserById(session.user_logged_id)
             Attempt attempt = attemptService.getAttempt(params.attemptId.toInteger())
             attemptService.getHelp(params.attemptId.toInteger())
-            render(view: "index", model: [user: user, attempt: attempt])
+            List<Exercise> exerciseList = userService.getUserExercises(user)
+            render(view: "index", model: [user: user, attempt: attempt, exerciseList: exerciseList])
             return
         } catch (UserNotExistException e) {
             // no deberiamos entrar aca

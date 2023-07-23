@@ -163,39 +163,19 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Ejercicios</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Code Topia</h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
-
-                        <!-- Exercise List <exerciseList> -->
-                        <g:each in="${exerciseList}" var="exercise">
-                            
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-info shadow h-100 py-2">
-                                    <g:link controller="exercise" action="index" params="[exerciseId: exercise.id]">
-                                        <div class="card-body">
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col mr-2">
-                                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">${exercise.level.name}</div>
-                                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Puntos: ${exercise.points}</div>
-                                                    <div class="row no-gutters align-items-center">
-                                                        <div class="col-auto">
-                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${exercise.title}</div>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-                                                
-                                                
-                                            </div>
-                                        </div>
-                                    </g:link>
-                                </div>
-                            </div>
-                        </g:each>
-
+                        CodeTopia es una plataforma que te permite aprender a programar de manera interactiva.
+                        <br>
+                        Puedes elegir entre una gran variedad de ejercicios, que te permitirán aprender a programar en distintos lenguajes.
+                        <br>
+                        El fin de dicha aplicación es que puedas aprender a programar de manera interactiva, y que puedas ver los resultados de tu código en tiempo real.
+                        <br>
+                        <br>
+                        Esta aplicación fue desarrollada con fines académicos para la materia de Desarrollo con Nuevas Tecnologías en el 1C-2023.
                     </div>
 
                 </div>

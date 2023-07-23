@@ -105,7 +105,7 @@ class Level {
     static belongsTo = [userGamification: UserGamification]
 
     static constraints = {
-        name                nullable: false, unique: true
+        name                nullable: false
         points              min: MIN_LVL_POINTS
         exercises           size: MIN_EXERCISES..MAX_EXERCISES
     }
