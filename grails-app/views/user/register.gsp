@@ -27,17 +27,14 @@
         <g:form controller="user" action="createUser" method="post">
           <div class="form-group">
               <label>Nombre</label>
-              <input type="text" name="firstName" class="form-control" placeholder="Nombre">
+              <input type="text" name="firstName" class="form-control" placeholder="Nombre" value="${createUserParam?.firstName}">
 
               <label>Apellido</label>
-              <input type="text" name="lastName" class="form-control" placeholder="Apellido">
+              <input type="text" name="lastName" class="form-control" placeholder="Apellido" value="${createUserParam?.lastName}">
 
               <label>Email</label>
-              <input type="text" name="email" class="form-control" placeholder="some@example.com">
+              <input type="text" name="email" class="form-control" placeholder="some@example.com" value="${createUserParam?.email}">
           </div>
-          <g:hasErrors bean="${flash}">
-              <div class="error">${flash.createError}</div>
-          </g:hasErrors>
           <g:renderErrors  as="list" />
           <button type="submit" class="btn btn-primary">Crear</button>
 

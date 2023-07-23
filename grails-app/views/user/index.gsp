@@ -10,12 +10,6 @@
 
 <script src="${assetPath(src: 'bootstrap.min.js')}"></script>
 <script src="${assetPath(src: 'jquery-3.5.1.min.js')}"></script>
-<script>
-    <% if (flash.mostrarAlerta && flash.error ) { %>
-        alert('<%= flash.error %>');
-    <% } %>
-</script>
-
 
 </head>
 <body>
@@ -24,7 +18,6 @@
         <img width="100" heigth="100" src="${assetPath(src: 'CodeTopia.svg')}" style="filter: invert(100%);">  
         <h1>Code Topia</h1>
         <p>Aplicación de aprendizaje.</p>
-
       </div>
   </div>
   
@@ -45,6 +38,12 @@
       <g:link controller="user" action="registerUser">
         <button class="btn btn-secondary">Registrarse</button>
       </g:link>
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+      <g:if test="${flash.mostrarAlerta && flash.error }">
+        <p>${flash.error}</p>
+      </g:if>
     </div>
 
 

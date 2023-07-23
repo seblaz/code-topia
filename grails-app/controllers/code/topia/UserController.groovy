@@ -58,7 +58,7 @@ class UserController {
     def registerUser() {
         logger.info("[UserController] registerUser invocado")
         flash.mostrarAlerta = false
-        render(view: 'register')
+        render(view: 'register', model: [createUserParam: new CreateUserParam()])
     }
 
     def createUser(CreateUserParam p) {
