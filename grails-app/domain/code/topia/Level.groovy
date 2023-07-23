@@ -147,13 +147,6 @@ class Level {
         return this.points
     }
 
-    int getLeftOverPoints() {
-        if (this.isLevelComplete()) {
-            return this.userPoints - this.points
-        }
-        return 0
-    }
-
     int getUserPoints() {
         return this.userPoints
     }
@@ -181,8 +174,6 @@ class Level {
         }
     }
 
-
-    ////////////////////////////////////////////////
     boolean isLevelComplete() {
         return ( this.userPoints >= this.points )
     }
