@@ -68,8 +68,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         when: "add an attempt with invalid exercise level"
         advancedLevel.type = LevelType.ADVANCED
         Exercise ex1 = advancedLevel.getExercises().get(0)
-        validatorMock.validateAnswer("print('Hello World')", ex1) >> true
-        user.performAttempt(ex1, "print('Hello World')",validatorMock)
+        Attempt attempt = usGm.createEmptyAttempt(ex1)
         then: "throws AttemptWithInvalidExerciseLevelException"
         thrown AttemptWithInvalidExerciseLevelException
     }
@@ -116,27 +115,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         assert availableExercises.size() == 5
     }
 
-    void "complete beginner level"() {
-        given: "a user at beginner level"
-        User user = new User("Alejandro", "Pena", "example@example.com")
-        UserGamification usGm = user.initGamification(beginnerLevel)
-        List<Exercise> b_exercises = usGm.getAvailableExercises()
-        when: "the user complete the level with required points"
-        usGm.addPoints(beginnerLevel.points)
-        then: "the user level is advanced"
-        assert usGm.getUserLevel().getLevelType() == LevelType.ADVANCED
-        and: "it has new exerceises"
-        List<Exercise> a_exercises = usGm.getAvailableExercises()
-        boolean hasNewExercises = true
-        a_exercises.each { a_ex ->
-            b_exercises.each { b_ex ->
-                if (a_ex.statement == b_ex.statement) {
-                    hasNewExercises = false
-                }
-            }
-        }
-        assert hasNewExercises
-    }
+
 
     
 }

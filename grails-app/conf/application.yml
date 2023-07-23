@@ -49,15 +49,15 @@ grails:
     profiles:
         development:
             api-csm-gpt:
-                apiKey: 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
+                apiKey: abc123
                 url: http://127.0.0.1:9001
         test:
             api-csm-gpt:
-                apiKey: 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
+                apiKey: abc123
                 url: http://127.0.0.1:9001
         production:
             api-csm-gpt:
-                apiKey: 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
+                apiKey: abc123
                 url: https://api.openai.com/v1/engines/text-davinci-003/completions
     mime:
         disable:

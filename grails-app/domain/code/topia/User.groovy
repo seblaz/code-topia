@@ -36,16 +36,4 @@ class User {
         this.gamification = new UserGamification(this, level)
         return this.gamification
     }
-
-    Attempt performAttempt(Exercise exercise, String answer, ExerciseValidator validator) {
-        Attempt attempt = new Attempt(this, exercise, answer)
-        this.gamification.performAttempt(attempt, validator)
-        return attempt
-    }
-
-    void retryAttempt(Attempt attempt, String answer, ExerciseValidator validator) {
-        attempt.answer = answer
-        this.gamification.retryAttempt(attempt, validator)
-    }
-
 }
