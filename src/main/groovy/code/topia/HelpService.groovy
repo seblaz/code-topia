@@ -20,7 +20,7 @@ class HelpService {
         logger.info("[HelpService] apiKey: ${apiKey}")
         http.request(POST, ContentType.JSON) { req ->
             headers['Authorization'] = "Bearer ${apiKey}"
-            body = [prompt: consulta, max_tokens: 1, n: 1, stop: null, temperature: 0.1]
+            body = [prompt: consulta, max_tokens: consulta.size()+10, n: 1, stop: null, temperature: 0.2]
             response.success = { resp, json ->
                 logger.info("Tuvimos respuesta!")
                 logger.info("Respuesta generada: ${json}")
@@ -34,9 +34,8 @@ class HelpService {
     }
 
     String getHelpMessage(Exercise exercise) {
-        String consulta = "Dado el enunciado:\n" + exercise.statement +\
-                          "\n" + "Se pide dar una pista de resolución que no supere las 10 palabras." +\
-                          "\n" + "Se esperan pistas para orientar a la persona a resolver el ejercicio."
+        String consulta = "Dado el enunciado\n" + exercise.statement +\
+                          "\n" + "Dar una pista de resolución en 10 palabras, sin resolverlo"
         logger.info("[HelpService] Consulta: ${consulta}")
         String respuesta = obtenerRespuesta(consulta)
         logger.info("[HelpService] Respuesta: ${respuesta}")
