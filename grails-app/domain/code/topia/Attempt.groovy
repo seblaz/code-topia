@@ -54,7 +54,8 @@ class Attempt {
             throw new AttemptAlreadyCompleteException()
         }
         
-        return validator.validateAnswer(this.answer, this.exercise)
+        this.approved = validator.validateAnswer(this.answer, this.exercise)
+        return this.approved
     }
 
     Help getHelp() {
@@ -70,7 +71,7 @@ class Attempt {
     // Calcula el puntaje del intento
     // si es menor el nuevo puntaje que el anterior 
     // se queda con el anterior si es mayor.
-    int calculatePoints() {
+    void calculatePoints() {
         int temp_points = 0
         if (this.approved) {
             temp_points = this.exercise.points - this.helps.size()
@@ -78,23 +79,24 @@ class Attempt {
                 temp_points = 0
             }
             if (temp_points < this.points) {
-                temp_points = 0
+                temp_points = this.points
             }
+            this.points = temp_points
         }
-        return temp_points
     }
 
     boolean isCorrect() {
         return this.approved
     }
 
-    boolean checkResetHelp() {
+    boolean resetHelp() {
         if ( (this.answer &&
               !this.approved &&
               this.helps.size() == MAX_HELP ) ||
              (this.answer &&
               this.approved &&
               this.helps.size() > 0)) {
+            this.helps.clear()
             return true
         }
         return false

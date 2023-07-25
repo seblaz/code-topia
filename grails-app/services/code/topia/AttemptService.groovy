@@ -14,8 +14,8 @@ class AttemptService {
         Attempt attempt = Attempt.get(attemptId)
         logger.info("[AttemptService] performAttempt: ${attemptId} - ${answer}")
         attempt.answer = answer
-        attempt.approved = attempt.validateAnswer(exerciseValidator)
-        attempt.points = attempt.calculatePoints()
+        attempt.validateAnswer(exerciseValidator)
+        attempt.calculatePoints()
         logger.info("[AttemptService] attempt puntos: ${attempt.points}")
         return attempt
     }

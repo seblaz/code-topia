@@ -23,10 +23,9 @@ class UserGamificationService {
         UserGamification usGm = user.gamification
         Exercise exercise = Exercise.get(exerciseId)
         Attempt att = usGm.createEmptyAttempt(exercise)
-        if (att.checkResetHelp()) {
+        if (att.resetHelp()) {
             logger.info("[UserGamificationService] reseteamos los helps")
             Help.where { attempt == att }.deleteAll()
-            att.helps.clear()
         }
         att.save(failOnError: true,flush: true)
         return att
