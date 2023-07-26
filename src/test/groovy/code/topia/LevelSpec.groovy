@@ -23,7 +23,7 @@ class LevelSpec extends Specification implements DomainUnitTest<Level> {
         given: "a beginner level"
         Level level = new Level()
         assert level.getLevelType() == LevelType.BEGINNER
-        level.acumulateUserPoints(level.points)
+        level.updateUserPoints(level.points)
         assert level.getLevelType() == LevelType.ADVANCED
         expect: "has 5 required points"
         assert level.getPoints() >= 5
@@ -34,7 +34,7 @@ class LevelSpec extends Specification implements DomainUnitTest<Level> {
         Level level = new Level()
         assert level.getLevelType() == LevelType.BEGINNER
         when: "complete the level"
-        level.acumulateUserPoints(level.points)
+        level.updateUserPoints(level.points)
         then: "level is advanced"
         assert level.getLevelType() == LevelType.ADVANCED
     }
@@ -42,10 +42,10 @@ class LevelSpec extends Specification implements DomainUnitTest<Level> {
     void "complete advanced level"() {
         given: "a advanced level"
         Level level = new Level()
-        level.acumulateUserPoints(level.points)
+        level.updateUserPoints(level.points)
         assert level.getLevelType() == LevelType.ADVANCED
         when: "complete the level"
-        level.acumulateUserPoints(level.points)
+        level.updateUserPoints(level.points)
         then: "level still advanced"
         assert level.getLevelType() == LevelType.ADVANCED
         and: "acumulate points"

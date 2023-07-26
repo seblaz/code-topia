@@ -50,8 +50,7 @@ class UserStory extends Specification {
         User user = userService.createUser("Alejandro","Pena","ale@gmail.com")
         assert user != null
         def userPoints = user.gamification.level.userPoints
-        attemptService.exerciseValidator = exerciseValidatorMock
-        userGamificationService.attemptService = attemptService
+        userGamificationService.exerciseValidator = exerciseValidatorMock
         exerciseValidatorMock.validateAnswer(_,_) >> true
         
         and: "with at least 1 exercise available"
@@ -81,8 +80,7 @@ class UserStory extends Specification {
         given: "there is a user at beginner level"
         User user = userService.createUser("Alejandro","Pena","ale@gmail.com")
         assert user != null
-        attemptService.exerciseValidator = exerciseValidatorMock
-        userGamificationService.attemptService = attemptService
+        userGamificationService.exerciseValidator = exerciseValidatorMock
         exerciseValidatorMock.validateAnswer(_,_) >> true
         
         List<Exercise> exercises_a = userService.getAvailableExercises((int)user.id)
@@ -183,8 +181,7 @@ class UserStory extends Specification {
         assert user != null
         attemptService.helpService = helpServiceMock
         helpServiceMock.getHelpMessage(_) >> "Una ayuda"
-        attemptService.exerciseValidator = exerciseValidatorMock
-        userGamificationService.attemptService = attemptService
+        userGamificationService.exerciseValidator = exerciseValidatorMock
         exerciseValidatorMock.validateAnswer(_,_) >> true
         
         List<Exercise> exercises_a = userService.getAvailableExercises((int)user.id)
@@ -214,8 +211,7 @@ class UserStory extends Specification {
         assert user != null
         attemptService.helpService = helpServiceMock
         helpServiceMock.getHelpMessage(_) >> "Una ayuda"
-        attemptService.exerciseValidator = exerciseValidatorMock
-        userGamificationService.attemptService = attemptService
+        userGamificationService.exerciseValidator = exerciseValidatorMock
         exerciseValidatorMock.validateAnswer(_,_) >> true
         
         List<Exercise> exercises_a = userService.getAvailableExercises((int)user.id)

@@ -39,22 +39,41 @@ class Attempt {
         this.answer     = answer
     }
 
+    // Calcula el puntaje del intento
+    // si es menor el nuevo puntaje que el anterior 
+    // se queda con el anterior si es mayor.
+    private int calculatePoints() {
+        int temp_points = 0
+        if (this.approved) {
+            temp_points = this.exercise.points - this.helps.size()
+            if (temp_points < 0) {
+                temp_points = 0
+            }
+            if (temp_points < this.points) {
+                temp_points = this.points
+            }
+            this.setPoints(temp_points)
+        }
+        return this.points
+    }
+
     boolean isComplete() {
         return (this.approved && this.points == this.exercise.points)
     }
 
-    boolean validateAnswer(ExerciseValidator validator) {
+    boolean validateAnswer(ExerciseValidator validator, String answer) {
         assert validator != null
 
-        if (this.answer == null || this.answer.isEmpty()){
+        if (answer == null || answer.isEmpty()){
             return false
         }
 
         if (this.isComplete()) {
             throw new AttemptAlreadyCompleteException()
         }
-        
-        this.approved = validator.validateAnswer(this.answer, this.exercise)
+        this.setAnswer(answer)
+        this.setApproved(validator.validateAnswer(this.answer, this.exercise))
+        this.calculatePoints()
         return this.approved
     }
 
@@ -66,23 +85,6 @@ class Attempt {
             return help
         }
         throw new MaxHelpException()
-    }
-
-    // Calcula el puntaje del intento
-    // si es menor el nuevo puntaje que el anterior 
-    // se queda con el anterior si es mayor.
-    void calculatePoints() {
-        int temp_points = 0
-        if (this.approved) {
-            temp_points = this.exercise.points - this.helps.size()
-            if (temp_points < 0) {
-                temp_points = 0
-            }
-            if (temp_points < this.points) {
-                temp_points = this.points
-            }
-            this.points = temp_points
-        }
     }
 
     boolean isCorrect() {

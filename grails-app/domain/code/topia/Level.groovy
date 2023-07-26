@@ -131,10 +131,6 @@ class Level {
         }
     }
 
-    void setUser(User user) {
-        this.user = user
-    }
-
     String getName() {
         return this.name
     }
@@ -153,47 +149,27 @@ class Level {
 
     LevelType getLevelType() {
         return this.type
-    }
-
-    String getTypeName() {
-        return this.type.getName()
-    }
-
-    void acumulateUserPoints(int points) {
-        if (points <= 0 ){
-            throw new LevelInvalidUserPointsException()
-        }
-        this.userPoints += points
-        if ( this.userPoints >= this.points && 
-            this.type.getNextLevel() != null) {
-            //this.userPoints = this.userPoints - this.points
-            this.userPoints = 0
-            this.type = this.type.getNextLevel()
-            this.points = this.type.getLevelTypePoints()
-            this.exercises = this.type.getExercises()
-        }
-    }
+    }    
 
     boolean isLevelComplete() {
         return ( this.userPoints >= this.points )
     }
 
-    LevelType getNextLevel() {
-        if (this.levelType.getNextLevel() == null) {
-            return this.levelType
+
+    void checkUpdateLevel() {
+        if (this.isLevelComplete() && this.type.getNextLevel() != null) {
+            this.setType(this.type.getNextLevel()) // deja la marca ya en dirty
+            this.userPoints = 0
+            this.points = this.type.getLevelTypePoints()
+            this.exercises = this.type.getExercises()
+            this.name = this.type.getName()
         }
-        if (this.isLevelComplete()) {
-            return this.type.getNextLevel()
-        }
-        throw new LevelNotCompleteException()
     }
 
-    int getLevelTypePoints() {
-        return this.type.getLevelTypePoints()
-    }
-
-    List<Exercise> getTypeExercises() {
-        return this.type.getExercises()
+    void updateUserPoints(int points) {
+        this.setUserPoints(this.userPoints + points)
+        // chequear si tiene que cambiar de nivel
+        this.checkUpdateLevel()
     }
 
 }

@@ -24,10 +24,11 @@ class AttemptSpec extends Specification implements DomainUnitTest<Attempt> {
         when: "perform attempt with valid answer"
         validatorMock.validateAnswer("Some answer", ex) >> true
         Attempt attempt = usGm.createEmptyAttempt(ex)
-        attempt.answer = "Some answer"
 
         then: "the new attempt is valid"
-        assert attempt.validateAnswer(validatorMock)==true
+        assert attempt.validateAnswer(validatorMock,"Some answer")==true
+        and: "is complete"
+        assert attempt.isComplete()==true
     }
 
     void "Validation attempt not successful"() {
@@ -37,10 +38,25 @@ class AttemptSpec extends Specification implements DomainUnitTest<Attempt> {
         when: "perform attempt with invalid answer"
         validatorMock.validateAnswer("Some answer", ex) >> false
         Attempt attempt = usGm.createEmptyAttempt(ex)
-        attempt.answer = "Some answer"
 
         then: "the new attempt is not valid"
-        assert attempt.validateAnswer(validatorMock)==false
+        assert attempt.validateAnswer(validatorMock,"Some answer")==false
+    }
+
+    void "Attempt could get 3 helps"() {
+        given: "exists an exercise"
+        Exercise ex = beginnerLevel.getExercises().get(0)
+
+        when: "ask for 3 helps"
+        Attempt attempt = usGm.createEmptyAttempt(ex)
+        Help h1 = attempt.getHelps()
+        Help h2 = attempt.getHelps()
+        Help h3 = attempt.getHelps()
+
+        then: "there are 3 helps"
+        assert h1 != null
+        assert h2 != null
+        assert h3 != null
     }
 
 }

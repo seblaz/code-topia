@@ -7,8 +7,7 @@ import org.slf4j.LoggerFactory
 class UserGamificationService {
 
     def logger = LoggerFactory.getLogger(getClass())
-    def attemptService
-    def levelService
+    def exerciseValidator
 
     List<Exercise> getAvailableExercises(long userId) {
         logger.info("[UserGamificationService] getExercises: ${userId}")
@@ -35,8 +34,8 @@ class UserGamificationService {
         logger.info("[UserGamificationService] performAttempt: ${userId} - ${attemptId} - ${answer}")
         User user = User.get(userId)
         UserGamification usGm = user.gamification
-        Attempt attempt = attemptService.performAttempt(attemptId, answer)
-        levelService.addAttemptPoints(usGm.level.id, usGm.calculateUserPointsDiff())
+        Attempt attempt = Attempt.get(attemptId)
+        usGm.performAttempt(attempt, answer, exerciseValidator)
         return attempt.isCorrect()
     }
 

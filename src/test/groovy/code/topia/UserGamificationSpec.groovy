@@ -55,8 +55,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         Exercise ex1 = beginnerLevel.getExercises().get(0)
         validatorMock.validateAnswer("print('Hello World')", ex1) >> true
         Attempt attempt = usGm.createEmptyAttempt(ex1)
-        attempt.answer = "print('Hello World')"
-        attempt.validateAnswer(validatorMock)
+        attempt.validateAnswer(validatorMock,"print('Hello World')")
         then: "usergamification has the attempt"
         assert usGm.getAllAttempts().contains(attempt)
     }
@@ -91,8 +90,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         Exercise ex1 = beginnerLevel.getExercises().get(0)
         validatorMock.validateAnswer("print('Hello World')", ex1) >> true
         Attempt attempt = usGm.createEmptyAttempt(ex1)
-        attempt.answer = "print('Hello World')"
-        attempt.validateAnswer(validatorMock)
+        attempt.validateAnswer(validatorMock,"print('Hello World')")
         attempt.calculatePoints()
         then: "has 4 available exercises"
         List<Exercise> availableExercises = usGm.getAvailableExercises()
@@ -107,8 +105,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         Exercise ex1 = beginnerLevel.getExercises().get(1)
         validatorMock.validateAnswer("print('Hello World')", ex1) >> true
         Attempt attempt = usGm.createEmptyAttempt(ex1)
-        attempt.answer = "print('Hello World')"
-        attempt.validateAnswer(validatorMock)
+        attempt.validateAnswer(validatorMock,"print('Hello World')")
         attempt.points -= 1
         then: "has 5 available exercises"
         List<Exercise> availableExercises = usGm.getAvailableExercises()

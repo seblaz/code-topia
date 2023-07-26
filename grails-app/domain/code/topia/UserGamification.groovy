@@ -71,20 +71,18 @@ class UserGamification {
         return attempt
     }
 
-    // devuelve la diferencia de los puntos que tiene el usuario en el nivel
-    int calculateUserPointsDiff() {
-        int points = 0
-        this.attempts.each { attempt ->
-            if (attempt.isAttemptLevelExercise(this.level)) {
-                points += attempt.points
-            }
+    void performAttempt(Attempt attempt, String answer, ExerciseValidator validator) {
+        assert attempt != null
+        if (!this.attempts.contains(attempt)) {
+            return
+            //FIXME: lanzar excepcion
+            //throw new AttemptNotBelongToUserException()
         }
-        // retornamos la diferencia de los puntos vs los que ya tiene en el nivel
-        points -= this.level.userPoints
-        if (points < 0) {
-            points = 0
-        }
-        return points
+        
+        int temp_points = attempt.points
+        attempt.validateAnswer(validator, answer)
+        // acumular el puntaje..
+        this.level.updateUserPoints(attempt.points - temp_points)
     }
 
     
