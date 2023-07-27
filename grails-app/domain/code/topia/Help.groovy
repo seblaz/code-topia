@@ -14,8 +14,8 @@ class Help {
 
     String getHelpMessage(HelpService helpService) {
         assert helpService != null
-
-        return helpService.getHelpMessage(this.attempt.exercise)
+        this.setHelpMessage(helpService.getHelpMessage(this.attempt.exercise))
+        return this.helpMessage
     }
     
 }

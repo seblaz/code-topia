@@ -110,4 +110,10 @@ class Attempt {
 
         return this.exercise.isLevelExercise(level)
     }
+
+    boolean isAttemptOfExercise(Exercise exercise) {
+        assert exercise != null
+
+        return this.exercise.isEqualToExercise(exercise)
+    }
 }

@@ -37,14 +37,14 @@ class UserGamification {
     }
 
     List<Exercise> getAvailableExercises() {
-        List<Exercise> _exercises = this.level.getExercises()
+        List<Exercise> _exercises = this.level.getAllExercises()
         List<Exercise> _availableExercises = []
         _exercises.each { exercise ->
             boolean _found = false
             this.attempts.each { attempt ->
                 // si es el mismo y esta completo su puntaje no mostramos.
-                if (attempt.exercise.statement == exercise.statement &&
-                    attempt.points == exercise.points) {
+                if (attempt.isAttemptOfExercise(exercise) &&
+                    attempt.isComplete()) {
                     _found = true
                 }
             }
@@ -59,7 +59,7 @@ class UserGamification {
         assert exercise != null
 
         for (Attempt attempt : this.attempts) {
-            if ( attempt.exercise == exercise ) {
+            if ( attempt.isAttemptOfExercise(exercise) ) {
                 return attempt
             }
         }
@@ -74,9 +74,7 @@ class UserGamification {
     void performAttempt(Attempt attempt, String answer, ExerciseValidator validator) {
         assert attempt != null
         if (!this.attempts.contains(attempt)) {
-            return
-            //FIXME: lanzar excepcion
-            //throw new AttemptNotBelongToUserException()
+            throw new AttemptNotBelongToUserException()
         }
         
         int temp_points = attempt.points

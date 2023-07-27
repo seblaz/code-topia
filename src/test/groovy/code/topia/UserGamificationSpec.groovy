@@ -66,7 +66,7 @@ class UserGamificationSpec extends Specification implements DomainUnitTest<UserG
         UserGamification usGm = user.initGamification(beginnerLevel)
         when: "add an attempt with invalid exercise level"
         advancedLevel.type = LevelType.ADVANCED
-        Exercise ex1 = advancedLevel.getExercises().get(0)
+        Exercise ex1 = advancedLevel.getAllExercises().get(0)
         Attempt attempt = usGm.createEmptyAttempt(ex1)
         then: "throws AttemptWithInvalidExerciseLevelException"
         thrown AttemptWithInvalidExerciseLevelException

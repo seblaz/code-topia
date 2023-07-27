@@ -178,7 +178,7 @@
                                         <div class="card-body">
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
-                                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">${exercise.level.name}</div>
+                                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">${exercise.levelType}</div>
                                                     <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Puntos: ${exercise.points}</div>
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col-auto">

@@ -109,15 +109,7 @@ class UserStory extends Specification {
 
         and: "has new exercises to complete"
         List<Exercise> exercises_b = userService.getAvailableExercises((int)user.id)
-        boolean hasNewExercises = true
-        exercises_b.each { b_ex ->
-            exercises_a.each { a_ex ->
-                if (a_ex.statement == b_ex.statement) {
-                    hasNewExercises = false
-                }
-            }
-        }
-        assert hasNewExercises
+        assert exercises_a.size() < exercises_b.size()
     }
 
 

@@ -12,7 +12,7 @@ class AttemptService {
     Help getHelp(long attemptId) {
         Attempt attempt = Attempt.get(attemptId)
         Help help = attempt.getHelp()
-        help.helpMessage = help.getHelpMessage(helpService)
+        help.getHelpMessage(helpService)
         help.save()
         return help
     }

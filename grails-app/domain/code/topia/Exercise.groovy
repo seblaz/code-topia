@@ -38,4 +38,8 @@ class Exercise {
     boolean isLevelExercise(Level level) {
         return this.levelType == level.type
     }
+
+    boolean isEqualToExercise(Exercise exercise) {
+        return this.statement == exercise.statement
+    }
 }

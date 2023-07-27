@@ -136,6 +136,12 @@ class Level {
     }
 
     List<Exercise> getExercises() {
+        return this.exercises.findAll { exercise ->
+            exercise.levelType == this.type
+        }
+    }
+
+    List<Exercise> getAllExercises() {
         return this.exercises
     }
 
@@ -159,9 +165,9 @@ class Level {
     void checkUpdateLevel() {
         if (this.isLevelComplete() && this.type.getNextLevel() != null) {
             this.setType(this.type.getNextLevel()) // deja la marca ya en dirty
-            this.userPoints = 0
+            this.userPoints -= this.points // mantenemos el sobrante
             this.points = this.type.getLevelTypePoints()
-            this.exercises = this.type.getExercises()
+            this.exercises += this.type.getExercises()
             this.name = this.type.getName()
         }
     }
@@ -171,5 +177,4 @@ class Level {
         // chequear si tiene que cambiar de nivel
         this.checkUpdateLevel()
     }
-
 }

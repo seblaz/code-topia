@@ -6,7 +6,6 @@ import groovy.transform.InheritConstructors
 class CodeTopiaException extends RuntimeException {
 }
 
-
 @InheritConstructors
 class AttemptAlreadyCompleteException extends CodeTopiaException {
 }
@@ -23,8 +22,6 @@ class MaxHelpException extends CodeTopiaException {
 class UserAlreadyExistException extends CodeTopiaException {
 }
 
-
-
 @InheritConstructors
 class AttemptWithInvalidExerciseLevelException extends CodeTopiaException {
 }
@@ -34,18 +31,14 @@ class UserGamificationInvalidLevelException extends CodeTopiaException {
 }
 
 @InheritConstructors
-class UserGamificationInvalidPointsException extends CodeTopiaException {
-}
-
-@InheritConstructors
-class LevelInvalidUserPointsException extends CodeTopiaException {
-}
-
-@InheritConstructors
 class UserNotExistException extends CodeTopiaException {
 }
 
 @InheritConstructors
-class ExerciseNotExistException extends CodeTopiaException {
+class AttemptNotBelongToUserException extends CodeTopiaException {
 }
+
+
+
+
 
