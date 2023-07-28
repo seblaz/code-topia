@@ -113,6 +113,56 @@ class UserStory extends Specification {
     }
 
 
+    // Historia de usuario: 3.01
+    void "Cross-Level Progression - Accumulate Points from All Exercises"() {
+
+        given: "there is a user at advanced level"
+        User user = userService.createUser("Alejandro","Pena","ale@gmail.com")
+        assert user != null
+        userGamificationService.exerciseValidator = exerciseValidatorMock
+        exerciseValidatorMock.validateAnswer(_,_) >> true
+        
+        List<Exercise> exercises_a = userService.getAvailableExercises((int)user.id)
+        
+        // ex0->1 punto
+        // ex3->4 puntos
+        assert exercises_a[0] != null
+        assert exercises_a[3] != null
+        Attempt attempt1 = userGamificationService.createEmptyAttempt((int)user.id,
+                                                                      (int)exercises_a[0].id)
+        Attempt attempt2 = userGamificationService.createEmptyAttempt((int)user.id,
+                                                                      (int)exercises_a[3].id)
+        assert attempt1 != null
+        assert attempt2 != null
+        userGamificationService.performAttempt((int)user.id,
+                                                attempt1.id,
+                                                "Una respuesta")
+        userGamificationService.performAttempt((int)user.id,
+                                                attempt2.id,
+                                                "Una respuesta")
+        Level actual_level = user.getLevel()
+        assert actual_level.type == LevelType.ADVANCED
+        int userPoints = actual_level.userPoints
+        
+        and: "has pending beginner level exercises"
+        int idx=-1
+        List<Exercise> exercises_b = userService.getAvailableExercises((int)user.id)
+        exercises_b.each { exercise -> 
+            if (exercise.levelType == LevelType.BEGINNER) {
+                idx = exercises_b.indexOf(exercise)
+            }
+        }
+        assert idx!=-1
+
+        when: "complete a beginner level exercise"
+        Attempt attempt3 = userGamificationService.createEmptyAttempt((int)user.id,
+                                                                      (int)exercises_a[idx].id)
+        userGamificationService.performAttempt((int)user.id,
+                                                attempt3.id,
+                                                "Una respuesta")
+        then: "the user accumulate points"
+        assert actual_level.userPoints > userPoints
+    }
 
 
     // Historia de usuario: 7.01
@@ -196,7 +246,7 @@ class UserStory extends Specification {
 
 
 
-    // Historia de usuario: 5
+    // Historia de usuario: 5.01
     void "Retry Partially Completed Exercises"() {
         given: "there is a user at beginner level"
         User user = userService.createUser("Alejandro","Pena","ale@gmail.com")
@@ -235,5 +285,65 @@ class UserStory extends Specification {
         
     }
 
+    // Historia de usuario: 5.02
+    void "Advanced Level: Earn Points by Completing Beginner Exercises"() {
+        given: "there is a user at advanced level"
+        User user = userService.createUser("Alejandro","Pena","ale@gmail.com")
+        assert user != null
+        userGamificationService.exerciseValidator = exerciseValidatorMock
+        exerciseValidatorMock.validateAnswer(_,_) >> true
+        attemptService.helpService = helpServiceMock
+        helpServiceMock.getHelpMessage(_) >> "Una ayuda"
+        
+        List<Exercise> exercises_a = userService.getAvailableExercises((int)user.id)
+        
+        // ex0->1 punto
+        // ex3->4 puntos
+        assert exercises_a[0] != null
+        assert exercises_a[2] != null
+        assert exercises_a[3] != null
+        Attempt attempt1 = userGamificationService.createEmptyAttempt((int)user.id,
+                                                                      (int)exercises_a[0].id)
+        Attempt attempt2 = userGamificationService.createEmptyAttempt((int)user.id,
+                                                                      (int)exercises_a[3].id)
+        Attempt attempt3 = userGamificationService.createEmptyAttempt((int)user.id,
+                                                                      (int)exercises_a[2].id)
+        assert attempt1 != null
+        assert attempt2 != null
+        assert attempt3 != null
+        userGamificationService.performAttempt((int)user.id,
+                                                attempt1.id,
+                                                "Una respuesta")
+        
+        Help help = attemptService.getHelp(attempt2.id)
+        assert help.helpMessage != null
+        
+        userGamificationService.performAttempt((int)user.id,
+                                                attempt2.id,
+                                                "Una respuesta")
+        
+        userGamificationService.performAttempt((int)user.id,
+                                                attempt3.id,
+                                                "Una respuesta")
+
+        Level actual_level = user.getLevel()
+        assert actual_level.type == LevelType.ADVANCED
+        
+        and: "has pending beginner level exercises incomplete"
+        assert attempt2.helps.size() >= 1
+        assert !attempt2.isComplete()
+        assert attempt2.answer != null
+        int points = actual_level.userPoints
+
+        when: "the user retry the beginner exercise"
+        attempt2 = userGamificationService.createEmptyAttempt((int)user.id,
+                                                              (int)exercises_a[3].id)
+        userGamificationService.performAttempt((int)user.id,
+                                                attempt2.id,
+                                                "Una respuesta")
+        then: "accumulate points to the current level"
+        assert points < actual_level.userPoints
+        assert actual_level.type == LevelType.ADVANCED
+    }
 
 }
