@@ -1,21 +1,24 @@
 package code.topia
 
 import grails.gorm.transactions.Transactional
+import org.slf4j.LoggerFactory
 
 @Transactional
 class AttemptService {
 
-    def performAttempt(Attempt attempt, String answer) {
-        //TODO: llamar a validar al ejercicio
-        //attempt.exercise.validate(answer)
-        int attemptPoints = 0
-        //FIXME: esto es para no tener un validador por el momento!
-        if (answer == "--una resp ok--") {
-            attempt.answer = answer
-            attempt.aproved = true
-            attempt.points = attempt.exercise.points
-            attemptPoints = attempt.points
-        }
-        return attemptPoints
+    def logger = LoggerFactory.getLogger(getClass())
+    def helpService
+
+    Help getHelp(long attemptId) {
+        Attempt attempt = Attempt.get(attemptId)
+        Help help = attempt.getHelp()
+        help.getHelpMessage(helpService)
+        help.save()
+        return help
     }
+
+    Attempt getAttempt(long attemptId) {
+        return Attempt.get(attemptId)
+    }
+    
 }

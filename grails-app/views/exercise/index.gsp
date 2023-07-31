@@ -22,6 +22,7 @@
     <!-- Custom styles for this template-->
     <!-- FIXME: -->
     <link rel="stylesheet" href="${resource(dir: 'stylesheets', file: 'login-index-min.css')}" type="text/css">
+    <script src="${assetPath(src: 'jquery-3.5.1.min.js')}"></script>
 
 </head>
 
@@ -57,7 +58,6 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Asd
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -65,13 +65,16 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Menu</span>
+                    <span>Ejercicios</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Menu:</h6>
-                        <a class="collapse-item" href="item1.html">item1</a>
-                        <a class="collapse-item" href="item2.html">item2</a>
+                        <!--Por cada ejercicio quiero mostrar un item-->
+                        <g:each in="${exerciseList}" var="exercise">
+                            <g:link controller="exercise" action="index" params="[exerciseId: exercise.id]">
+                                <div class="collapse-item">${exercise.title}</div>
+                            </g:link>
+                        </g:each>
                     </div>
                 </div>
             </li>
@@ -83,14 +86,18 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Addons
             </div>
 
             <!-- Nav Item - Item -->
             <li class="nav-item">
-                <a class="nav-link" href="item.html">
+                <g:link class="nav-link" controller="home" action="Help">
                     <i class="fas fa-fw fa-greater-than"></i>
-                    <span>Item</span></a>
+                    <span>Ayuda</span></a>
+                </g:link>
+                <g:link class="nav-link" controller="home" action="aboutCodeTopia">
+                    <i class="fas fa-fw fa-greater-than"></i>
+                    <span>Acerca de CodeTopia</span></a>
+                </g:link>
             </li>
 
             <!-- Divider -->
@@ -187,16 +194,79 @@
                     </div>
 
                     <div class="exercise-form">
-                      <g:form controller="exercise" action="performAttempt" method="post" params="[exerciseAttemptId: attempt.id]">
+                      <g:form controller="exercise" action="performAttempt" method="post" params="[attemptId: attempt.id]">
                         <div class="form-group">
                             <label>${attempt.exercise.statement}</label>
                             <br>
-                            
                             <g:textArea style="resize: both;" name="answer" rows="4" cols="50" placeholder="Respuesta..."/>
+                            <g:renderErrors  as="list" />
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar respuesta</button>
                       </g:form>
                     </div>
+                    
+                    <br>
+                    <div class="help-form">
+                      <g:form controller="exercise" action="getHelp" method="post" params="[attemptId: attempt.id]">
+                        <button type="submit" class="btn btn-primary">Solicitar ayuda</button>
+                      </g:form>
+                    </div>
+
+                    <div>
+                        <!--Quiero que si tiene helps el attempt se muestren-->
+                        <g:if test="${attempt.helps.size() > 0}">
+                            <div class="helps">
+                                <h3>Ayudas</h3>
+                                <g:each in="${attempt.helps}" var="help" status="index">
+                                    <div class="help">
+                                        <p>Ayuda ${index + 1}: ${help.helpMessage}</p>
+                                    </div>
+                                </g:each>
+                            </div>
+                        </g:if>
+                    </div>
+
+
+                    <!-- Modal (oculto por defecto) -->
+                    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Resultado de intento</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <g:if test="${attempt.approved}">
+                                        <p>¡Felicitaciones! Tu respuesta es correcta.</p>
+                                        <g:if test="${attempt.helps.size() > 0}">
+                                            <p>Ten en cuenta que es correcta pero se te restaron puntos por solicitar ayuda.</p>
+                                            <p>Cantidad de ayuda solicitada: ${attempt.helps.size()}.</p>
+                                            <p>Puedes volver a resolver este ejercicio para completar su puntaje restante si lo deseas.</p>
+                                        </g:if>
+                                    </g:if>
+                                    <g:else>
+                                        <p>Lo sentimos, tu respuesta es incorrecta.</p>
+                                        <p>Recuerda que puedes solicitar ayuda en la resolucion del ejercicio.</p>
+                                    </g:else>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <g:link class="btn btn-primary" controller="home" action="index">
+                                        Aceptar
+                                    </g:link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <g:javascript>
+                        $(document).ready(function() {
+                            var abrirModal = "${abrirModal}";
+                            // Si abrirModal es "true", abrir el modal al cargar la página
+                            if (abrirModal === "true") {
+                                $("#myModal").modal('show');
+                            }
+                        });
+                    </g:javascript>
+                    
 
 
                 </div>

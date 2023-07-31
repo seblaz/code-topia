@@ -1,64 +1,87 @@
 package code.topia
 
 class UserGamification {
-    static final int MIN_US_POINTS = 0
-    int     userPoints = MIN_US_POINTS
     User    user
     Level   level
     List<Attempt> attempts = []
 
-    static belongsTo = [user: User]   
+    static belongsTo = [user: User]
+
+    static hasOne = [level: Level]
+    static hasMany = [attempts: Attempt]
 
     static constraints = {
-        userPoints     nullable: false, min: MIN_US_POINTS
-        level          nullable: false
+        user        nullable: false
+        level       nullable: false
     }
 
     UserGamification(User user, Level level) {
-        //logger.debug("Creando UserGamification con user:${user}|level:${level}")
+        assert user != null
+        assert level != null
+
+        if (level.getLevelType() != LevelType.BEGINNER) {
+            throw new UserGamificationInvalidLevelException()
+        }
+
         this.user = user
         this.level = level
-        user.gamification = this
-
-        createAttempts()
-    }
-
-    Level getUserLevel() {
-        return this.level
-    }
-
-    int getUserPoints() {
-        return this.userPoints
+        this.level.userGamification = this
     }
 
     List<Attempt> getAllAttempts() {
         return this.attempts
     }
 
-    private void createAttempts() {
-        List<Exercise> exercises = this.level.getExercises()
-
-        exercises.each { exercise ->
-            Attempt attempt = new Attempt(this.user, exercise)
-            attempts.add(attempt)
-        }
+    Level getUserLevel() {
+        return this.level
     }
 
-    Attempt getAttempt(int attempt_id) {
-        Attempt temp = null
-        this.attempts.each { attempt ->
-            if (attempt.id == attempt_id) {
-                temp = attempt
+    List<Exercise> getAvailableExercises() {
+        List<Exercise> _exercises = this.level.getAllExercises()
+        List<Exercise> _availableExercises = []
+        _exercises.each { exercise ->
+            boolean _found = false
+            this.attempts.each { attempt ->
+                // si es el mismo y esta completo su puntaje no mostramos.
+                if (attempt.isAttemptOfExercise(exercise) &&
+                    attempt.isComplete()) {
+                    _found = true
+                }
+            }
+            if (!_found) {
+                _availableExercises.add(exercise)
             }
         }
-        return temp
+        return _availableExercises
+    }
+    
+    Attempt createEmptyAttempt(Exercise exercise) {
+        assert exercise != null
+
+        for (Attempt attempt : this.attempts) {
+            if ( attempt.isAttemptOfExercise(exercise) ) {
+                return attempt
+            }
+        }
+        if (exercise.level != this.level) {
+            throw new AttemptWithInvalidExerciseLevelException()
+        }
+        Attempt attempt = new Attempt(this.user, exercise)
+        this.attempts.add(attempt)
+        return attempt
     }
 
-    void setLevel(Level level) {
-        this.level = level
-        if (level != null) {
-            this.createAttempts()
+    void performAttempt(Attempt attempt, String answer, ExerciseValidator validator) {
+        assert attempt != null
+        if (!this.attempts.contains(attempt)) {
+            throw new AttemptNotBelongToUserException()
         }
+        
+        int temp_points = attempt.points
+        attempt.validateAnswer(validator, answer)
+        // acumular el puntaje..
+        this.level.updateUserPoints(attempt.points - temp_points)
     }
+
     
 }

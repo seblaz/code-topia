@@ -10,5 +10,4 @@ class AttemptServiceSpec extends Specification implements ServiceUnitTest<Attemp
 
     def cleanup() {
     }
-
 }

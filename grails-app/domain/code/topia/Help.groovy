@@ -2,11 +2,20 @@ package code.topia
 
 class Help {
 
-    String message
+    String helpMessage
+    Attempt attempt
 
-    static belongsTo = [exercise: Exercise]
+    static belongsTo = [attempt: Attempt]
 
     static constraints = {
-        message nullable: false
+        helpMessage nullable: false
+        attempt column: 'attempt_id', insertable: false, updateable: false
     }
+
+    String getHelpMessage(HelpService helpService) {
+        assert helpService != null
+        this.setHelpMessage(helpService.getHelpMessage(this.attempt.exercise))
+        return this.helpMessage
+    }
+    
 }

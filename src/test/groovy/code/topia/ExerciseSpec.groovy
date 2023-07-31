@@ -17,7 +17,7 @@ class ExerciseSpec extends Specification implements DomainUnitTest<Exercise> {
         def points = 1
 
         when:
-        def ex = new Exercise("Un titulo", statement, points)
+        def ex = new Exercise("Un titulo", statement, points, LevelType.BEGINNER)
 
         then:
         ex.validate()

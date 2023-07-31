@@ -10,4 +10,5 @@ class UserGamificationServiceSpec extends Specification implements ServiceUnitTe
 
     def cleanup() {
     }
+
 }

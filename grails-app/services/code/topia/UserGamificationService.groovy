@@ -1,36 +1,45 @@
 package code.topia
 
 import grails.gorm.transactions.Transactional
+import org.slf4j.LoggerFactory
 
 @Transactional
 class UserGamificationService {
 
-    def attemptService
-    def levelService
+    def logger = LoggerFactory.getLogger(getClass())
+    def exerciseValidator
 
-    def getAttempt(UserGamification usGm, int attempt_id) {
-        return usGm.getAttempt(attempt_id)
+    List<Exercise> getAvailableExercises(long userId) {
+        logger.info("[UserGamificationService] getExercises: ${userId}")
+        User user = User.get(userId)
+        UserGamification usGm = user.gamification
+        return usGm.getAvailableExercises()
     }
 
-    def updatePointsAttempt(UserGamification usGm, int points) {
-        usGm.userPoints += points
-        Level level = usGm.getUserLevel()
-        int userPoints = usGm.getUserPoints()
-        if (levelService.isComplete(level, userPoints)) {
-            // Avanzar nivel
-            usGm.userPoints = levelService.useLevelPoints(level, userPoints)
-            Level newLevel = levelService.getNextLevel(level, usGm)
-            if (newLevel){
-                usGm.level = newLevel
-            }
+    Attempt createEmptyAttempt(long userId, long exerciseId) {
+        logger.info("[UserGamificationService] createEmptyAttempt: ${userId} - ${exerciseId}")
+        User user = User.get(userId)
+        UserGamification usGm = user.gamification
+        Exercise exercise = Exercise.get(exerciseId)
+        Attempt att = usGm.createEmptyAttempt(exercise)
+        if (att.resetHelp()) {
+            logger.info("[UserGamificationService] reseteamos los helps")
+            Help.where { attempt == att }.deleteAll()
         }
+        att.save(failOnError: true,flush: true)
+        return att
     }
 
-    def performAttempt(UserGamification usGm, int attempt_id, String answer) {
-        Attempt at = usGm.getAttempt(attempt_id)
-        int attemptPoints = attemptService.performAttempt(at, answer)
-        updatePointsAttempt(usGm, attemptPoints)
-        return attemptPoints
+    boolean performAttempt(int userId, long attemptId, String answer) {
+        logger.info("[UserGamificationService] performAttempt: ${userId} - ${attemptId} - ${answer}")
+        User user = User.get(userId)
+        UserGamification usGm = user.gamification
+        Attempt attempt = Attempt.get(attemptId)
+        usGm.performAttempt(attempt, answer, exerciseValidator)
+        return attempt.isCorrect()
     }
 
+    
 }
+
+

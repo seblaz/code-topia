@@ -31,4 +31,9 @@ class User {
         return this.gamification.getUserLevel()
     }
 
+    UserGamification initGamification(Level level) {
+        level.setUser(this)
+        this.gamification = new UserGamification(this, level)
+        return this.gamification
+    }
 }
