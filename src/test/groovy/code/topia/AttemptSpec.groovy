@@ -49,14 +49,35 @@ class AttemptSpec extends Specification implements DomainUnitTest<Attempt> {
 
         when: "ask for 3 helps"
         Attempt attempt = usGm.createEmptyAttempt(ex)
-        Help h1 = attempt.getHelps()
-        Help h2 = attempt.getHelps()
-        Help h3 = attempt.getHelps()
+        Help h1 = attempt.getHelp()
+        Help h2 = attempt.getHelp()
+        Help h3 = attempt.getHelp()
+        Help h4 = null
+        h4 = attempt.getHelp()
 
         then: "there are 3 helps"
+        thrown MaxHelpException
         assert h1 != null
         assert h2 != null
         assert h3 != null
+        assert h4 == null
+    }
+
+    void "Attempt complete with help"() {
+        given: "exists an exercise"
+        Exercise ex = beginnerLevel.getExercises().get(0)
+
+        when: "perform attempt with valid answer"
+        validatorMock.validateAnswer("Some answer", ex) >> true
+        Attempt attempt = usGm.createEmptyAttempt(ex)
+        Help h1 = attempt.getHelp()
+        assert h1 != null
+        assert attempt.helps.size() == 1
+
+        then: "the new attempt is valid"
+        assert attempt.validateAnswer(validatorMock,"Some answer")==true
+        and: "the attempt points is lower than the exercise points"
+        assert attempt.points < ex.points
     }
 
 }
