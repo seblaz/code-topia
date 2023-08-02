@@ -4,6 +4,7 @@ class Attempt {
     static final int MIN_EXAT_POINTS = 0
     static final int INIT_EXAT_POINTS = 0
     static final int MAX_HELP = 3
+    static final int MAX_ANSWER_SIZE = 8192
     int         points = INIT_EXAT_POINTS
     String      answer
     boolean     approved = false
@@ -17,7 +18,7 @@ class Attempt {
     static constraints = {
         points      min: MIN_EXAT_POINTS
         exercise    nullable: false
-        answer      nullable: true
+        answer      nullable: true, maxSize: MAX_ANSWER_SIZE
         user        nullable: false
     }
 
