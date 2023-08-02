@@ -62,7 +62,6 @@ class ExerciseController {
             List<Exercise> exerciseList = userService.getUserExercises(user)
             Attempt attempt = attemptService.getAttempt(p.attemptId)
             if (!p.validate()) {
-                flash.createError = "Hubo algún error en los datos proporcionados"
                 render(view: "index", model: [user: user, attempt: attempt,
                                             exerciseList: exerciseList,
                                             abrirModal: "false",performAttemptParam:p])
@@ -74,7 +73,6 @@ class ExerciseController {
                 render(view: "index", model: [user: user, attempt: attempt, exerciseList: exerciseList, abrirModal: "true", attemptRes: attemptRes])
                 return
             } catch (Exception e) {
-                //FIXME: log o algo mejor ademas de un mensaje en pantalla.
                 logger.error("[ExerciseController] Error al realizar intento de ejercicio; error: ${e}")
             }
         }
@@ -87,15 +85,19 @@ class ExerciseController {
         User user = getUserLoggedIn()
         logger.info("[ExerciseController] user: ${user}")
         if (user != null) {
+            Attempt attempt = attemptService.getAttempt(params.attemptId.toInteger())
+            List<Exercise> exerciseList = userService.getUserExercises(user)
             try {
                 logger.info("[ExerciseController] Solicitud de ayuda")
-                Attempt attempt = attemptService.getAttempt(params.attemptId.toInteger())
                 attemptService.getHelp(params.attemptId.toInteger())
-                List<Exercise> exerciseList = userService.getUserExercises(user)
                 render(view: "index", model: [user: user, attempt: attempt, exerciseList: exerciseList])
                 return
+            } catch (MaxHelpException e) {
+                render(view: "index", model: [user: user, attempt: attempt,
+                                            exerciseList: exerciseList,
+                                            abrirHelpModal: "true"])
+                return
             } catch (Exception e) {
-                //FIXME: log o algo mejor ademas de un mensaje en pantalla.
                 logger.error("[ExerciseController] Error al realizar la solicitud; error: ${e}")
             }
         }

@@ -257,12 +257,33 @@
                         </div>
                     </div>
 
+                    <!-- Modal (oculto por defecto) -->
+                    <div id="myHelpModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Error</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Cantidad máxima de ayuda solicitada alcanzada.</p>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <g:javascript>
                         $(document).ready(function() {
                             var abrirModal = "${abrirModal}";
+                            var abrirHelpModal = "${abrirHelpModal}";
                             // Si abrirModal es "true", abrir el modal al cargar la página
                             if (abrirModal === "true") {
                                 $("#myModal").modal('show');
+                            }
+                            if (abrirHelpModal === "true") {
+                                $("#myHelpModal").modal('show');
                             }
                         });
                     </g:javascript>
